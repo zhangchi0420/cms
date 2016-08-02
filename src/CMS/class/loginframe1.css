@@ -1,0 +1,226 @@
+@charset "utf-8";
+.mt{ 
+    vertical-align:top;
+	}
+.main_login{
+	float:none;
+	width:355px;
+	height:279px;
+	margin-top:140px; 
+	margin-left:auto; 
+	margin-right:auto;
+	}
+/*###################################################################*/	
+.K_position{
+	width:355px; 
+	height:279px; 
+	margin-left:auto; 
+	margin-right:auto;
+	}
+.K_T{
+	float:left; 
+	width:352px;
+	}
+.K_M{
+	float:left; 
+	width:100%;
+	}
+.K_B{
+	float:left;  
+	width:100%;
+	}
+.K_1{
+	background:url(../images/amdin/adminbg_1.png); 
+	margin-top:1px; 
+	background-repeat:no-repeat; 
+	float:left; 
+	height:52px; 
+	width:13px;
+	}
+.K_2{
+	background:url(../images/amdin/adminbg_2.png) repeat-x; 
+	height:35px; 
+	width:302px; 
+	float:left; 
+	padding-top:18px;
+	padding-left:25px;
+	font-family:΢ź ,; 
+	font-size:18px; 
+	font-weight:bold;
+	}	
+.K_3{
+	background:url(../images/amdin/adminbg_3.png) no-repeat; 
+	width:12px; 
+	height:53px; 
+	float:right;
+	}
+.K_4{
+	background:url(../images/amdin/adminbg_4.png) no-repeat; 
+	background-repeat: repeat-y; 
+	width:13px; 
+	height:220px; 
+	float:left;
+	}
+.K_5{
+	background-color:#fff; 
+	width:16px; 
+	height:220px; 
+	width:327px; 
+	float:left;
+	}
+.K_6{
+	background:url(../images/amdin/adminbg_6.png); 
+	background-repeat: repeat-y;
+	width:15px; 
+	height:220px;
+	float:right;
+	}
+.K_7{
+	background:url(../images/amdin/adminbg_7.png) no-repeat; 
+	width:13px; 
+	height:53px; 
+	float:left;
+	}
+.K_8{
+	background:url(../images/amdin/adminbg_8.png); 
+	width:327px; 
+	height:16px; 
+	float:left;
+	}
+.K_9{
+	background:url(../images/amdin/adminbg_9.png) no-repeat; 
+	width:15px; 
+	height:53px; 
+	float:right;
+	}
+/*###################################################################*/
+.login_button{
+	background:url(../images/amdin/login_button.png) no-repeat;
+	width:58px; 
+	height:26px; 
+	float:right; 
+	margin-right:14px;
+	}
+.login_button a{ width:58px; 
+   line-height:26px; 
+   height:26px; 
+   display:inline-block;
+   }
+.login_button a:hover{
+	 width:58px; 
+	 height:26px;
+	 line-height:26px; 
+	}
+
+
+/*###################################################################*/
+
+.login_rem{
+	margin-left:15px; 
+	font-size:12px;  
+	float:left; 
+	width:150px; 
+	vertical-align:top;
+	}
+.input{
+	width:265px;
+	height:22PX;
+	line-height:22px;
+	vertical-align:middle;
+	color:#999;
+	float: left;
+	}
+	
+/*###############################################################*/
+.login_input_top1{
+	width:8px; 
+	height:38px;
+	margin-top:18px;
+	float:left;
+	}
+.login_input_top3{
+	width:278px; 
+	height:38px;
+	margin-top:18px;
+	float:left;
+	line-height:38px;  
+	vertical-align:middle; 
+
+	font-family:微软雅黑,宋体;
+	font-size:14px; 
+	font-weight:bold;
+	}
+.login_input_top2{
+	width:8px; 
+	float:right; 
+	margin-top:18px;
+	line-height:38px;  
+	vertical-align:middle; 
+	color:#225b86; 
+	font-family:微软雅黑,宋体;
+	font-size:14px; 
+	font-weight:bold;
+	}
+	
+/*###############################################################*/
+
+
+.input_top{
+	width:294px;  
+	margin-left:auto; 
+	margin-right:auto;
+	}
+.input_main{
+	width:294px;
+	margin-left: auto;
+	margin-right:auto;
+	}
+.input_1{
+	float:left; 
+	width:100%; 
+	margin-top:20px;
+	}
+.input_1_L{
+	float: left; 
+	margin-left:13px; 
+	height:30px; 
+	width:45%;
+	width:265px;
+	}
+.input_1_R{
+	float: left;
+	margin-top:5px;
+	margin-left:13px; 
+	height:30px; 
+	width:45%;
+	}
+.loginline{
+	background:url(../images/amdin/loginline.png) no-repeat;
+	margin-left:40px;
+	float:left;
+	width:300px;
+	margin-top:15px;
+	}
+.loginhelp{
+	font-size:14px;
+	font-family:微软雅黑,宋体;
+	width:190px;
+	margin-left:15px;
+	height:30px;
+	font-weight:bold;
+	line-height:28px;
+	color:#666;
+	
+	}
+.loginhelp a{
+	line-height:28px;
+	width:75px;
+	color:#666;
+	font-weight:bold;
+	}
+.loginhelp a:hover{
+	color: #39F;
+	}
+.loginhelp ul li {
+	float:left;
+	}

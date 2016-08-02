@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Model;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class NoticeInfo : BasePage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            BindTask();
+        }
+
+        protected override void OnError(EventArgs e)
+        {
+            // base.OnError(e);
+            Exception ex = Server.GetLastError();
+            if ((ex != null) && (ex is SessionExpiredException))
+            {
+                Server.ClearError();
+                Response.Redirect("~/Home/Login.aspx");
+            }
+        }
+
+        /// <summary>
+        /// 绑定公告数据
+        /// </summary>
+        public void BindTask()
+        {
+            UserNoticeBLL usernotice = new UserNoticeBLL();
+            this.noticeList.DataSource = usernotice.GetAllList(this.LoginUserID);
+            this.noticeList.DataBind();
+
+        }
+
+        /// <summary>
+        /// 绑定行数据时触发
+        /// </summary>
+        protected void noticeList_RowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        {
+            try
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    if (DataBinder.Eval(e.Row.DataItem, "Is_Read").ToString() == "1")
+                    {
+                        e.Row.Cells[0].Text = "<img width=16 height=16 border=0 src=../Images/msg-read.gif />";
+                    }
+                    else if (DataBinder.Eval(e.Row.DataItem, "Is_Read").ToString() == "0")
+                    {
+                        e.Row.Cells[0].Text = "<img width=16 height=16 border=0 src=../Images/msg-unread.gif />";
+                    }
+
+                    LinkButton lbtnView = e.Row.FindControl("lbtnView") as LinkButton;
+                    lbtnView.CommandArgument = DataBinder.Eval(e.Row.DataItem, "Notice_ID").ToString();
+
+                    LinkButton lbtnDel = e.Row.FindControl("lbtnDel") as LinkButton;
+                    lbtnDel.CommandArgument = DataBinder.Eval(e.Row.DataItem, "Notice_ID").ToString();
+
+                }
+            }
+            catch { }
+        }
+
+        protected void noticeList_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+                UserNoticeBLL usernotice = new UserNoticeBLL();
+
+                if (e.CommandName == "view")
+                {
+                    if (e.CommandArgument != null)
+                    {
+                        NoticeBLL noticeBLL = new NoticeBLL();
+                        var notice = noticeBLL.GetModel(Convert.ToInt32(e.CommandArgument));
+                        if (notice == null)
+                            return;
+                        this.lblComment.Text = notice.Notice_Comment;
+                        this.Panel_Notice.Visible = true;
+
+                        UserNotice usernoticeModel = new UserNotice() { UserId = this.LoginUserID, Notice_ID = notice.Notice_ID, Is_Read = 1 };
+                        if (usernotice.Update(usernoticeModel) >= 1)
+                        {
+                            //刷新控件数据
+                            BindTask();
+                        }
+                    }
+                }
+                else if (e.CommandName == "del")
+                {
+                    UserNotice usernoticeModel = new UserNotice() { UserId = this.LoginUserID, Notice_ID = Convert.ToInt32(e.CommandArgument) };
+                    if (usernotice.Delete(usernoticeModel) >= 1)
+                    {
+                        this.AjaxAlert("删除成功！");
+                        //刷新控件数据
+                        BindTask();
+                    }
+                }
+            }
+            catch { }
+        }
+
+        protected void btnCancle_Click(object sender, EventArgs e)
+        {
+            this.lblComment.Text = "";
+            this.Panel_Notice.Visible = false;
+        }
+
+    }
+}

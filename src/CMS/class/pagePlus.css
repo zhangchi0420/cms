@@ -1,0 +1,128 @@
+﻿/*DrisionWeb模板样式表:简约风格*/
+/*更新时间:2012-02-01 16:00*/
+/*版本:1.9.5*/
+/*最后修改:段慕华*/
+@charset "utf-8";
+/*模板样式调整*/
+/*更新时间:2012-02-01 15:40*/
+/*作者:段慕华*/
+/*==================================================*/
+.item_box_col1, .item_box_col2, .item_box_full {margin-bottom:2px}
+.ui-corner-all textarea{ height:100px}/*textarea的height的调整*/
+.popup_main{ width:98%\0\9}
+/*.top_title .logo {background:none;width:auto}显示第三方LOGO的情况下隐藏drisionLOGO*/
+
+/*cs框架兼容设置=========================*/
+/*.warp {background: none;box-shadow: 0 0 0 rgba(0,0,0,0);}
+.main{background:none; }
+.metroui {background:none;margin:0;}
+.system_size{border-radius:0px;box-shadow:0;}*/
+
+/*========================忘记密码页面样式=========================*/
+.lost_page{background:#fff; height:100%; width:100%;}
+.lost_main{text-align:center; padding-top:10px; padding-bottom:50px;}
+.lost_main_input{margin-left:115px;*margin-left:0px;  width:170px; margin-top:10px;}
+.lost_main_input_span{ display:block; width:auto;  text-align:left;font-size:14px; line-height:22px;}
+.lost_main_but{ margin-top:20px; margin-bottom:70px; *padding-bottom:50px;text-align:center;}
+.main .multigrid_box .grid_content{width:auto;}/*解决ie9下cl样式失效引起的表格尺寸变形*/
+
+/*unknown样式。不知道是否多余。暂时隐藏 =======================================*/
+/*.main .grid_content { width:720px\0}/*解决ie8下cl样式失效引起的表格尺寸变形*/
+/*.main_box .grid_content { width:700px\0}/*解决ie8下cl样式失效引起的表格尺寸变形*/
+/*.ui-tabs .grid_content{ width:680px\0}
+.treeform .grid_content{ width:auto\0}
+.treegrid .grid_content{ width:auto\0}
+/*.main .multigrid_box .grid_content{ width:700px\0}/*解决ie8下cl样式失效引起的表格尺寸变形*/
+/*.main .main_box .multigrid_box .grid_content{ width:680px\0}/*解决ie8下cl样式失效引起的表格尺寸变形*/
+
+/*.ui-tabs{margin:10px 0;*position:static}
+.ui-tabs .main_box{*position:static}
+.main_box{*position:static}
+.ui-tabs .main_box .grid_content{width:auto\0}*//*解决ie8下tab cl样式失效引起的表格尺寸变形*/
+/*unknown样式。不知道是否多余。暂时隐藏 =======================================*/
+
+
+/*=============================新增提示界面================================*/
+.header_wizard .wizard_box{text-indent: 40px;text-align: left;line-height: 32px; *line-height:30px; position: relative;}
+.header_wizard .wizard_box span{width: 36px;height: 30px;position: absolute;top: 0px;left: 2px;}
+.header_wizard .wizard_box{color: white;text-shadow: 0 1px 0 black;border-radius: 3px 3px 0px 0px;background: url(../images/h2_bg.png) repeat-x top left;font-size: 18px;border: 1px solid #2B5177;}
+.main_content {padding: 0 10px;border: 1px solid #C8C8C8;border-radius: 0 0 3px 3px;;background: white;}
+.header_wizard .steps ul {list-style: none;margin: 0;padding: 0;position: relative;
+top: -1px;left: -1px;margin: 0 -12px -2px -10px;background:url(../Images/wizard/bg-steps.png) repeat-x #E7E7E7;border: 1px solid #C8C8C8;border-left-width: 0;}
+
+.header_wizard .steps li.current {
+background: url(../images/wizard/bg-steps-active.png) repeat-x #E7E7E7;
+}
+.header_wizard .steps li {
+background: url(../images/wizard/bg-steps.png) repeat-x #E7E7E7;
+border-left: 1px solid #C8C8C8;
+border-right: 1px solid #C8C8C8;
+margin: 0;
+margin-right: -5px;
+display: inline-block;
+}
+
+.header_wizard .steps li a {
+text-decoration: none;
+color: black;
+}
+.header_wizard .steps li a {
+display: inline-table;
+padding: 4px;
+}
+.header_wizard  .steps li span {
+font-size: 13px;}
+.header_wizard .steps li span {
+width: 32px;
+height: 32px;
+line-height: 32px;
+margin-right: 5px;
+background: white;
+border-radius: 32px;
+border: 1px solid #E7E7E7;
+text-align: center;
+float: left;
+}
+
+
+.header_wizard  .steps li a div {
+margin-left: 42px;
+display: table-cell;
+vertical-align: middle;}
+
+.header_wizard  .steps li .w_tittle {
+font-size: 12px; font-weight:bold}
+
+
+.header_wizard  .steps li .w_info {
+color: #8B8B8B;
+font-size: 11px;}
+.header_wizard  .steps li span{
+color: #2D2D2D;}
+
+.wiz_page{display: block;
+height: 267px;overflow: auto;}
+.wiz_sidebar {
+margin: 10px;
+margin-right: 0;
+padding-right: 0;
+width:23%;
+display: inline;
+float: left;
+position: relative;
+}
+.wiz_sidebar > span {
+font-size: 25px;}
+
+.wiz_content {
+border-left: 1px solid #E7E7E7;
+margin-left: 5px;
+padding-left: 20px;
+margin-right: 0;
+float: left;
+display:inline;
+position:relative;
+width:73%;}
+.wiz_sidebar .w_tittle{
+position: relative;
+font-size: 16px; font-weight:bold;}

@@ -1,0 +1,251 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true" CodeBehind="MessageManage.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.MessageManage" Title="短信管理" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
+    <asp:Panel ID="Panel2" runat="server">
+        <div class="com_box">
+            <div class="title">
+                <h3>短信模板管理</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <asp:GridView ID="templateList" runat="server" AutoGenerateColumns="False" Width="100%"
+                        OnRowDataBound="templateList_RowDataBound" OnRowCommand="templateList_RowCommand">
+                        <AlternatingRowStyle BackColor="#E5EAEF" />
+                        <Columns>
+                            <asp:BoundField HeaderText="索引名" DataField="Configuration_Key" ItemStyle-HorizontalAlign="Center">
+                                <HeaderStyle CssClass="title1"  Width="20%"/>
+                                <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField HeaderText="模板名称" DataField="Configuration_Title" ItemStyle-HorizontalAlign="Center">
+                                <HeaderStyle CssClass="title1"  Width="20%"/>
+                                <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField HeaderText="模板文件" DataField="Configuration_Value" ItemStyle-HorizontalAlign="Center">
+                                <HeaderStyle CssClass="title1"  Width="30%"/>
+                                <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:TemplateField HeaderText="操作">
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbtnEnable" runat="server" Font-Underline="true" CssClass="links"
+                                        CausesValidation="False" CommandName="enable">启用模板</asp:LinkButton>
+                                    <asp:LinkButton ID="lbtnUpdate" runat="server" Font-Underline="true" CssClass="links"
+                                        CausesValidation="False" CommandName="updt">编辑</asp:LinkButton>
+                                    <asp:LinkButton ID="lbtnDel" runat="server" Font-Underline="true" CssClass="links"
+                                        CausesValidation="False" CommandName="del" OnClientClick="if (!confirm('是否删除？')) {return false;}">删除</asp:LinkButton>
+                                </ItemTemplate>
+                                <HeaderStyle CssClass="title1" Wrap="False" Width="10%" />
+                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                            </asp:TemplateField>
+                        </Columns>
+                        <HeaderStyle CssClass="title1" Wrap="False" ForeColor="#154D28" />
+                    </asp:GridView>
+                    
+                    <div style="width: 100px; margin-left: auto; margin-right: 40px; padding: 10px 0; ">
+                        <asp:Button ID="btnShowAddPanel" runat="server" Text="Button" CssClass="tianjia" onclick="btnShowAddPanel_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <asp:Panel ID="Panel1" runat="server">
+        <div class="com_box">
+            <div class="title">
+                <h3>短信配置</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                        <tr style="height: 12px;">
+                            <td>移动账户</td><td></td>
+                            <td>联通账户</td><td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; width: 15%">企业代码：</td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtMobileCode" runat="server" MaxLength="100"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+                                    ValidationGroup="ValidataGroup1" ControlToValidate="txtMobileCode">企业代码不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                            <td style="text-align: right; width: 15%">企业代码：</td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtUnicomCode" runat="server" MaxLength="100"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server"
+                                    ValidationGroup="ValidataGroup2" ControlToValidate="txtUnicomCode">企业代码不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">账&nbsp;&nbsp;&nbsp;&nbsp;户：</td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtMobileAccount" runat="server" MaxLength="100"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
+                                    ValidationGroup="ValidataGroup1" ControlToValidate="txtMobileAccount">账户不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                            <td style="text-align: right;">账&nbsp;&nbsp;&nbsp;&nbsp;户：</td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtUnicomAccount" runat="server" MaxLength="100"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server"
+                                    ValidationGroup="ValidataGroup2" ControlToValidate="txtUnicomAccount">账户不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtMobilePasswod" runat="server" MaxLength="100"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server"
+                                    ValidationGroup="ValidataGroup1" ControlToValidate="txtMobilePasswod">密码不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                            <td style="text-align: right;">密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtUnicomPasswod" runat="server" MaxLength="100"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server"
+                                    ValidationGroup="ValidataGroup2" ControlToValidate="txtUnicomPasswod">密码不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+                        <tr style="height: 40px;">
+                            <td style="text-align: right;"></td>
+                            <td style="text-align: left;">
+                                <asp:Button ID="btnMobileUpdate" runat="server" Text="Button" CssClass="baocun" 
+                                    ValidationGroup="ValidataGroup1" onclick="btnMobileUpdate_Click" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:Button ID="btnMobileTest" runat="server" Text="测试" CssClass="anniu"
+                                    ValidationGroup="ValidataGroup1" onclick="btnMobileTest_Click" />
+                            </td>
+                            <td style="text-align: right;"></td>
+                            <td style="text-align: left;">
+                                <asp:Button ID="btnUnicomUpdate" runat="server" Text="Button" CssClass="baocun" 
+                                    ValidationGroup="ValidataGroup2" onclick="btnUnicomUpdate_Click" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:Button ID="btnUnicomTest" runat="server" Text="测试" CssClass="anniu"
+                                    ValidationGroup="ValidataGroup2" onclick="btnUnicomTest_Click" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <asp:Panel ID="Panel3" runat="server" Visible="false">
+        <div class="com_box">
+            <div class="title">
+                <h3>添加短信模板</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                        <tr style="height: 12px;">
+                            <td>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; width: 15%">
+                                模板名称：
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtTemplateName" runat="server" MaxLength="100" Width="244px"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                                    ValidationGroup="ValidataGroup3" ControlToValidate="txtTemplateName">模板名称不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; width: 15%">
+                                模板内容：
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtTemplateHtml" runat="server" TextMode="MultiLine" Width="504px" Height="100px"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server"
+                                    ValidationGroup="ValidataGroup3" ControlToValidate="txtTemplateHtml">模板内容不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                模板描述：
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtTemplateDesc" runat="server" TextMode="MultiLine" Width="504px" Height="100px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr style="height: 40px;">
+                            <td style="text-align: right;"></td>
+                            <td style="text-align: left;">
+                                <asp:Button ID="btnSaveTemplate" runat="server" Text="Button" CssClass="baocun" 
+                                    ValidationGroup="ValidataGroup3" onclick="btnSaveTemplate_Click" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:Button ID="btnCancle" runat="server" Text="Button" CssClass="quxiao" 
+                                    onclick="btnCancle_Click"  />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <asp:Panel ID="Panel4" runat="server" Visible="false">
+        <div class="com_box">
+            <div class="title">
+                <h3>修改邮件模板</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                        <tr style="height: 12px;">
+                            <td>
+                            </td>
+                            <td style="text-align: left;"><asp:HiddenField ID="txtUpdtTemplateID" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; width: 15%">
+                                模板名称：
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtUpdtTemplateName" runat="server" MaxLength="100" Width="244px"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server"
+                                    ValidationGroup="ValidataGroup4" ControlToValidate="txtUpdtTemplateName">模板名称不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; width: 15%">
+                                模板内容：
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtUpdtTemplateHtml" runat="server" TextMode="MultiLine" Width="504px" Height="100px"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server"
+                                    ValidationGroup="ValidataGroup4" ControlToValidate="txtUpdtTemplateHtml">模板内容不能为空！</asp:RequiredFieldValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                模板描述：
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtUpdtTemplateDesc" runat="server" TextMode="MultiLine" Width="504px" Height="100px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr style="height: 40px;">
+                            <td style="text-align: right;"></td>
+                            <td style="text-align: left;">
+                                <asp:Button ID="btnUpdtTemplate" runat="server" Text="Button" CssClass="baocun" 
+                                    ValidationGroup="ValidataGroup4" onclick="btnUpdtTemplate_Click"  />
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:Button ID="btnUpdtTemplateCancle" runat="server" Text="Button" 
+                                    CssClass="quxiao" onclick="btnUpdtTemplateCancle_Click"  />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+</asp:Content>

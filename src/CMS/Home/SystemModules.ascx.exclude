@@ -1,0 +1,18 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SystemModules.ascx.cs"
+    Inherits="Drision.Framework.Web.Home.SystemModules" %>
+<div class="a">
+    <div class="a1">
+        <em></em><em>
+            <asp:LinkButton ID="lbtnChangePsw" runat="server" OnClick="lbtnChangePsw_Click" Font-Size="11px"
+                CausesValidation="False" CssClass="a1c">修改密码</asp:LinkButton>|<asp:LinkButton ID="lbtnExit"
+                    runat="server" OnClick="lbtnExit_Click" Font-Size="11px" CausesValidation="False"
+                    CssClass="a1d">退出系统</asp:LinkButton>|<a class="a1e" href='<%=ResolveUrl("HomePage.aspx")%>' title="返回首页">返回首页</a></em>
+        <div class="a1b">
+            <asp:Label ID="lblUser" runat="server" Text=""></asp:Label>
+            <%--<asp:HyperLink ID=hylink runat="server" NavigateUrl="~/Home/HomePage.aspx" Text="返回欢迎页面"></asp:HyperLink>--%>
+           
+        </div>
+    </div>
+    <div class="a2">
+        <span></span><a href='<%=ResolveUrl("HomePage.aspx")%>' title="返回欢迎页面">返回欢迎页面</a></div>
+</div>

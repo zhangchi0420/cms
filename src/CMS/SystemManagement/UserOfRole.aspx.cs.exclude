@@ -1,0 +1,157 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Drision.Framework.WebContext;
+using Drision.Framework.WebContext.Model;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class UserOfRole : BasePage
+    {
+        public int UserId
+        {
+            get { return (int)ViewState["UserId"]; }
+            set { ViewState["UserId"] = value; }
+        }
+
+        public string RoleId
+        {
+            get { return (string)ViewState["RoleId"]; }
+            set { ViewState["RoleId"] = value; }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Request["UserId"] != null)
+                {
+                    UserId = Convert.ToInt32(Request["UserId"].ToString());
+                    DeptShow();
+                    GetUser(UserId);
+
+                    using (BLLContext context = new BLLContext(GlobalObject.ConnString))
+                    {
+                        //插入选择返回的角色
+                        if (Request["RoleId"] != null)
+                        {
+                            RoleId = Request["RoleId"].ToString();
+
+                            var query = context.T_User_Role.Where(x => x.User_ID == UserId).ToList();
+                            foreach (var item in query)
+                            {
+                                context.T_User_Role.Remove(item);
+                            }
+                            int id;
+                            var maxIdQuery = context.T_User_Role.OrderByDescending(x => x.Id).FirstOrDefault();
+                            if (maxIdQuery == null)
+                                id = 1;
+                            else
+                                id = maxIdQuery.Id + 1;
+
+                            string[] Roles = RoleId.Split(',');
+                            for (int i = 0; i < Roles.Length; i++)
+                            {
+                                //已有此角色则不加入
+                                if (context.T_User_Role.Where(x => x.User_ID == UserId && x.Role_ID == int.Parse(Roles[i].ToString())).Count() != 0)
+                                    continue;
+
+                                context.T_User_Role.Add(new T_User_Role()
+                                {
+                                    Id = id,
+                                    User_ID = UserId,
+                                    Role_ID = int.Parse(Roles[i].ToString())
+                                });
+                                id++;
+                            }
+                            context.SaveChanges();
+
+                        }
+
+                        var userRoleList = context.T_User_Role.Where(x => x.User_ID == UserId).ToList();
+
+                        bool Empty = false;
+                        if (userRoleList.Count == 0)
+                        {
+                            userRoleList.Add(new T_User_Role());
+                            Empty = true;
+                        }
+
+                        this.gvShow.DataSource = userRoleList;
+                        this.gvShow.DataBind();
+
+                        if (Empty)
+                        {
+                            this.gvShow.Rows[0].Cells[2].FindControl("lbtnSet").Visible = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void lbtnSet_Click(object sender, EventArgs e)
+        {
+            int RoleId = Convert.ToInt32((sender as LinkButton).CommandArgument);
+            using (BLLContext context = new BLLContext(GlobalObject.ConnString))
+            {
+                var query = context.T_User_Role.Where(x => x.User_ID == UserId && x.Role_ID == RoleId).FirstOrDefault();
+                if (query != null)
+                {
+                    context.T_User_Role.Remove(query);
+                    context.SaveChanges();
+                    Response.Redirect("~/SystemManagement/UserOfRole.aspx?id=" + UserId + "&type=2");
+                }
+                
+            }
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("SetRole.aspx?UserId=" + UserId);
+        }
+
+        private void DeptShow()
+        {
+            using (BLLContext context = new BLLContext())
+            {
+                var departmentlist = context.T_Department.Select(x => new { x.Department_ID, x.Department_Name }).ToList();
+                this.ddlDept.Items.Clear();
+                this.ddlDept.DataSource = departmentlist;
+                this.ddlDept.DataTextField = "Department_Name";
+                this.ddlDept.DataValueField = "Department_ID";
+                this.ddlDept.DataBind();
+            }
+        }
+
+        private void GetUser(int userId)
+        {
+            using (BLLContext context = new BLLContext())
+            {
+                var user = context.T_User.Where(x => x.User_ID == userId).FirstOrDefault();
+                if (user != null)
+                {
+                    txtCode.Text = user.User_Code;
+                    txtName.Text = user.User_Name;
+                    txtEntryTime.Text = Convert.ToDateTime(user.EntryDate).ToString("yyyy-MM-dd");
+                    txtCardNum.Text = user.Card_No;
+                    txtPhone.Text = user.User_Mobile;
+                    txtEmail.Text = user.User_EMail;
+                    ddlDept.SelectedValue = user.Department_ID.ToString();
+                    rbtnState.SelectedValue = user.User_Status.ToString();
+                    rbtnIsME.SelectedValue = user.Is_ME.ToString();
+                    txtRemark.Text = user.User_Comment;
+                }
+            }
+        }
+    }
+}

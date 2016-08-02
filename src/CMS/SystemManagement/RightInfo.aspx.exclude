@@ -1,0 +1,156 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true"
+    CodeBehind="RightInfo.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.RightInfo"
+    Title="权限管理" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <script type="text/javascript">
+        function changetab(num)
+        {
+            var as = document.getElementById("tab").children;
+            for(var i=0;i<as.length;i++)
+            {
+	            as[i].className="";	
+            }
+            as[num].className="curr";
+        	
+            var uls = document.getElementById("cgg").children;
+
+            for(var j=0;j<uls.length;j++)
+            {
+	            uls[j].style.display="none";	
+            }
+            uls[num].style.display="block";
+        }
+    </script>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server">
+    </asp:ScriptManagerProxy>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+            <input type="hidden" id="type_" value="<%=Request.QueryString["type"] %>" />
+            <div class="com_box">
+                <div class="title">
+                    <h3>
+                        权限管理</h3>
+                </div>
+                <div class="Content">
+                    <div class="jstab">
+                        <div class="title" id="tab">
+                            <a href="#" onclick="changetab(0)" class="curr"><span></span>角色信息</a> <a href="#"
+                                onclick="changetab(1)"><span></span>角色功能</a>
+                        </div>
+                        <div id="cgg" class="contel">
+                            <div>
+                                <table style="width: 100%; text-align: center">
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right;">
+                                            角色名称：
+                                        </td>
+                                        <td style="text-align: left;">
+                                            <asp:TextBox ID="txtName" runat="server" MaxLength="20" Enabled="False"></asp:TextBox>
+                                            <span style="color: Red">*</span>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtName"
+                                                ErrorMessage="姓名不能为空！" Display="None">*</asp:RequiredFieldValidator>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right;">
+                                            是否有效：
+                                        </td>
+                                        <td style="text-align: left;">
+                                            <asp:RadioButtonList ID="rbtnState" runat="server" RepeatDirection="Horizontal" Enabled="False">
+                                                <asp:ListItem Value="1">是</asp:ListItem>
+                                                <asp:ListItem Value="0" Selected="True">否</asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right;">
+                                            备注：
+                                        </td>
+                                        <td style="text-align: left;">
+                                            <asp:TextBox ID="txtRemark" runat="server" Rows="5" TextMode="MultiLine" Width="300px"
+                                                Enabled="False"></asp:TextBox>
+                                            <asp:RegularExpressionValidator ID="REV" runat="server" ControlToValidate="txtRemark"
+                                                ValidationExpression="^(\s|\S){0,100}$" ErrorMessage="备注不能超过100个字！" Display="None">*</asp:RegularExpressionValidator>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div style="display: none;">
+                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                                    <tr>
+                                        <td>
+                                            <asp:GridView ID="gvFunction" runat="server" AutoGenerateColumns="False" Width="100%"
+                                                GridLines="Vertical" CssClass="tab" DataKeyNames="Function_Id" EmptyDataText="没有符合条件的信息！">
+                                                <AlternatingRowStyle CssClass="grid_content_row" BackColor="#CED7E1" />
+                                                <HeaderStyle Wrap="false" />
+                                                <Columns>
+                                                    <asp:BoundField HeaderText="菜单ID" HeaderStyle-BackColor="#94B0CE" DataField="Function_Id"
+                                                        Visible="False">
+                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                        <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                                    </asp:BoundField>
+                                                    <asp:BoundField HeaderText="菜单模块" HeaderStyle-BackColor="#94B0CE" DataField="Permission_Name">
+                                                        <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+                                                        <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                                    </asp:BoundField>
+                                                    <asp:TemplateField HeaderText="操作" HeaderStyle-BackColor="#94B0CE">
+                                                        <ItemTemplate>
+                                                            <asp:LinkButton ID="lbtnDelete" runat="server" CssClass="links" CausesValidation="False"
+                                                                OnClick="lbtnDelete_Click" CommandArgument='<%# Eval("Function_Id") %>'>移除功能</asp:LinkButton>
+                                                        </ItemTemplate>
+                                                        <HeaderStyle BackColor="#94B0CE" />
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Wrap="False" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right;">
+                                            <asp:Button ID="btnAdd" runat="server" Text="Button" CssClass="tianjia" OnClick="btnAdd_Click" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+    <script type="text/javascript" language="javascript">
+        if(document.getElementById("type_").value == 2)
+        {
+            changetab(1);
+        }
+    </script>
+
+</asp:Content>

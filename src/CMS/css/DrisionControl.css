@@ -1,0 +1,63 @@
+﻿/*----------------reset---------------*/
+body{font-family:"宋体","Tahoma"; font-size:63%; color:#333; background-color:#F7F8FA }
+
+table,input { padding:0; margin:0;}
+
+/*----------------input---------------*/
+.item_input{ width:200px;}
+.item_input table{display: block;width:100%;border-collapse:collapse;}
+.item_input input{height:24px;line-height:24px;border-style:none; }
+.item_input span{cursor: pointer;}
+
+.item_select_list{ /*ComboControlItemList*/
+    max-height: 300px; 
+    overflow-x: hidden; 
+    overflow-y: auto; 
+    padding-right: 5px;}
+
+
+/*----------------GridControl---------------*/
+.grid_tbody{}/*GridControl*/
+.grid_tbody table{ width:100%;border-collapse:collapse; }
+.grid_tbody tr{ border:none;}
+.grid_tbody th a{width:100%; border:none;font-weight:bold;}
+.grid_tbody td{ height:30px;text-indent:0.6em; border: #c4c4d0 dotted 1px;}
+.grid_tbody td span{}
+.grid_row{}
+
+/*.GridControlOperation a{margin-left:3px; }*/
+
+.grid_foot{ width:100%; border-collapse:collapse; border:0;}
+.grid_foot td{ border:0;}
+.grid_foot .grid_button_bar{ border:0; text-align:left;padding: 6px 0;}
+.grid_foot .grid_Pager_bar { text-align:right; border:0;}
+.grid_foot .grid_Pager_bar a {margin-left:3px;}
+
+.grid_Pager_bar input{width:25px;}
+
+.grid_pager_bar{/*GridControlPagerTable*/ 
+border-collapse:collapse;}
+
+.grid_button_bar{/*GridControlPagerButtonContainer*/
+    padding-top: 6px; 
+    padding-right: 0px; 
+    padding-bottom: 6px; 
+    padding-left: 0px; 
+}
+
+/*----------------CheckControl---------------*/
+.CheckControl
+{
+    
+}
+
+/*----------------UploadControl---------------*/
+.UploadControl
+{
+}
+
+/*----------------TabControl---------------*/
+.tab_bar
+{
+    
+}

@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="JDelete.aspx.cs" Inherits="Drision.Framework.Web.Service.JDelete" %>

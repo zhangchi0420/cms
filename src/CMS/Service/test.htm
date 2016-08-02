@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="js/jquery-1.6.2.min.js" type="text/javascript"></script>
+    <script src="Service/Service.js" type="text/javascript"></script>
+    <title></title>
+</head>
+<body>
+    <button id="get">
+        获取对象</button>
+    <button id="del">
+        删除对象</button>
+    <button id="upd">
+        更新对象</button>
+    <button id="add">
+        新增对象</button>
+    <script type="text/javascript">
+
+        function test(val) {
+            eval("var ff = " + val);
+            ff(1, 2);
+        }
+
+        var fun = "function(arg1,arg2){alert('arg1:'+arg1+' arg2:'+arg2);}";
+
+        test(fun);
+    </script>
+</body>
+</html>

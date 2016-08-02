@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <!--重置样式-->
+    <link href="@Url.Content("~/Content/style.reset.css")" rel="stylesheet" type="text/css" />
+    <!--页面样式-->
+    <link href="@Url.Content("~/Content/main.css")" rel="stylesheet" type="text/css" />
+    <!--WOW动态css-->
+    <link href="@Url.Content("~/Content/animate.min.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+</head>
+<body>
+    <!--顶部-->
+    <div id="header">
+        <div class="pd20">
+            <!--logo-->
+            <div class="logo fl">
+                <a href="@Url.Action("Index", "Home")" title="首页">
+                    <img src="@Url.Content("~/Content/images/i_logo.png")" alt="" /></a>
+            </div>
+        </div>
+    </div>
+		<!--内页导航-->
+		<div id="in_nav" class="wow bounceInDown">
+        <a href="@Url.Action("Index", "Home")">首页</a>
+            @{
+                var url = Url.Action("Index", "Case");
+                if (Request.Path == url)
+                {
+                <a  class="hover" href="@url"><span class="yahei">案例</span></a>
+            }
+            else
+            {
+                <a href="@url">案例</a>
+            }
+
+            url = Url.Action("Index", "Service");
+            if (Request.Path == url)
+            {
+                <a  class="hover" href="@url"><span class="yahei">服务</span></a>
+            }
+            else
+            {
+                <a href="@url">服务</a>
+            }
+                url = Url.Action("About", "Home");
+            if (Request.Path == url)
+            {
+                <a  class="hover" href="@url"><span class="yahei">关于</span></a>
+            }
+            else
+            {
+                <a href="@url">关于</a>
+            }
+                url = Url.Action("Index", "News");
+            if (Request.Path == url)
+            {
+                <a  class="hover" href="@url"><span class="yahei">新闻</span></a>
+            }
+            else
+            {
+                <a href="@url">新闻</a>
+            }
+
+                url = Url.Action("Contact", "Home");
+            if (Request.Path == url)
+            {
+                <a  class="hover" href="@url"><span class="yahei">联系</span></a>
+            }
+            else
+            {
+                <a href="@url">联系</a>
+            }
+            }
+			
+		</div>
+    <!--关注-->
+    <div id="follow">
+        <div class="i_follow_title">
+            <img src="@Url.Content("~/Content/images/i_follow_title.png")" alt="" />
+        </div>
+        <ul>
+            <li>
+                <!--QQ交谈-->
+                <a class="txqq" href="tencent://message/?uin=972715708" title="业务咨询" target="_blank">
+                    <span class="line-1"></span><span class="line-2"></span><span class="line-3"></span>
+                    <span class="line-4"></span></a></li>
+            <li>
+                <!--关注新浪-->
+                <a class="xlwb" href="http://www.weibo.com/tbclub" title="新浪微博" target="_blank"><span
+                    class="line-1"></span><span class="line-2"></span><span class="line-3"></span><span
+                        class="line-4"></span></a></li>
+        </ul>
+    </div>
+    <div id="erweima">
+        <img src="@Url.Content("~/Content/images/i_erweima.jpg")" title="扫描并关注微信" alt="" />
+    </div>
+    <div id="footer">
+        @Html.Partial("_FooterPartial");
+    </div>
+        <script src="@Url.Content("~/Scripts/wow.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
+            new WOW().init();
+        };
+    </script>
+    @RenderBody()
+
+</body>
+</html>

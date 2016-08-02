@@ -1,0 +1,244 @@
+@charset "utf-8";
+.mt{ 
+    vertical-align:top;
+	}
+.main_login{
+	float:none;
+	width:600px;
+	height:245px;
+	margin-top:140px; 
+	margin-left:auto; 
+	margin-right:auto;
+	z-index:4;
+	}
+/*###################################################################*/	
+.K_position{
+	width:600px; 
+	height:245px; 
+	margin-left:auto; 
+	margin-right:auto;
+	}
+.K_T{
+	float:left; 
+	width:100%;
+	}
+.K_M{
+	float:left; 
+	width:100%;
+	}
+.K_B{
+	float:left;  
+	width:100%;
+	}
+.K_1{
+	background:url(../images/amdin/adminbg_1.png); 
+	margin-top:1px; 
+	background-repeat:no-repeat; 
+	float:left; 
+	height:52px; 
+	width:13px;
+	z-index:5;
+	}
+.K_2{
+	background:url(../images/amdin/adminbg_2.png) repeat-x; 
+	height:35px; 
+	width:550px; 
+	float:left; 
+	padding-top:18px;
+	padding-left:25px;
+	font-family:微软雅黑 ,宋体; 
+	font-size:18px; 
+	font-weight:bold;
+	}	
+.K_3{
+	background:url(../images/amdin/adminbg_3.png) no-repeat; 
+	width:12px; 
+	height:53px; 
+	float:right;
+	}
+.K_4{
+	background:url(../images/amdin/adminbg_4.png) no-repeat; 
+	background-repeat: repeat-y; 
+	width:13px; 
+	height:160px; 
+	float:left;
+	}
+.K_5{
+	background-color:#fff; 
+	width:16px; 
+	height:160px; 
+	width:575px;
+	float:left;
+	}
+.K_6{
+	background:url(../images/amdin/adminbg_6.png); 
+	background-repeat: repeat-y;
+	width:12px; 
+	height:160px;
+	float:right;
+	}
+.K_7{
+	background:url(../images/amdin/adminbg_7.png) no-repeat; 
+	width:13px; 
+	height:53px; 
+	float:left;
+	}
+.K_8{
+	background:url(../images/amdin/adminbg_8.png); 
+	width:575px; 
+	height:16px; 
+	float:left;
+	}
+.K_9{
+	background:url(../images/amdin/adminbg_9.png) no-repeat; 
+	width:12px; 
+	height:53px; 
+	float:right;
+	}
+/*###################################################################*/
+.login_button{
+	background:url(../images/amdin/login_button.png) no-repeat;
+	width:58px;  
+	float:right; 
+	margin-right:14px;
+	margin-top:15px;
+	}
+.login_button a{  
+   line-height:26px; 
+   height:26px;
+   width:60px;
+   display:inline-block;
+   }
+.login_button a:hover{
+	 height:26px;
+	 line-height:26px;
+	}
+
+
+/*###################################################################*/
+
+.login_rem{
+	margin-left:15px; 
+	font-size:12px;  
+	float:left; 
+	width:200px;
+	height:30px; 
+	vertical-align:top;
+	margin-top:15px;
+	}
+.input{
+	width:95%;
+	height:22PX;
+	line-height:22px;
+	vertical-align:middle;
+	color:#999;
+	}
+	
+/*###############################################################*/
+.login_input_top1{
+	width:8px; 
+	height:38px;
+	margin-top:18px;
+	float:left;
+	}
+.login_input_top3{
+	width:540px;
+	height:38px;
+	margin-top:18px;
+	float:left;
+	line-height:38px;  
+	vertical-align:middle; 
+ 
+	font-family: 微软雅黑,宋体; 
+	font-size:14px; 
+	font-weight:bold;
+	}
+.login_input_top2{
+	width:8px; 
+	float: left; 
+	margin-top:18px;
+	line-height:38px;  
+	vertical-align:middle; 
+	color:#225b86; 
+	font-family: 微软雅黑,宋体;
+	font-size:14px; 
+	font-weight:bold;
+	display:block;
+	}
+	
+/*###############################################################*/	
+	
+	
+	
+.input_top{
+	width:560px; 
+	margin-left:auto; 
+	margin-right:auto;
+	}
+.input_main{
+	width:560px;
+	margin-left: auto;
+	margin-right:auto;
+	}
+.input_1{
+	float:left; 
+	width:100%; 
+	margin-top:20px;
+	}
+.input_1_L{
+	float: left; 
+	margin-left:13px; 
+	height:30px; 
+	width:45%;
+	}
+.input_1_R{
+	float: left; 
+	margin-left:13px; 
+	height:30px; 
+	width:45%;
+	}
+/*.loginline{
+	background:url(../images/amdin/loginline.png) no-repeat;
+	margin-left:20px;
+	height:2px;
+	} */
+	
+	
+	
+	
+/*	
+.loginhelp{
+	font-size:14px;
+	font-family:微软雅黑,宋体;
+	width:390px;
+	height:30px;
+	font-weight:bold;
+	line-height:28px;
+	vertical-align:middle;
+	color:#666;
+	float:right;
+	z-index:10;
+	}
+.loginhelp_1{
+	width:73px;
+
+	background: url(../images/amdin/login_heip.png) no-repeat;
+	}
+.loginhelp_2{
+	background: url(../images/amdin/login_heip.png) no-repeat;
+	}
+.loginhelp a{
+	line-height:28px;
+	width:75px;
+	color:#666;
+	font-weight:bold;
+	}
+.loginhelp a:hover{
+	color: #39F;
+	}*/
+	
+	
+	
+.loginhelp ul li {
+	float:left;
+	}

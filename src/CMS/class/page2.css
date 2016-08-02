@@ -1,0 +1,43 @@
+@charset "utf-8";
+.system_size { width:960px; height: auto; }
+
+/*标题区域*/ 
+.top_title {}
+.topbar { }
+/*导航区样式*/
+.master_menu_h{ display:none}
+.master_menu { float:left; width:190px;}
+
+.master_menu ul .menu_title {}
+.master_menu ul { }
+.master_menu li { text-align:left; font-size:1.2em;}
+.master_menu li a { text-indent:40px; height:41px; width:170px;  display:inline-block;}
+.master_menu li a:hover { position:relative; width:220px; color:#fff; font-weight:bold; z-index:1; }
+.master_menu ul .hot a { position:relative; height:41px; top:0px; width:220px; font-weight:bold; z-index:1; }
+
+.master_menu_icon { margin-right:10px;}
+
+.slave_menu { display:none; float:left; width:auto;}
+
+/*主操作区*/
+.main {float:left; width:690px;}
+.item_box_col1,.item_box_col2,.item_box_full { float:left;text-align:left; font-weight:bold; }
+.item_box_col1 span,.item_box_col2 span,.item_box_full span {line-height:24px; text-align:left; }
+.item_box_col1 label,.item_box_col2 label,.item_box_full label {line-height:24px; text-align:left; }
+.item_input{text-align:left;}
+.item_input input{ POSITION:relative;  border: #999 solid 0px; -background:url(../images/textbox_bg.png); }
+.allcol3 .item_box_col1 .item_input { width:180px;}
+.allcol3 .item_box_col2 .item_input { width:410px;}
+.allcol3 .item_box_full .item_input { width:637px;}
+.allcol2 .item_box_col1 .item_input { width:200px;}
+.allcol2 .item_box_col2 .item_input { width:545px;}
+.allcol2 .item_box_full .item_input { width:545px;}
+
+.item_display{display:block;text-align:left;border-top:#CCC solid 1px;font-weight:normal; height:auto; }
+.item_display label{ width:auto;font-weight:normal;text-align:left; height:auto; }
+.allcol3 .item_box_col1 .item_display { width:213px;}
+.allcol3 .item_box_col2 .item_display { width:440px;}
+.allcol3 .item_box_full .item_display { width:670px;}
+.allcol2 .item_box_col1 .item_display { width:200px;}
+.allcol2 .item_box_col2 .item_display { width:640px;}
+.allcol2 .item_box_full .item_display { width:640px;}

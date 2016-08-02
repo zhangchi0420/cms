@@ -1,0 +1,128 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Core;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class LogManage : BasePage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                GetLogSearchList();
+            }
+        }
+
+        Log4NetBLL log4netBLL = new Log4NetBLL();
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            GetLogSearchList();
+        }
+
+        /// <summary>
+        /// 搜索日志列表
+        /// </summary>
+        private void GetLogSearchList()
+        {
+            try
+            {
+                int count = 0;
+                DateTime startTime;
+                FilterItem filterStartTime = null;
+                if (DateTime.TryParse(this.txtStartTime.Text.Trim(), out startTime))
+                {
+                    count++;
+                    filterStartTime = new FilterItem("Date", CompareTypes.GE, startTime);
+                }
+                DateTime endTime;
+                FilterItem filterEndTime = null;
+                if (DateTime.TryParse(this.txtEndTime.Text.Trim(), out endTime))
+                {
+                    count++;
+                    filterEndTime = new FilterItem("Date", CompareTypes.LE, endTime);
+                }
+                string recodeType = this.ddlRecodeType.SelectedValue;
+                FilterItem filterType = null;
+                if (!string.IsNullOrEmpty(recodeType))
+                {
+                    count++;
+                    filterType = new FilterItem("Level", recodeType);
+                }
+
+                FilterItem[] filterarray = new FilterItem[count];
+                count = 0;
+
+                if (startTime != DateTime.MinValue)
+                {
+                    filterarray.SetValue(filterStartTime, count);
+                    count++;
+                }
+                if (endTime != DateTime.MinValue)
+                {
+                    filterarray.SetValue(filterEndTime, count);
+                    count++;
+                }
+                if (!string.IsNullOrEmpty(recodeType))
+                {
+                    filterarray.SetValue(filterType, count);
+                    count++;
+                }
+
+
+
+                DataTable data = log4netBLL.QueryPage(AspNetPager1.PageSize, AspNetPager1.CurrentPageIndex - 1, filterarray);
+
+                totalCount = log4netBLL.QueryPageCount(filterarray);
+                Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+
+                this.dlRecodeList.DataSource = data;
+                this.dlRecodeList.DataBind();
+            }
+            catch { }
+        }
+
+        protected void dlRecodeList_ItemDataBound(object sender, DataListItemEventArgs e)
+        {
+            LinkButton lbtnDel = e.Item.FindControl("lbtnDel") as LinkButton;
+            lbtnDel.CommandArgument = DataBinder.Eval(e.Item.DataItem, "Id").ToString();
+        }
+
+        protected void dlRecodeList_ItemCommand(object source, DataListCommandEventArgs e)
+        {
+            if (e.CommandName == "del" && e.CommandArgument != null)
+            {
+                Log4NetBLL log = new Log4NetBLL();
+                log.Delete(e.CommandArgument);
+                //刷新数据
+                GetLogSearchList();
+            }
+        }
+
+        /// <summary>
+        /// 翻页
+        /// </summary>
+        protected void AspNetPager1_PageChanged(object sender, EventArgs e)
+        {
+            GetLogSearchList();
+        }
+
+        protected void ddlRecodeType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetLogSearchList();
+        }
+
+    }
+}

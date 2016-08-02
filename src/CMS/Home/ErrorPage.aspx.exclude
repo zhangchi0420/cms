@@ -1,0 +1,9 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true" CodeBehind="ErrorPage.aspx.cs" Inherits="Drision.Framework.Web.Home.ErrorPage" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<p>页面发生错误：</p>
+<p>
+<%# Server.HtmlEncode( this.GetErrorMsg()) %>
+</p>
+</asp:Content>

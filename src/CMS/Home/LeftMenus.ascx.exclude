@@ -1,0 +1,85 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="LeftMenus.ascx.cs" Inherits="Drision.Framework.Web.Home.LeftMenus" %>
+<div class="a4" id="my_menu">
+<div class="a4a">功能菜单</div>
+    	<div >
+    	<h3 >业务管理</h3>
+        <ul>
+        	<li><a href='<%=ResolveUrl("~/TaskManagement/DispatchTask.aspx?reload=true")%>' title="任务分派">任务分派</a></li>
+        	<li><a href='<%=ResolveUrl("~/TaskManagement/TaskList.aspx?reload=true")%>' title="任务管理">任务管理</a></li>
+        	<li><a href='<%=ResolveUrl("~/BasicDataManagement/hotline.aspx?flag=0")%>' title="400电话">400电话</a></li> 
+        	<li><a href='<%=ResolveUrl("~/BasicDataManagement/satisfication.aspx?flag=0")%>' title="客户满意度调查">客户满意度调查</a></li>  
+        	<li><a href='<%=ResolveUrl("~/BasicDataManagement/maintenances.aspx?reload=true")%>' title="任务统计查询">任务统计查询</a></li>         	      	
+        	<li><a href='<%=ResolveUrl("~/TaskManagement/DailyWorkPlan.aspx?reload=true")%>' title="日工作计划管理">日工作计划管理</a></li>
+        	<li><a href='<%=ResolveUrl("~/TaskManagement/DailyWorkPanlApprovalList.aspx?reload=true")%>' title="日工作计划审批">日工作计划审批</a></li>
+        	<li><a href='<%=ResolveUrl("~/TaskManagement/DailyWorkReportList.aspx?reload=true")%>' title="日工作情况汇报">日工作情况汇报</a></li>
+        	<li><a href='<%=ResolveUrl("~/TaskManagement/DailyWorkRepartApprovalList.aspx?reload=true")%>' title="日工作情况审批">日工作情况审批</a></li>
+        </ul>
+        </div>
+        <div>
+        <h3>客户管理</h3>
+        <ul>
+        <li><a href='<%=ResolveUrl("~/CustomerManagement/PotentialCustomerList.aspx?reload=true")%>' title="潜在客户情况登记表">潜在客户情况登记表</a></li>
+        	<li><a href='<%=ResolveUrl("~/CustomerManagement/CustomerApprovalList.aspx?reload=true")%>' title="客户评审">客户评审</a></li>
+        	<li><a href='<%=ResolveUrl("~/CustomerManagement/CustomerManagement.aspx?reload=true")%>' title="客户情况登记">客户情况登记</a></li>        	
+       </ul>
+        </div>
+        <div>
+        <h3>合同管理</h3>
+        <ul>
+        	<li><a href='<%=ResolveUrl("~/ContractManagement/ContractAdd.aspx")%>' title="合同录入">合同录入</a></li>
+        </ul>
+        </div>
+        <div>
+        <h3>库存管理</h3>
+        <ul>
+            <li><a href='<%=ResolveUrl("~/IVNManagement/GoodsStock.aspx?reload=true")%>' title="产品管理">产品管理</a></li>
+            <li><a href='<%=ResolveUrl("~/IVNManagement/PurchaseList.aspx?reload=true")%>' title="采购入库">采购入库</a></li>
+            <li><a href='<%=ResolveUrl("~/IVNManagement/DeliveryList.aspx?reload=true")%>' title="发货管理">发货管理</a></li>
+            <li><a href='<%=ResolveUrl("~/IVNManagement/BackFlow.aspx?reload=true")%>' title="回流管理">回流管理</a></li>
+            <li><a href='<%=ResolveUrl("~/IVNManagement/BackFlowIn.aspx?reload=true")%>' title="回收品管理">回收品管理</a></li>
+        </ul>
+        </div>
+        <div>
+        <h3>邮件管理</h3>
+        <ul>
+              
+              <li><a href='<%=ResolveUrl("~/MyDesktop/EmailList.aspx?reload=true")%>' title="邮件列表">邮件列表</a></li>
+              <li><a href='<%=ResolveUrl("~/MyDesktop/SendMail.aspx?reload=true")%>' title="邮件发送">发送邮件</a></li>
+        </ul>
+        </div>        
+        
+        <div>
+        <h3>数据图表</h3>
+        <ul>
+              <li><a href='<%=ResolveUrl("~/SensorChar/SensorChar.aspx?reload=true")%>' title="传感数据图表">传感数据图表</a></li>
+        </ul>
+        </div>
+        
+        <div>
+        <h3>培训管理</h3>
+        <ul>
+              
+              <li><a href='<%=ResolveUrl("~/Training/TrainingApply.aspx?reload=true")%>' title="邮件列表">申请培训</a></li>
+              <li><a href='<%=ResolveUrl("~/Training/ApprovalList.aspx?reload=true")%>' title="邮件发送">待审核培训申请列表</a></li>
+        </ul>
+        </div>
+        </div>
+         
+        <%--<div>
+    <asp:Repeater ID="repFunction" runat="server"  OnItemDataBound="repFunction_ItemDataBound">
+    <ItemTemplate>
+    <div>
+    <h3><span><asp:Label ID="labFunction" runat="server" ></asp:Label>
+    <em><asp:Label ID="labFunc" runat="server" ForeColor="Black"  ></asp:Label></em></span></h3>
+        <ul><asp:Repeater ID="repModule" runat="server" OnItemDataBound="repModule_ItemDataBound" >
+        <ItemTemplate>
+            <li><asp:HyperLink ID="hylink" runat="server"></asp:HyperLink></li>
+        </ItemTemplate>
+        
+        </asp:Repeater>
+        </ul>
+        </div>
+    </ItemTemplate>
+    </asp:Repeater>
+    </div>--%>
+   

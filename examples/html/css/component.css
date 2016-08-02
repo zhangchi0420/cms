@@ -1,0 +1,235 @@
+.navbar-fixed-top,
+.navbar-fixed-bottom {
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 1030;
+}
+
+.navbar {
+	margin-bottom: 0;
+	background:rgba(28,27,34,0.5) ;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -o-box-shadow: none;
+    border: none !important;
+    border-radius: 0;
+    transition: all 0.17s ease-in-out;
+    -moz-transition: all 0.17s ease-in-out;
+    -webkit-transition: all 0.17s ease-in-out;
+    -o-transition: all 0.17s ease-in-out;
+    padding: 30px 0;
+}
+.navbar-center{
+	text-align:center ;
+	}
+.navbar .anli-more{
+	width:1000px ; margin: 0 auto ; text-align:left
+}
+header.active .navbar {
+	background:rgba(28,27,34,0.9) ;
+    padding: 10px 0;
+}
+.navbar .anli-more p {
+	color:rgba(255,255,255,0.5) ;
+	-webkit-transition:0.5s ;
+	-moz-transition:0.5s ;
+	-o-transition:0.5s ;
+	transition:0.5s ;
+}
+header.active .navbar .anli-more p {
+	display:none ;
+}
+header.active .navbar .anli-more h2 {
+	padding-top:13px ;
+}
+#case-a-link{
+	border:none ;
+	background:none ;
+	padding:0 ;
+	margin:0 ;
+	text-decoration:underline ;
+	}
+#case-a-link:hover{
+	text-decoration:none ;
+	color:#3fb560
+}
+header.active .navbar .navbar-tit {
+}
+.navbar a{
+	font-size: 12px;
+	display: inline-block;
+	margin: 0.5em;
+	padding:5px 25px ;
+	border: 1px solid rgba(255,255,255,0.5);
+	color: rgba(255,255,255,0.5);
+	border-radius:50px ;
+
+}
+.navbar a:hover,
+.navbar a.current,
+.navbar a.current:hover {
+	border-color: #3fb560;
+	background:#3fb560 ;
+	color: #fff;
+}
+/* Buttons Style 
+header{ 
+
+	text-align:center ;
+	color:#fff ;
+	width:100% ;
+	padding:30px 0 ;
+	position:fixed ;
+	z-index:999
+	}
+.codrops-demos {
+}
+
+.codrops-demos a {
+	font-size: 12px;
+	display: inline-block;
+	margin: 0.5em;
+	padding:2px 20px ;
+	border: 1px solid rgba(255,255,255,0.5);
+	color: rgba(255,255,255,0.5);
+	border-radius:50px ;
+}
+
+.codrops-demos a:hover,
+.codrops-demos a.current-demo,
+.codrops-demos a.current-demo:hover {
+	border-color: #3fb560;
+	background:#3fb560 ;
+	color: #fff;
+}
+*/
+.h140{
+	height:140px ;
+	}
+
+.grid {
+	max-width: 1440px;
+	margin: 0 auto ;
+	list-style: none;
+	text-align: center;
+	padding-bottom:50px ;
+}
+
+.grid li {
+	display: inline-block;
+	/*
+	width: 288px;
+	margin: 0;
+	padding: 10px 8px ;
+	*/
+	width: 248px;
+	margin: 0;
+	padding: 12px 12px ;
+
+	text-align: left;
+	position: relative;
+}
+
+.grid figure {
+	margin: 0;
+	position: relative;
+}
+
+.grid figure img {
+	max-width: 100%;
+	display: block;
+	position: relative;
+}
+
+.grid figcaption {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 20px;
+	background: #3fb560;
+	color: #fff ;
+	color:rgba(255,255,255,0.8)
+}
+
+.grid figcaption h3 {
+	margin: 0;
+	padding: 0;
+	color: #fff;
+	font-size:14px ;
+}
+
+.grid figcaption span:before {
+	content: 'by ';
+}
+
+.grid figcaption a {
+}
+
+/* Individual Caption Styles */
+
+
+
+/* Caption Style 3 */
+.cs-style-3 figure {
+	overflow: hidden;
+}
+
+.cs-style-3 figure img {
+	-webkit-transition: -webkit-transform 0.4s;
+	-moz-transition: -moz-transform 0.4s;
+	transition: transform 0.4s;
+}
+
+.no-touch .cs-style-3 figure:hover img,
+.cs-style-3 figure.cs-hover img {
+	-webkit-transform: translateY(-30px);
+	-moz-transform: translateY(-30px);
+	-ms-transform: translateY(-30px);
+	transform: translateY(-30px);
+}
+
+.cs-style-3 figcaption {
+	height: 100px;
+	width: 100%;
+	top: auto;
+	bottom: 0;
+	opacity: 0;
+	-webkit-transform: translateY(100%);
+	-moz-transform: translateY(100%);
+	-ms-transform: translateY(100%);
+	transform: translateY(100%);
+	-webkit-transition: -webkit-transform 0.4s, opacity 0.1s 0.3s;
+	-moz-transition: -moz-transform 0.4s, opacity 0.1s 0.3s;
+	transition: transform 0.4s, opacity 0.1s 0.3s;
+}
+
+.no-touch .cs-style-3 figure:hover figcaption,
+.cs-style-3 figure.cs-hover figcaption {
+	opacity: 1;
+	-webkit-transform: translateY(60px);
+	-moz-transform: translateY(60px);
+	-ms-transform: translateY(60px);
+	transform: translateY(60px);
+	-webkit-transition: -webkit-transform 0.4s, opacity 0.1s;
+	-moz-transition: -moz-transform 0.4s, opacity 0.1s;
+	transition: transform 0.4s, opacity 0.1s;
+}
+
+.cs-style-3 figcaption a {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+@media screen and (max-width: 31.5em) {
+	.grid {
+		padding: 10px 10px 100px 10px;
+	}
+	.grid li {
+		width: 100%;
+		min-width: 300px;
+	}
+}

@@ -1,0 +1,198 @@
+/*更新时间:2012-06-01 12:00*/
+/*作者:段慕华*/
+/* 知识库页面 */
+
+html{ background:#e5edef}
+.system_size{ width:100%;}
+.top_bar{ display:none}
+.top_title{ height:45px; background:url(../images/zhishi/sys_title_bg.jpg)}
+.top_title .logo{ margin:0; width:400px; height:45px; background:url(../images/zhishi/sys_title.jpg)}
+.top_title .title{ display:none}
+
+/* 知识库页面框架 */
+.warp{*min-width:960px; width:100%;height:560px; background:none;border-radius:0;box-shadow: none; display:table; border-collapse:5px; border-spacing:5px}
+.main{display:table-cell; min-width:700px; width:auto; float:none;font-family:Arial, "宋体"; font-size:12px; background:#eff3f7; border:1px solid #b8d0d6}
+.main{border-radius:0; padding:0; margin:5px;*display:block; *float:left;*text-align:left; *zoom:1; }
+.main h2{ font-family:Arial, "宋体"; font-size:12px; border-bottom:1px solid #b8d0d6; background: url(../images/zhishi/title_bg.jpg)}
+.main h2{ height:25px; line-height:25px; margin:0; *display:block; *width:auto}
+.main_box{ width:100%; border:0; margin:0; padding:0;}
+.main_box h3{ display:none}
+.main_box input{ border:0px solid #99bbe8}
+.main_box input[type="radio"]{ border:0}
+.main_box input[type="checkbox"]{ border:0}
+.item_input{ position:relative}
+.item_input > span { position:absolute; right:0; top:10px; color:red}
+.main .grid_content { width:auto}/*解决ie8下cl样式失效引起的表格尺寸变*/
+
+/* 知识库表单 */
+.main_box{border-spacing:0}
+.allcol1,.allcol2,.allcol3{ width:700px; max-width:700px; padding:5px 0}
+.item_box_col1,.item_box_col2,.item_box_full{ margin-bottom:0}
+
+/* 必输项红星样式 */
+span.right_star,span.left_star{width:5px; color:#F00;}
+span.right_star{ position:relative}
+.allcol1 .item_box_col1 > span.right_star{ right:-246px}
+.allcol1 .item_box_col2 > span.right_star{ right:-596px}
+.allcol1 .item_box_full > span.right_star{ right:-596px}
+.allcol2 .item_box_col1 > span.right_star{ right:-246px}
+.allcol2 .item_box_col2 > span.right_star{ right:-596px}
+.allcol2 .item_box_full > span.right_star{ right:-596px}
+.allcol3 .item_box_col1 > span.right_star{ right:-136px}
+.allcol3 .item_box_col2 > span.right_star{ right:-366px}
+.allcol3 .item_box_full > span.right_star{ right:-596px}
+
+
+.allcol1 .item_box_col1{ width:350px}
+.allcol1 .item_box_col2{ width:700px}
+.allcol1 .item_box_full{ width:700px}
+
+.allcol2 .item_box_col1{ width:350px}
+.allcol2 .item_box_col2{ width:700px}
+.allcol2 .item_box_full{ width:700px}
+
+.allcol3 .item_box_col1{ width:230px}
+.allcol3 .item_box_col1 .item_input {width: 120px;}
+.allcol3 .item_box_col2{ width:460px}
+.allcol3 .item_box_col2 .item_input {width: 350px;}
+.allcol3 .item_box_full{ width:690px}
+.allcol3 .item_box_full .item_input {width: 580px;}
+
+/* 知识库页面菜单 */
+.master_menu{min-width:190px;display:table-cell; vertical-align:top;float:none;*display:block;*float:left;}
+.master_menu ul {border-radius:0; margin:0; border: 1px solid #b8d0d6}
+.master_menu ul .menu_title{border-radius:0; border:0;border-bottom:1px solid #b8d0d6; color:#183152; background:url(../images/zhishi/menu_title_bg.png) right -24px}
+.master_menu ul .menu_title{height:25px; line-height:25px;font-family:Arial, "宋体"; font-size:12px; }
+.master_menu ul .menu_title img{ display:none}
+.master_menu ul.collapsed {height: 25px;}
+.master_menu ul.collapsed .menu_title {height:25px; line-height:25px; background:url(../images/zhishi/menu_title_bg.png) right 0px}
+.master_menu li {background:none; background-color:#FFF}
+.master_menu li a:hover{text-shadow:none; background:none; background-color:#FFF; color:#183152; font-weight:bold}
+.master_menu ul .hot a {font-weight: bold;text-shadow:none;color:#183152;background:#e8edf3; }
+.master_menu li:last-child {border-radius:0;background:none; background-color:#FFF}
+.master_menu li:last-child a:hover {border-radius:0;background:none; background-color:#FFF}
+
+
+/* 知识库评论页面 */
+.news_box{ padding:15px; text-align:left;font-family: "宋体","Verdana";}
+.news_title{ font-size:30px; line-height:40px;margin-bottom:10px; font-family:"微软雅黑", "黑体"}
+.news_date{font-size:14px;}
+.news_info{line-height:30px; margin-bottom:10px;color:#000; font-weight:bold; border-bottom:2px solid #ccc; *position:relative}
+.news_info span{ padding-right:10px; color: #666; font-weight:normal}
+.news_Operating{ float:right; text-align:center; padding-left:20px;background:url(../images/zhishi/favourite.png) no-repeat left 8px; *position:absolute; right:10px; top:-9px}
+.news_Operating a{ }
+.Favorites{ float:right; margin-right:30px; background:url()}
+.news_content{ line-height:26px; font-family:Arial, "宋体"; font-size:14px; margin-bottom:20px}
+.news_content p{ text-indent:28px}
+.news_label > span { font-weight:bold; display: inline-block;height: 22px;line-height: 15px;overflow: hidden;}
+.news_label a {display: inline-block;height:20px;margin:4px 3px;font-size:12px;background:#FFF; border:1px solid #91b8dc;border-radius:3px;cursor:default;}
+.news_label a:hover {text-decoration: none;}
+.news_label a span { line-height:20px; padding:0 5px}
+.news_label a:hover span {}
+
+.news_add{ text-align:left;position:relative; font-size:12px; line-height:25px; padding:10px; margin-bottom:20px; border:1px solid #ccc; background:#FFF }
+.news_add h3 { display:block; font-size:14px;border-bottom:1px solid #CCC}
+.add_file div { display: inline-block; margin-right:20px}
+.news_add span a{ display:inline-block; color:#069}
+.news_add table { border:0}
+.news_add tr{border:0}
+.news_add .grid_tbody td {border:0}
+.news_add th{ display:none}
+.news_add .grid_content{border:0; overflow:hidden}
+
+.news_Reply{ text-align:left;position:relative; font-size:14px; line-height:25px; padding:10px; margin-bottom:20px; border:1px solid #ccc; background:#FFF }
+.news_Reply h3 { display:block; border-bottom:1px solid #CCC; margin-bottom:10px}
+.news_Reply h3 span{ font-size:12px; font-weight:normal; color:#999; padding:0 10px}
+.news_Reply li {padding-bottom: 7px;margin: 0 0 11px;border-bottom: dotted #E2E2E2 1px;overflow: hidden;zoom: 1;}
+.news_Reply_div {width:100%;margin: 0;float: left;display: inline;}
+.news_Reply_title {font-size:12px;font-weight:bold;color:gray;line-height:24px;word-wrap:break-word;background:#eee}
+.news_Reply_title label{ position:relative; top:2px}
+
+.news_Reply_txt {font-size: 14px;color: #000;line-height: 24px;word-wrap: break-word;}
+.news_Reply_txt label.citation{ display:block;border:solid 1px #aaaaaa; margin:5px; padding:5px;}
+.news_Reply_bar {height: 20px;color: #999;line-height: 20px;}
+.news_Reply_bar p {float: left;}
+.news_Reply_bar div {font-size: 12px;float: right;display: inline;}
+
+.my_Reply{text-align:left;position:relative;font-size:14px;line-height:25px;padding:10px;margin-bottom:20px;border:1px solid #ccc;background:#FFF}
+.my_Reply h3 { display:block; border-bottom:1px solid #CCC; margin-bottom:10px}
+.star_rating {margin: 3px 0 0 -15px;}
+.news_add .grid_content{width:auto}
+
+/* 翻页效果 */
+.next_page{ text-align:right; font-size:12px;}
+.next_page a {margin-left: 3px;color: #06C;}
+
+/* 知识库表单按钮 */
+.button_bar{width:680px; height:25px; text-align:right; margin:5px auto 5px 0;}
+.button_bar a{ border:1px solid #69a9c6;border-radius:2px; box-shadow:none;}
+.button_bar a{display:inline-block; padding:3px 5px; font-weight:bold; text-align:center;background:url(../images/zhishi/button_bg.png) repeat-x bottom}
+.button_bar a:hover{border:1px solid #69a9c6; box-shadow:none;color:#06c}
+
+/* 知识库表格按钮 */
+.grid_button{border-top:1px solid #b8d0d6;background:url(../images/zhishi/title_bg.jpg); *width:auto; *position:relative; *right:0}
+.grid_button{ float:none; height:25px; line-height:15px; text-align:left; margin:0 auto 0 0;}
+.grid_button a{ margin:0; border:0; background:none; box-shadow:none;}
+.grid_button a{text-align:center;display:inline-block; padding:5px 5px 5px 20px; margin-left:5px  }
+.grid_button a:hover{ box-shadow:none; border:0; color:#06c}
+.grid_button a.accept{ background:url(../images/icon/accept.png) no-repeat left}
+.grid_button a.add{ background:url(../images/icon/add.png) no-repeat left}
+.grid_button a.search{ background:url(../images/icon/zoom.png) no-repeat left}
+.grid_button a.cancel{ background:url(../images/icon/cancel.png) no-repeat left}
+.grid_button a.import{ background:url(../images/icon/import.png) no-repeat left}
+.grid_button a.export{ background:url(../images/icon/export.png) no-repeat left}
+.grid_button a.return{ background:url(../images/icon/return.png) no-repeat left}
+.grid_button a.table{ background:url(../images/icon/table.png) no-repeat left}
+.grid_button a.edit{ background:url(../images/icon/pencil.png) no-repeat left}
+.grid_button a.help{ background:url(../images/icon/help.png) no-repeat left}
+.grid_button a.delete{ background:url(../images/icon/bin.png) no-repeat left}
+
+.grid_foot .ui-widget-content .ui-state-default {border: 1px solid #666;background: #6CACD6 url(../images/zhishi/grid_foot_bg.jpg) repeat-x;font-weight: normal;color: #555;}
+.grid_foot .grid_button_bar a {margin-left: 10px;}
+/* 知识库表格 */
+
+.grid_title{ border:0;border-top:1px solid #b8d0d6;border-bottom:1px solid #b8d0d6;background:url(../images/zhishi/title_bg.jpg)}
+.grid_title{ text-indent: 20px; height:25px; line-height:25px; text-align:left; margin:0; padding:0;font-family:Arial, "宋体"; font-size:12px;}
+.grid_filter{ height:25px;line-height:25px; margin-right:10px; *top:-25px}
+
+.grid_filter a {border:0px; margin: 0px;background: none;padding: 0 2px;color:#000;box-shadow: none}
+.grid_filter a:hover {border:0px; margin: 0px;  background: none transparent scroll repeat 0% 0%;color: #06C;  box-shadow: none;}
+.grid_filter .hot_line {color:#000;background:#fff scroll repeat 0% 0%; text-shadow: none; box-shadow: none;  border:#aaa 1px solid;}
+.grid_filter .hot_line:hover {background:#fff scroll repeat 0% 0%;color: #06C; border:#69a9c6 1px solid;box-shadow:none;text-shadow:none }
+
+
+.grid_content {border:0}
+.grid_content th{border-color: #CCC;}
+.grid_tbody td{ border:none}
+.grid_content td{ border:0}
+.ui-widget-header{ background:none}
+.grid_foot {border:0px;border-top:1px solid #b8d0d6;border-bottom:1px solid #b8d0d6;background:url(../images/zhishi/grid_foot_bg.jpg);}
+.grid_foot .grid_button_bar {}
+.grid_foot td{ height:25px}
+
+/* 树 */
+.treebox,.onlytreebox,.alltreebox{min-height:480px;max-height: 550px; margin-left:10px; background:#FFF; border:1px solid #b8d0d6}
+.alltreebox {min-height: 450px;}
+/* 上传控件 */
+.Upload_box{text-align: left;position: relative;font-size: 14px; line-height:25px; padding: 10px;margin-bottom: 20px;border: 1px solid #CCC;background: white;}
+.Upload_box h3 { position:static; display: block; border-bottom: 1px solid #CCC; line-height:25px; padding:0; margin-bottom: 10px; background:#FFF}
+/*知识元新增页面最下面的线在ie和火狐中的显示与按钮重叠*/
+.UploadControl{position:relative; border-bottom:1px solid #666}
+.UploadControl .Uploadfile {padding:0; margin-left:100px}
+.UploadControl .button_bar {width: 90px; position:absolute; bottom:5px}
+/*知识元新增页面  下边按钮之间的空隙*/
+.UploadControl .button_bar a{ margin-left:5px;}
+
+
+
+/*======================================知识库首页======2012.7.5   朱婷===============*/
+.metroui{min-width:700px; height:720px; width:auto; background:none; margin:-10px 0 0 -5px; float:none}
+.metroui .main_box{ display:block; position:relative; background:#EFF3F7; border:1px solid #B8D0D6; margin:5px 0 0 5px; padding: 0; }
+.metroui .main_box>h3{display:block; margin:18px; background:none;}
+.metro_list ,.metro_list_new{padding:18px;}
+.collapsed .metro_accordion_title{ background:#c7ebfe url(images/metro_accordion_title_bg.png) no-repeat 0  0 -30px ;}
+.metro_accordion_title:hover,metro_accordion_title.hover { background-color:#aae0fb;}
+.left_m{color:#06c; width:60px; display:inline ; margin-right:6px; font-weight:bold;}
+.metro_list_new ul li a{color:#4f4f4f; font-size:12px; line-height:24px}
+.metro_list_new span{float:right}
+.master_menu{margin:0px;}

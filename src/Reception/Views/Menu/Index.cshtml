@@ -1,0 +1,93 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    ViewBag.Title = "网站导航";
+}
+<style type="text/css">
+html{ height:100%;}
+body{ height:100%;}
+</style>
+<div id="menu" class="wow bounceInDown">
+    <!--导航-->
+    <div class="menu_list">
+        <ul style="height: 100%;">
+            <li class="menu_01"><a href="@Url.Action("Index", "Home")" >
+                <div class="menu_img menu_home">
+                    <i></i>
+                </div>
+                <div class="menu_english">
+                    HOME</div>
+                <div class="menu_china">
+                    首页</div>
+                <div class="menu_heng">
+                    —</div>
+                <!--line-->
+                <span class="line-1"></span><span class="line-2"></span><span class="line-3"></span>
+                <span class="line-4"></span></a></li>
+            <li class="menu_02"><a href="@Url.Action("Index", "Case")" >
+                <div class="menu_img menu_case">
+                    <i></i>
+                </div>
+                <div class="menu_english">
+                    CASE</div>
+                <div class="menu_china">
+                    案例展示</div>
+                <div class="menu_heng">
+                    —</div>
+                <!--line-->
+                <span class="line-1"></span><span class="line-2"></span><span class="line-3"></span>
+                <span class="line-4"></span></a></li>
+            <li class="menu_03"><a href="@Url.Action("About", "Home")" >
+                <div class="menu_img menu_about">
+                    <i></i>
+                </div>
+                <div class="menu_english">
+                    ABOUT</div>
+                <div class="menu_china">
+                    关于我们</div>
+                <div class="menu_heng">
+                    —</div>
+                <!--line-->
+                <span class="line-1"></span><span class="line-2"></span><span class="line-3"></span>
+                <span class="line-4"></span></a></li>
+            <li class="menu_04"><a href="@Url.Action("Index", "Service")" >
+                <div class="menu_img menu_service">
+                    <i></i>
+                </div>
+                <div class="menu_english">
+                    SERVICE</div>
+                <div class="menu_china">
+                    服务项目</div>
+                <div class="menu_heng">
+                    —</div>
+                <!--line-->
+                <span class="line-1"></span><span class="line-2"></span><span class="line-3"></span>
+                <span class="line-4"></span></a></li>
+            <li class="menu_05"><a href="@Url.Action("Index", "News")" >
+                <div class="menu_img menu_news">
+                    <i></i>
+                </div>
+                <div class="menu_english">
+                    NEWS</div>
+                <div class="menu_china">
+                    新闻中心</div>
+                <div class="menu_heng">
+                    —</div>
+                <!--line-->
+                <span class="line-1"></span><span class="line-2"></span><span class="line-3"></span>
+                <span class="line-4"></span></a></li>
+            <li class="menu_06"><a href="@Url.Action("Contact", "Home")" >
+                <div class="menu_img menu_contact">
+                    <i></i>
+                </div>
+                <div class="menu_english">
+                    CONTACT</div>
+                <div class="menu_china">
+                    联系我们</div>
+                <div class="menu_heng">
+                    —</div>
+                <!--line-->
+                <span class="line-1"></span><span class="line-2"></span><span class="line-3"></span>
+                <span class="line-4"></span></a></li>
+        </ul>
+    </div>
+</div>

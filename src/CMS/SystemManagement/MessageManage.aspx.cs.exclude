@@ -1,0 +1,388 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Core;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class MessageManage : BasePage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!IsPostBack)
+                {
+                    GetMobileSetting();         // 获取移动账户信息
+                    GetUnicomSetting();         // 获取联通账户信息
+                    GetMessageTemplateList();   // 读取短信模板列表
+                }
+            }
+            catch { }
+        }
+
+        #region 短信设置
+
+        /// <summary>
+        /// 获取移动账户信息
+        /// </summary>
+        private void GetMobileSetting()
+        {
+            FilterItem filter = new FilterItem("Configuration_Key", CompareTypes.LK, ConfigType.MESSAGE_MOBILE_.ToString());
+            ConfigurationBLL configBLL = new ConfigurationBLL();
+            var data = configBLL.GetTable(filter);
+            foreach (DataRow dr in data.Rows)
+            {
+                if (dr["Configuration_Key"].ToString() == "MESSAGE_MOBILE_CODE")
+                {
+                    this.txtMobileCode.Text = dr["Configuration_Value"].ToString();
+                }
+                else if (dr["Configuration_Key"].ToString() == "MESSAGE_MOBILE_ACCOUNT")
+                {
+                    this.txtMobileAccount.Text = dr["Configuration_Value"].ToString();
+                }
+                else if (dr["Configuration_Key"].ToString() == "MESSAGE_MOBILE_PASSWORD")
+                {
+                    this.txtMobilePasswod.Text = dr["Configuration_Value"].ToString();
+                }
+            }
+        }
+        /// <summary>
+        /// 获取联通账户信息
+        /// </summary>
+        private void GetUnicomSetting()
+        {
+            FilterItem filter = new FilterItem("Configuration_Key", CompareTypes.LK, ConfigType.MESSAGE_UNICOM_.ToString());
+            ConfigurationBLL configBLL = new ConfigurationBLL();
+            var data = configBLL.GetTable(filter);
+            foreach (DataRow dr in data.Rows)
+            {
+                if (dr["Configuration_Key"].ToString() == "MESSAGE_UNICOM_CODE")
+                {
+                    this.txtUnicomCode.Text = dr["Configuration_Value"].ToString();
+                }
+                else if (dr["Configuration_Key"].ToString() == "MESSAGE_UNICOM_ACCOUNT")
+                {
+                    this.txtUnicomAccount.Text = dr["Configuration_Value"].ToString();
+                }
+                else if (dr["Configuration_Key"].ToString() == "MESSAGE_UNICOM_PASSWORD")
+                {
+                    this.txtUnicomPasswod.Text = dr["Configuration_Value"].ToString();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新移动账户信息
+        /// </summary>
+        protected void btnMobileUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                configBLL.UpdateMobileSetting(this.txtMobileCode.Text.Trim(), this.txtMobileAccount.Text.Trim(), this.txtMobilePasswod.Text.Trim());
+
+                this.AjaxAlert("更新成功！");
+            }
+            catch { }
+        }
+
+        protected void btnMobileTest_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //测试移动账户是否能发送短信
+                if (MessageHelper.TrySend(this.txtMobileCode.Text.Trim(), this.txtMobileAccount.Text.Trim(),
+                                          this.txtMobilePasswod.Text.Trim(), this.txtMobileAccount.Text.Trim()))
+                {
+                    this.AjaxAlert("测试成功！");
+                }
+                else
+                {
+                    this.AjaxAlert("测试失败！");
+                }
+            }
+            catch
+            {
+                this.AjaxAlert("测试失败！");
+            }
+        }
+
+        /// <summary>
+        /// 更新联通账户信息
+        /// </summary>
+        protected void btnUnicomUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                configBLL.UpdateUnicomSetting(this.txtUnicomCode.Text.Trim(), this.txtUnicomAccount.Text.Trim(), this.txtUnicomPasswod.Text.Trim());
+
+                this.AjaxAlert("更新成功！");
+            }
+            catch { }
+        }
+
+        protected void btnUnicomTest_Click(object sender, EventArgs e)
+        {
+            //测试联通账户是否能发送短信
+        }
+
+        #endregion
+
+        #region 短信模板
+
+        /// <summary>
+        /// 读取短信模板列表
+        /// </summary>
+        public void GetMessageTemplateList()
+        {
+            try
+            {
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                var config = configBLL.GetModel("MESSAGE_TEMPLATE");
+                if (config == null)
+                {
+                    config = new Drision.Framework.Model.Configuration()
+                    {
+                        Configuration_Title = "短信默认模板",
+                        Configuration_Key = "MESSAGE_TEMPLATE",
+                        Configuration_Value = "",
+                        Configuration_Description = "",
+                        Configuration_Group_Id = 2,
+                        Sort_Order = 0,
+                        Last_Modified = DateTime.Now,
+                        Date_Added = DateTime.Now
+                    };
+
+                    configBLL.Insert(config);
+                }
+                this.templateList.DataSource = configBLL.GetTable(new FilterItem()
+                {
+                    ColumnName = "Configuration_Key",
+                    CompareType = CompareTypes.LK,
+                    Value = ConfigType.MESSAGETEMPLATE_.ToString()
+                });
+                this.templateList.DataBind();
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 绑定行数据时触发
+        /// </summary>
+        protected void templateList_RowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        {
+            try
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    LinkButton lbtnEnable = e.Row.FindControl("lbtnEnable") as LinkButton;
+                    ConfigurationBLL configBLL = new ConfigurationBLL();
+                    //索引默认模板行（MESSAGE_TEMPLATE） Configuration_Value：所选模板索引， Configuration_Description： 模板内容
+                    var config = configBLL.GetModel("MESSAGE_TEMPLATE");
+                    //判读该模板是否是默认模板
+                    if (DataBinder.Eval(e.Row.DataItem, "Configuration_Key").ToString() == config.Configuration_Value)
+                    {
+                        lbtnEnable.Text = "默认模板";
+                        lbtnEnable.Enabled = false;
+                    }
+                    else
+                    {
+                        lbtnEnable.CommandArgument = DataBinder.Eval(e.Row.DataItem, "Configuration_Key").ToString();
+                    }
+
+                    LinkButton lbtnUpdate = e.Row.FindControl("lbtnUpdate") as LinkButton;
+                    lbtnUpdate.CommandArgument = DataBinder.Eval(e.Row.DataItem, "Configuration_Key").ToString();
+
+                    LinkButton lbtnDel = e.Row.FindControl("lbtnDel") as LinkButton;
+                    lbtnDel.CommandArgument = DataBinder.Eval(e.Row.DataItem, "Configuration_Key").ToString();
+
+                }
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 操作（启用模板，编辑，删除等）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void templateList_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                //启用模板
+                if (e.CommandName == "enable")
+                {
+                    if (e.CommandArgument != null && e.CommandArgument.ToString() != "")
+                    {
+                        //获取默认模板信息
+                        var config = configBLL.GetModel("MESSAGE_TEMPLATE");
+                        //获取启用模板信息
+                        var selectTemplate = configBLL.GetModel(e.CommandArgument.ToString());
+                        config.Configuration_Value = selectTemplate.Configuration_Key;
+                        config.Configuration_Description = selectTemplate.Configuration_Value;
+                        configBLL.Update(config);
+
+                        //刷新控件数据
+                        GetMessageTemplateList();
+                    }
+                }
+                //编辑模板
+                else if (e.CommandName == "updt")
+                {
+                    if (e.CommandArgument != null && e.CommandArgument.ToString() != "")
+                    {
+                        //获取编辑模板信息
+                        var editTemplate = configBLL.GetModel(e.CommandArgument.ToString());
+                        if (editTemplate != null)
+                        {
+                            this.txtUpdtTemplateID.Value = editTemplate.Configuration_Key;
+                            this.txtUpdtTemplateName.Text = editTemplate.Configuration_Title;
+                            this.txtUpdtTemplateHtml.Text = editTemplate.Configuration_Value;
+                            this.txtUpdtTemplateDesc.Text = editTemplate.Configuration_Description;
+
+                            this.Panel4.Visible = true;
+                        }
+                    }
+                }
+                //删除模板
+                else if (e.CommandName == "del")
+                {
+                    configBLL.Delete(e.CommandArgument.ToString());
+
+                    this.AjaxAlert("删除成功！");
+                    //刷新控件数据
+                    GetMessageTemplateList();
+                }
+            }
+            catch { }
+        }
+
+        #region 短信模板添加
+        
+        /// <summary>
+        /// 显示添加界面
+        /// </summary>
+        protected void btnShowAddPanel_Click(object sender, EventArgs e)
+        {
+            this.Panel3.Visible = this.Panel3.Visible ? false : true;
+        }
+
+        protected void btnSaveTemplate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 保存短信模板
+                this.InsertMessageTemplate();
+
+                //刷新控件数据
+                GetMessageTemplateList();
+
+                this.Panel3.Visible = false;
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 保存短信模板
+        /// </summary>
+        private void InsertMessageTemplate()
+        {
+            ConfigurationBLL configBLL = new ConfigurationBLL();
+            //检查该主键名是否存在？
+            var config = configBLL.GetModel(ConfigType.MESSAGETEMPLATE_.ToString() + this.txtTemplateName.Text.Trim().GetHashCode().ToString());
+            if (config == null)
+            {
+
+                Drision.Framework.Model.Configuration configModel = new Drision.Framework.Model.Configuration()
+                {
+                    Configuration_Title = this.txtTemplateName.Text.Trim(),
+                    Configuration_Key = ConfigType.MESSAGETEMPLATE_.ToString() + this.txtTemplateName.Text.Trim().GetHashCode().ToString(),
+                    Configuration_Value = this.txtTemplateHtml.Text.Trim(),
+                    Configuration_Description = this.txtTemplateDesc.Text.Trim(),
+                    Configuration_Group_Id = 2,
+                    Sort_Order = 0,
+                    Last_Modified = DateTime.Now,
+                    Date_Added = DateTime.Now
+                };
+                configBLL.Insert(configModel);
+
+            }
+            else
+            {
+                this.AjaxAlert("该模板名称已经存在！");
+            }
+        }
+
+        protected void btnCancle_Click(object sender, EventArgs e)
+        {
+            this.Panel3.Visible = false;
+        }
+
+        #endregion
+
+        #region 短信模板修改
+
+        protected void btnUpdtTemplate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 短信模板修改
+                this.UpdateMessageTemplate();
+
+                //刷新控件数据
+                GetMessageTemplateList();
+
+                this.Panel4.Visible = false;
+            }
+            catch { }
+        }
+
+        protected void btnUpdtTemplateCancle_Click(object sender, EventArgs e)
+        {
+            this.Panel4.Visible = false;
+        }
+
+        /// <summary>
+        /// 短信模板修改
+        /// </summary>
+        private void UpdateMessageTemplate()
+        {
+            ConfigurationBLL configBLL = new ConfigurationBLL();
+            //检查该主键名是否存在？
+            var config = configBLL.GetModel(this.txtUpdtTemplateID.Value.Trim());
+            if (config == null)
+            {
+                this.AjaxAlert("该模板名称已经存在！");
+            }
+            else
+            {
+                config.Configuration_Title = this.txtUpdtTemplateName.Text.Trim();
+                config.Configuration_Value = this.txtUpdtTemplateHtml.Text.Trim();
+                config.Configuration_Description = this.txtUpdtTemplateDesc.Text.Trim();
+
+                configBLL.Update(config);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+
+
+    }
+}

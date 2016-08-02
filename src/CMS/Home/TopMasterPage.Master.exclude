@@ -1,0 +1,102 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="TopMasterPage.Master.cs"
+    Inherits="Drision.Framework.Web.Home.TopMasterPage" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+    <link href="../Style/style.css" rel="stylesheet" type="text/css" />
+
+    <script src="../JS/tag.js" type="text/javascript"></script>
+
+    <script src="../JS/WebCalendar.js" type="text/javascript"></script>
+    <script src="../JS/textbox.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function windowHeight() {
+            var de = document.documentElement;
+            return self.innerHeight || (de && de.clientHeight) || document.body.clientHeight;
+        }
+        window.onload = window.onresize = function() {
+            var wh = windowHeight();
+            if (document.getElementById("contentWrap").offsetHeight < 300) {
+                document.getElementById("contentWrap").style.height = "560px";
+            }
+        }
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <div class="header" id="header">
+        <div class="k1000">
+            <div class="logo">
+                <a href="#">力德宝</a></div>
+            <div class="title">
+            </div>
+            <div class="time" id="curTime">
+                用户：<asp:Label ID="lblUser" runat="server"></asp:Label>&nbsp;
+                <asp:Label ID="lblTime" runat="server"></asp:Label>&nbsp;
+                <asp:LinkButton ID="lbtnExit" runat="server" ForeColor="#002C6A" 
+                    OnClick="lbtnExit_Click" CausesValidation="False">退出系统</asp:LinkButton>
+            </div>
+        </div>
+    </div>
+    <div class="k1000">
+        <div class="main">
+            <div class="nav">
+                <ul>
+                    <asp:Repeater ID="repModule" runat="server" OnItemDataBound="repModule_ItemDataBound">
+                        <ItemTemplate>
+                            <li>
+                                <asp:Panel ID="PanelModule" runat="server">
+                                    <a href="#"><span>
+                                        <img src='<%#Eval("Function_Comment") %>' width="26" height="26" alt="as" />
+                                        <p><asp:Label ID="lblModule" runat="server"></asp:Label></p>
+                                    </span></a>
+                                </asp:Panel>
+                            </li>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </ul>
+            </div>
+            <div class="com">
+                <div class="com_bg">
+                </div>
+                <div class="com_com">
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <div class="meun">
+                                <div class="meun_left">
+                                </div>
+                                <ul>
+                                    <asp:Repeater ID="repFunction" runat="server" OnItemDataBound="repFunction_ItemDataBound">
+                                        <ItemTemplate>
+                                            <li>
+                                                <asp:Panel ID="PanelFunction" runat="server">
+                                                    <a href="#"><asp:Label ID="lblFunction" runat="server"></asp:Label></a>
+                                                </asp:Panel>
+                                            </li>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </ul>
+                                <div class="meun_right">
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                    <div class="com_box" id="contentWrap">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+                <div class="com_fbg">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="foot" id="footer" style="font-family:Arial">Copyright &copy; 2011 苏州迪锐信科技 版权所有</div>
+    </form>
+</body>
+</html>

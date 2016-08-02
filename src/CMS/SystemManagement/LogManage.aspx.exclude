@@ -1,0 +1,90 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true" CodeBehind="LogManage.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.LogManage" Title="日志查询" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<%@ Register Assembly="AspNetPager" Namespace="Wuqi.Webdiyer" TagPrefix="webdiyer" %>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:Panel ID="Panel1" runat="server">
+        <div class="com_box">
+            <div class="title">
+                <h3>日志查询</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <div style="width: 550px; margin-left: auto; margin-right:auto; padding: 10px 0;">
+                        <div style="height: 29px; line-height: 29px; display: block; float: left; overflow: hidden;">
+                            <asp:Label ID="Label1" runat="server" Text="记录时间："></asp:Label>
+                            <asp:TextBox ID="txtStartTime" runat="server" onclick="SelectDate(this,'yyyy-MM-dd')" Width="80px" Height="20px"></asp:TextBox>
+                        
+                            <asp:Label ID="Label2" runat="server" Text="至"></asp:Label>
+                            <asp:TextBox ID="txtEndTime" runat="server" onclick="SelectDate(this,'yyyy-MM-dd')" Width="80px" Height="20px"></asp:TextBox>
+                        
+                            <asp:Label ID="Label3" runat="server" Text="日志级别："></asp:Label>
+                            <asp:DropDownList ID="ddlRecodeType" runat="server" AutoPostBack="True" onselectedindexchanged="ddlRecodeType_SelectedIndexChanged">
+                                <asp:ListItem Value="">—所有类型—</asp:ListItem>
+                                <asp:ListItem Value="FATAL">致命错误(FATAL)</asp:ListItem>
+                                <asp:ListItem Value="ERROR">一般错误(ERROR)</asp:ListItem>
+                                <asp:ListItem Value="WARN">警告信息(WARN)</asp:ListItem>
+                                <asp:ListItem Value="INFO">一般信息(INFO)</asp:ListItem>
+                                <asp:ListItem Value="DEBUG">调试信息(DEBUG)</asp:ListItem>
+                              </asp:DropDownList>
+                        </div>
+                        <div style="height: 29px; line-height: 29px; margin-top: -8px; margin-left: 10px; display: block; float: left;">
+                            <asp:Button ID="btnSearch" runat="server" CausesValidation="False" 
+                                CssClass="chaxun t5" onclick="btnSearch_Click" />
+                        </div>
+                    </div>
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:DataList ID="dlRecodeList" runat="server" Width="100%" ShowFooter="False" ShowHeader="False"
+                                    onitemcommand="dlRecodeList_ItemCommand" onitemdatabound="dlRecodeList_ItemDataBound">
+                                    <ItemTemplate>
+                                        <table width="98%" cellpadding="0" cellspacing="0" style="margin-top:4px; margin-bottom:2px;">
+                                            <tr align="left">
+                                                <td style="line-height:18px;" width="30%">记录时间：<%# Eval("Date")%></td>
+                                                <td style="line-height:18px;" width="20%">日志级别：<%# Eval("Level")%></td>
+                                                <td style="line-height:18px;" width="20%">线程ID号：<%# Eval("Thread")%></td>
+                                                <td style="line-height:18px;" width="30%" align="center">
+                                                    <asp:LinkButton ID="lbtnDel" runat="server" CssClass="links" CausesValidation="False"
+                                                    CommandName="del" OnClientClick="if (!confirm('是否删除角色？')) {return false;}">删除</asp:LinkButton></td>
+                                            </tr>
+                                            <tr align="left" style="background-color:#E5EAEF;">
+                                                <td style="line-height:18px;">记录的类：<%# Eval("Logger") %></td>
+                                                <td style="line-height:18px;">毫 秒 数：<%# Eval("Millisecond") %></td>
+                                                <td style="line-height:18px;">行&nbsp;&nbsp;&nbsp;&nbsp;号：<%# Eval("Line") %></td>
+                                                <td style="line-height:18px;">类名：<%# Eval("ClassName") %></td>
+                                            </tr>
+                                            <tr align="left">
+                                                <td colspan="4" style="line-height:18px;">文 件 名：<%# Eval("FileName")%></td>
+                                            </tr>
+                                            <tr align="left" style="background-color:#E5EAEF;">
+                                                <td colspan="4" style="line-height:18px;">消&nbsp;&nbsp;&nbsp;&nbsp;息：<%# Eval("Message")%></td>
+                                            </tr>
+                                            <tr align="left">
+                                                <td colspan="4" style="line-height:18px;">异常信息：<%# Eval("Exception")%></td>
+                                            </tr>
+                                        </table>
+                                    </ItemTemplate>
+                                    <ItemStyle BorderWidth="1" HorizontalAlign="Center" />
+                                </asp:DataList>
+                                
+                                <webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="100%" PrevPageText="上一页"
+                                    FirstPageText="首页" NextPageText="下一页" LastPageText="末页" ShowPageIndexBox="Always"
+                                    PageIndexBoxType="TextBox" HorizontalAlign="right" PageSize="12" OnPageChanged="AspNetPager1_PageChanged"
+                                    EnableTheming="true" ShowCustomInfoSection="Left" CustomInfoSectionWidth="32%">
+                                </webdiyer:AspNetPager>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+</asp:Content>

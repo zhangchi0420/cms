@@ -1,0 +1,145 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true" CodeBehind="NotcieManage.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.NotcieManage" Title="公告管理" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="com_box">
+        <div class="title">
+            <h3>公告</h3>
+        </div>
+        <div class="Content">
+            <div class="tab">
+                <asp:GridView ID="noticeList" runat="server" AutoGenerateColumns="False" Width="100%"
+                    OnRowDataBound="noticeList_RowDataBound" OnRowCommand="noticeList_RowCommand">
+                    <AlternatingRowStyle BackColor="#E5EAEF" />
+                    <Columns>
+                        <asp:BoundField HeaderText="ID编号" DataField="Notice_ID" ItemStyle-HorizontalAlign="Center">
+                            <HeaderStyle CssClass="title1"  Width="12%"/>
+                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                        </asp:BoundField>
+                        <asp:TemplateField HeaderText="公告标题"  HeaderStyle-HorizontalAlign="left" HeaderStyle-CssClass="title1">
+                            <ItemTemplate>
+                                <asp:HyperLink ID="hykName" runat="server" DataTextField="Notice_Title"
+                                    Text='<%# Eval("Notice_Title") %>' ControlStyle-CssClass="links" CssClass="links" />
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Left" CssClass="title1"></HeaderStyle>
+                            <ItemStyle Wrap="true" HorizontalAlign="left"  Width="60%"/>
+                        </asp:TemplateField>          
+                        <asp:BoundField HeaderText="发布日期" DataField="EntryDate" ItemStyle-HorizontalAlign="Center"
+                            DataFormatString="{0:yyyy-MM-dd}">
+                            <HeaderStyle CssClass="title1"  Width="12%"/>
+                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                        </asp:BoundField>
+                        <asp:TemplateField HeaderText="操作">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbtnView" runat="server" Font-Underline="true" CssClass="links"
+                                    CausesValidation="False" CommandName="view">查看</asp:LinkButton>
+                                <asp:LinkButton ID="lbtnDel" runat="server" Font-Underline="true" CssClass="links"
+                                    CausesValidation="False" CommandName="del" OnClientClick="if (!confirm('是否删除？')) {return false;}">删除</asp:LinkButton>
+                            </ItemTemplate>
+                            <HeaderStyle CssClass="title1" Wrap="False" Width="10%" ForeColor="#154D28" />
+                            <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                        </asp:TemplateField>
+                    </Columns>
+                    <HeaderStyle CssClass="title1" Wrap="False" ForeColor="#154D28" />
+                </asp:GridView>
+                <div style="width: 100px; margin-left: auto; margin-right: 40px; padding: 10px 0; ">
+                        <asp:Button ID="btnAddPanel" runat="server" CausesValidation="False" CssClass="tianjia t5"
+                            OnClick="btnAddPanel_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <asp:Panel ID="Panel_Notice" runat="server" Visible="false">
+        <div class="com_box">
+            <div class="title">
+                <h3>公告详细信息</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 98%; text-align: center;">
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: justify;">
+                                <asp:Label ID="lblComment" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">
+                                <asp:Button ID="btnCancle" runat="server" Text="Button" CssClass="fanhui" OnClick="btnCancle_Click" CausesValidation="False" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <asp:Panel ID="Panel1" runat="server" Visible="false">
+        <div class="com_box">
+            <div class="title">
+                <h3>添加公告信息</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                标题：
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtTitle" runat="server" MaxLength="100"></asp:TextBox>
+                                <span style="color: Red">*</span>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtTitle"
+                                    ErrorMessage="标题不能为空！" Display="None">*</asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtTitle"
+                                    ValidationExpression="^(\s|\S){0,100}$" ErrorMessage="标题不能超过100个字！" Display="None">*</asp:RegularExpressionValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                内容：
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:TextBox ID="txtComment" runat="server" Rows="5" TextMode="MultiLine" Width="300px"></asp:TextBox>
+                                <asp:RegularExpressionValidator ID="REV" runat="server" ControlToValidate="txtComment"
+                                    ValidationExpression="^(\s|\S){0,1000}$" ErrorMessage="内容不能超过1000个字！" Display="None">*</asp:RegularExpressionValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                &nbsp;
+                            </td>
+                            <td style="text-align: left;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblEdit" runat="server" Visible="False"></asp:Label>
+                            </td>
+                            <td style="text-align: left;">
+                                <asp:Button ID="btnAdd" runat="server" Text="Button" CssClass="baocun" OnClick="btnAdd_Click" />
+                                <asp:Button ID="btnCancle2" runat="server" Text="Button" CssClass="quxiao" OnClick="btnCancle2_Click"
+                                    CausesValidation="False" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True"
+                                    ShowSummary="False" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <div style="height: 300px;"></div>
+</asp:Content>

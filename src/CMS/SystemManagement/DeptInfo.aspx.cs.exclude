@@ -1,0 +1,631 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Model;
+using Drision.Framework.Helper;
+using Drision.Framework.Core;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class DeptInfo : BasePage
+    {
+        public string DefaultID
+        {
+            get { return (string)ViewState["DefaultID"]; }
+            set { ViewState["DefaultID"] = value; }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                DeptShow();
+                UserShow();
+                DDLDeptShow();
+                InitCode();
+
+                if (Request["DefaultID"] != null)
+                {
+                    DefaultID = Request["DefaultID"].ToString();
+                    GetDept(Convert.ToInt32(DefaultID));
+                }
+
+                ParentNode();
+            }
+        }
+
+        #region 树操作
+        /// <summary>
+        /// 创建父节点
+        /// </summary>
+        public void ParentNode()
+        {
+            try
+            {
+                TreeView1.Nodes.Clear();
+                DepartmentBLL departmentBLL = new DepartmentBLL();
+                List<Department> list = departmentBLL.GetAllParentDept();
+
+                if (list.Count != 0)
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        TreeNode tn = new TreeNode();
+                        tn.Text = list[i].DepartmentName.ToString();
+                        tn.Value = list[i].DepartmentId.ToString();
+                        int parentno = list[i].DepartmentId;
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("DeptInfo.aspx?DefaultID=");
+                        sb.Append(list[i].DepartmentId.ToString());
+                        tn.NavigateUrl = sb.ToString();
+
+                        tn.SelectAction = TreeNodeSelectAction.Select;
+                        if (tn.Value == this.DefaultID)
+                        {
+                            tn.Selected = true;
+                        }
+
+                        TreeView1.Nodes.Add(tn);
+
+                        ChildNode(tn, parentno);
+
+                    }
+                }
+
+                TreeView1.ExpandAll();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 递归取出父节点下的子节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="fdeptid"></param>
+        public void ChildNode(TreeNode node, int fdeptid)
+        {
+            try
+            {
+                DepartmentBLL departmentBLL = new DepartmentBLL();
+                List<Department> list = departmentBLL.GetAllChildDept(fdeptid);
+
+                if (list.Count != 0)
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        TreeNode tn = new TreeNode();
+
+                        tn.Text = list[i].DepartmentName.ToString();
+                        tn.Value = list[i].DepartmentId.ToString();
+                        int DEPTNO = list[i].DepartmentId;
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("DeptInfo.aspx?DefaultID=");
+                        sb.Append(list[i].DepartmentId.ToString());
+                        tn.NavigateUrl = sb.ToString();
+
+                        tn.SelectAction = TreeNodeSelectAction.Select;
+                        if (tn.Value == this.DefaultID)
+                        {
+                            tn.Selected = true;
+                        }
+
+                        node.ChildNodes.Add(tn);
+
+                        ChildNode(tn, DEPTNO);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        private void UserShow()
+        {
+            UserBLL userBLL = new UserBLL();
+            List<User> list = userBLL.GetUserByState();
+            this.ddlManager.Items.Clear();
+            this.ddlManager.DataSource = list;
+            this.ddlManager.DataTextField = "UserName";
+            this.ddlManager.DataValueField = "UserId";
+            this.ddlManager.DataBind();
+        }
+
+        private void DDLDeptShow()
+        {
+            DepartmentBLL departmentBLL = new DepartmentBLL();
+            List<Department> list = departmentBLL.GetAllDept();
+            this.ddlDept.Items.Clear();
+            this.ddlDept.DataSource = list;
+            this.ddlDept.DataTextField = "DepartmentName";
+            this.ddlDept.DataValueField = "DepartmentId";
+            this.ddlDept.DataBind();
+        }
+
+        private void DeptShow()
+        {
+            DepartmentBLL dBLL = new DepartmentBLL();
+
+            List<Department> dlist = dBLL.GetAllDept(txtDeptName.Text.Trim());
+            string str = txtDeptName.Text.Trim();
+            FilterItem[] filterarray = new FilterItem[1];
+            if (!string.IsNullOrEmpty(str))
+            {
+                filterarray[0] = new FilterItem("Department_Name", CompareTypes.LK, str);
+            }
+            else
+            {
+                filterarray = null;
+            }
+            //List<Department> dlist = dBLL.GetList(filterarray);
+            List<Department> list = dBLL.GetQueryPage(AspNetPager1.PageSize, AspNetPager1.CurrentPageIndex - 1, filterarray);
+
+            totalCount = 0;
+            if (dlist != null && dlist.Count != 0)
+            {
+                totalCount = dlist.Count;
+            }
+            Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+            this.gvShow.DataSource = list;
+            this.gvShow.DataBind();
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            AspNetPager1.CurrentPageIndex = 1;
+            DeptShow();
+        }
+
+        protected void gvShow_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                string deptName = DataBinder.Eval(e.Row.DataItem, "DepartmentCode").ToString();
+                int length = deptName.Length / 3;
+                string str = string.Empty;
+                for (int i = 0; i < length; i++)
+                {
+                    str += "&nbsp;&nbsp;&nbsp;&nbsp;";
+                }
+                Label lblDeptName = e.Row.FindControl("lblDeptName") as Label;
+                lblDeptName.Text = str + lblDeptName.Text.Trim();
+
+                DepartmentBLL departmentBLL = new DepartmentBLL();
+                Department department = new Department();
+
+                Label lblManager = e.Row.FindControl("lblManager") as Label;
+                int DepartmentId = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "DepartmentId"));
+                department = departmentBLL.GetModel(DepartmentId);
+                if (!string.IsNullOrEmpty(department.ManagerId.ToString()))
+                {
+                    UserBLL userBLL = new UserBLL();
+                    User user = userBLL.GetModel(Convert.ToInt32(department.ManagerId), 1);
+                    if (user != null)
+                    {
+                        lblManager.Text = user.UserName;
+                    }
+                    else
+                    {
+                        lblManager.Text = "";
+                    }
+                }
+                else
+                {
+                    //do nothing
+                }
+
+                Label lblState = e.Row.FindControl("lblState") as Label;
+                string state = DataBinder.Eval(e.Row.DataItem, "DepartmentStatus").ToString();
+                if (state == "1")
+                {
+                    lblState.Text = "启用";
+                }
+                else if (state == "0")
+                {
+                    lblState.Text = "停用";
+                }
+
+                LinkButton lbtnState = e.Row.FindControl("lbtnState") as LinkButton;
+                lbtnState.CommandArgument = DataBinder.Eval(e.Row.DataItem, "DepartmentId").ToString();
+                department = departmentBLL.GetModel(Convert.ToInt32(lbtnState.CommandArgument));
+                if (department.DepartmentStatus == 1)
+                {
+                    lbtnState.Text = "停用";
+                    lbtnState.OnClientClick = "if (!confirm('是否停用部门？')) {return false;}";
+                }
+                else if (department.DepartmentStatus == 0)
+                {
+                    lbtnState.Text = "启用";
+                    lbtnState.OnClientClick = "if (!confirm('是否启用部门？')) {return false;}";
+                }
+
+                LinkButton lbtnEdit = e.Row.FindControl("lbtnEdit") as LinkButton;
+                lbtnEdit.CommandArgument = DataBinder.Eval(e.Row.DataItem, "DepartmentId").ToString();
+
+                LinkButton lbtnDel = e.Row.FindControl("lbtnDel") as LinkButton;
+                lbtnDel.CommandArgument = DataBinder.Eval(e.Row.DataItem, "DepartmentId").ToString();
+            }
+        }
+
+        protected void gvShow_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "state")
+            {
+                ResetState(e);
+            }
+            else if (e.CommandName == "up")
+            {
+                UpdateUser(e);
+            }
+            else if (e.CommandName == "del")
+            {
+                DeleteUser(e);
+            }
+        }
+
+        private void ResetState(GridViewCommandEventArgs e)
+        {
+            string id = e.CommandArgument.ToString();
+            DepartmentBLL departmentBLL = new DepartmentBLL();
+            Department department = departmentBLL.GetModel(Convert.ToInt32(id));
+            if (department.DepartmentStatus == 1)
+            {
+                if (departmentBLL.ExistsDepartment_ID_User(Convert.ToInt32(id)))
+                {
+                    this.AjaxAlert("此部门已使用，不能停用！");
+                    return;
+                }
+
+                if (departmentBLL.ExistsDepartment_ID(Convert.ToInt32(id)))
+                {
+                    this.AjaxAlert("此部门已使用，不能停用！");
+                    return;
+                }
+
+                department.DepartmentStatus = 0;
+                departmentBLL.Update(department);
+                DeptShow();
+                DDLDeptShow();
+                ParentNode();
+                this.AjaxAlert("停用部门成功！");
+                return;
+            }
+            else if (department.DepartmentStatus == 0)
+            {
+                department.DepartmentStatus = 1;
+                departmentBLL.Update(department);
+                DeptShow();
+                DDLDeptShow();
+                ParentNode();
+                this.AjaxAlert("启用部门成功！");
+                return;
+            }
+        }
+
+        private void UpdateUser(GridViewCommandEventArgs e)
+        {
+            string id = e.CommandArgument.ToString();
+            GetDept(Convert.ToInt32(id));
+        }
+
+        private void GetDept(int id)
+        {
+            DepartmentBLL departmentBLL = new DepartmentBLL();
+            Department department = departmentBLL.GetModel(id);
+            txtCode.Text = department.DepartmentCode;
+            txtNo.Text = department.DeportmentEncode;
+            txtName.Text = department.DepartmentName;
+
+            UserBLL userBLL = new UserBLL();
+            User user = userBLL.GetModel(Convert.ToInt32(department.ManagerId), 1);
+            if (user != null)
+            {
+                ddlManager.SelectedValue = department.ManagerId.ToString();
+            }
+            else
+            {
+                ddlManager.SelectedIndex = -1;
+            }
+
+            if (!string.IsNullOrEmpty(department.ParentId.ToString()))
+            {
+                if (department.ParentId == 0)
+                {
+                    ddlDept.Items.Clear();
+                    ddlDept.DataSource = null;
+                    ddlDept.DataBind();
+                    ddlDept.Enabled = false;
+                }
+                else
+                {
+                    DDLDeptShow();
+                    ddlDept.Enabled = true;
+                    ddlDept.SelectedValue = department.ParentId.ToString();
+                }
+            }
+            else
+            {
+                ddlDept.Items.Clear();
+                ddlDept.DataSource = null;
+                ddlDept.DataBind();
+                ddlDept.Enabled = false;
+            }
+
+            rbtnState.SelectedValue = department.DepartmentStatus.ToString();
+            txtRemark.Text = department.DepartmentComment;
+            lblEdit.Text = id.ToString();
+            btnAdd.Visible = false;
+            btnEdit.Visible = true;
+            Panel3.Visible = true;
+            ddlDept.Enabled = false;
+        }
+
+        private void DeleteUser(GridViewCommandEventArgs e)
+        {
+            string id = e.CommandArgument.ToString();
+            DepartmentBLL departmentBLL = new DepartmentBLL();
+
+            if (departmentBLL.ExistsDepartment_ID_User(Convert.ToInt32(id)))
+            {
+                this.AjaxAlert("此部门已使用，不能删除！");
+                return;
+            }
+
+            if (departmentBLL.ExistsDepartment_ID(Convert.ToInt32(id)))
+            {
+                this.AjaxAlert("此部门已使用，不能删除！");
+                return;
+            }
+
+            Department department = departmentBLL.GetModel(Convert.ToInt32(id));
+            departmentBLL.Delete(department);
+            DeptShow();
+            DDLDeptShow();
+            ParentNode();
+            if (lblEdit.Text.Trim() == id)
+            {
+                ClearControl();
+            }
+            this.AjaxAlert("删除部门成功！");
+        }
+
+        private void ClearControl()
+        {
+            txtCode.Text = "";
+            txtNo.Text = "";
+            txtName.Text = "";
+            ddlManager.SelectedIndex = -1;
+            ddlDept.SelectedIndex = -1;
+            rbtnState.SelectedValue = "1";
+            txtRemark.Text = "";
+            lblEdit.Text = "";
+            btnAdd.Visible = true;
+            btnEdit.Visible = false;
+            ddlDept.Enabled = true;
+            Panel3.Visible = false;
+            DDLDeptShow();
+            InitCode();
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            string code = txtCode.Text.Trim();
+            string name = txtName.Text.Trim();
+
+            if (string.IsNullOrEmpty(lblEdit.Text.Trim()))
+            {
+                AddUser(code, name);
+            }
+            else
+            {
+                int id = Convert.ToInt32(lblEdit.Text.Trim());
+                EditUser(code, name, id);
+            }
+        }
+
+        private void AddUser(string code, string name)
+        {
+            DepartmentBLL departmentBLL = new DepartmentBLL();
+            Department department = new Department();
+
+            department.DepartmentId = departmentBLL.GetMaxId();
+            department.DeportmentEncode = txtNo.Text.Trim();
+
+            bool isTrueCode = departmentBLL.ExistsCode(code);
+            if (isTrueCode)
+            {
+                this.AjaxAlert("部门编号不能重复！");
+                return;
+            }
+            else
+            {
+                department.DepartmentCode = txtCode.Text.Trim();
+            }
+
+            bool isTrueName = departmentBLL.ExistsName(name);
+            if (isTrueName)
+            {
+                this.AjaxAlert("部门名称不能重复！");
+                return;
+            }
+            else
+            {
+                department.DepartmentName = txtName.Text.Trim();
+            }
+
+            if (ddlManager.Items.Count == 0)
+            {
+                this.AjaxAlert("部门经理不存在，请先添加部门经理！");
+                return;
+            }
+            else
+            {
+                department.ManagerId = Convert.ToInt32(ddlManager.SelectedValue);
+            }
+
+            if (ddlDept.Items.Count == 0)
+            {
+                department.ParentId = 0;
+            }
+            else
+            {
+                department.ParentId = Convert.ToInt32(ddlDept.SelectedValue);
+            }
+
+            department.DepartmentStatus = Convert.ToInt32(rbtnState.SelectedValue);
+            department.DepartmentComment = txtRemark.Text.Trim();
+            departmentBLL.Insert(department);
+            DeptShow();
+            DDLDeptShow();
+            ParentNode();
+            ClearControl();
+            this.AjaxAlert("添加部门成功！");
+        }
+
+        private void EditUser(string code, string name, int id)
+        {
+            DepartmentBLL departmentBLL = new DepartmentBLL();
+            Department department = departmentBLL.GetModel(id);
+
+            department.DeportmentEncode = txtNo.Text.Trim();
+
+            bool isTrueCode = departmentBLL.ExistsCode(code, id);
+            if (isTrueCode)
+            {
+                this.AjaxAlert("部门编号不能重复！");
+                return;
+            }
+            else
+            {
+                department.DepartmentCode = txtCode.Text.Trim();
+            }
+
+            bool isTrueName = departmentBLL.ExistsName(name, id);
+            if (isTrueName)
+            {
+                this.AjaxAlert("部门名称不能重复！");
+                return;
+            }
+            else
+            {
+                department.DepartmentName = txtName.Text.Trim();
+            }
+
+            if (ddlManager.Items.Count == 0)
+            {
+                this.AjaxAlert("部门经理不存在，请先添加部门经理！");
+                return;
+            }
+            else
+            {
+                department.ManagerId = Convert.ToInt32(ddlManager.SelectedValue);
+            }
+
+            if (ddlDept.Items.Count == 0)
+            {
+                department.ParentId = 0;
+            }
+            else
+            {
+                department.ParentId = Convert.ToInt32(ddlDept.SelectedValue);
+            }
+
+            department.DepartmentStatus = Convert.ToInt32(rbtnState.SelectedValue);
+            department.DepartmentComment = txtRemark.Text.Trim();
+            departmentBLL.Update(department);
+            DeptShow();
+            DDLDeptShow();
+            ParentNode();
+            ClearControl();
+            this.AjaxAlert("编辑部门成功！");
+        }
+
+        protected void btnCancle_Click(object sender, EventArgs e)
+        {
+            ClearControl();
+        }
+
+        protected void ddlDept_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            InitCode();
+        }
+
+        private void InitCode()
+        {
+            DepartmentBLL departmentBLL = new DepartmentBLL();
+            List<Department> list = new List<Department>();
+
+            if (string.IsNullOrEmpty(ddlDept.SelectedValue))
+            {
+                txtNo.Text = "001";
+                txtCode.Text = "001";
+                return;
+            }
+            else
+            {
+                list = departmentBLL.GetDeptByParentID(Convert.ToInt32(ddlDept.SelectedValue));
+            }
+
+            if (list.Count != 0)
+            {
+                int Encode = Convert.ToInt32(list[0].DeportmentEncode) + 1;
+                int EncodeLength = Encode.ToString().Length;
+                if (EncodeLength == 1)
+                {
+                    txtNo.Text = "00" + Encode.ToString();
+                }
+                else if (EncodeLength == 2)
+                {
+                    txtNo.Text = "0" + Encode.ToString();
+                }
+                else if (EncodeLength == 3)
+                {
+                    txtNo.Text = Encode.ToString();
+                }
+                else
+                {
+                    txtNo.Text = "";
+                    throw new Exception("部门编码字符数超过规定长度！");
+                }
+            }
+            else
+            {
+                txtNo.Text = "001";
+            }
+
+            Department department = departmentBLL.GetDeptById(Convert.ToInt32(ddlDept.SelectedValue));
+            txtCode.Text = department.DepartmentCode + txtNo.Text.Trim();
+        }
+
+        protected void btnAddPanel_Click(object sender, EventArgs e)
+        {
+            ClearControl();
+            Panel3.Visible = true;
+        }
+
+        protected void AspNetPager1_PageChanged(object sender, EventArgs e)
+        {
+            DeptShow();
+        }
+    }
+}

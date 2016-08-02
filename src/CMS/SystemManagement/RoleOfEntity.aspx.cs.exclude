@@ -1,0 +1,155 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Drision.Framework.System;
+using Drision.Framework.Common;
+using Drision.Framework.Enum;
+using Drision.Framework.System.Entity;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class RoleOfEntity : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            RoleId = 1;
+            if (!IsPostBack)
+            {
+                BingDataToUserControl();
+            }
+        }
+
+        public int RoleId
+        {
+            get {
+                int roleId;
+                if (ViewState["RoleId"] == null)
+                {
+                    throw new Exception("角色信息不能为空！");
+                }
+                roleId = Convert.ToInt32(ViewState["RoleId"]);
+                return roleId;
+            }
+            set { ViewState["RoleId"] = value; }
+        }
+
+        /// <summary>
+        /// 绑定数据到用户控件上
+        /// </summary>
+        private void BingDataToUserControl()
+        {
+            using (BizContext Context = new BizContext(GlobalObject.ConnString))
+            {
+                //获取实体信息,如果不存在权限等级则默认使用个人级别
+                var entityList = Context.SysEntity.Select(x => new
+                {
+                    x.EntityId,
+                    x.EntityName,
+                    x.DisplayText,
+                    x.Description,
+                    PrivilegeMode = x.PrivilegeMode ?? (int)PrivilegeModel.Persional
+                }).ToList();
+                //获取该角色权限信息
+                var dataList = Context.SysDataPrivilege.Where(x => x.RoleId == this.RoleId).ToList();
+                //组合数据
+                var sourceList = entityList.Select(x => new ReptBindItem()
+                {
+                    EntityId = x.EntityId,
+                    EntityName = x.EntityName,
+                    DisplayText = x.DisplayText,
+                    Description = x.Description,
+                    PrivilegeMode = x.PrivilegeMode,
+                    addRight = dataList.Where(y => y.EntityId == x.EntityId && y.OperationId == (int)EntityOperationEnum.Add).FirstOrDefault() == null ? (int)EntityPrivilegeEnum.NoPermission :
+                               dataList.Where(y => y.EntityId == x.EntityId && y.OperationId == (int)EntityOperationEnum.Add).FirstOrDefault().PrivelegeLevel,
+                    delRight = dataList.Where(y => y.EntityId == x.EntityId && y.OperationId == (int)EntityOperationEnum.Delete).FirstOrDefault() == null ? (int)EntityPrivilegeEnum.NoPermission :
+                               dataList.Where(y => y.EntityId == x.EntityId && y.OperationId == (int)EntityOperationEnum.Delete).FirstOrDefault().PrivelegeLevel,
+                    updtRight = dataList.Where(y => y.EntityId == x.EntityId && y.OperationId == (int)EntityOperationEnum.Update).FirstOrDefault() == null ? (int)EntityPrivilegeEnum.NoPermission :
+                                dataList.Where(y => y.EntityId == x.EntityId && y.OperationId == (int)EntityOperationEnum.Update).FirstOrDefault().PrivelegeLevel,
+                    queryRight = dataList.Where(y => y.EntityId == x.EntityId && y.OperationId == (int)EntityOperationEnum.Query).FirstOrDefault() == null ? (int)EntityPrivilegeEnum.NoPermission :
+                                 dataList.Where(y => y.EntityId == x.EntityId && y.OperationId == (int)EntityOperationEnum.Query).FirstOrDefault().PrivelegeLevel
+                }).ToList();
+
+                #region 左连接不成功,传说EF里面不支持左连接,本人测试结果是简单语句可以左连接,复杂条件下不成功
+                //var source = from n in Context.SysEntity
+                //             join d in Context.SysDataPrivilege on n.EntityId equals d.EntityId into right
+                //             select new
+                //             {
+                //                 n.EntityId,
+                //                 n.EntityName,
+                //                 n.DisplayText,
+                //                 n.Description,
+                //                 RoleId = 1,
+                //                 addRight = right.Where(x => x.RoleId == 1 && x.OperationId == 1).FirstOrDefault() == null ? -1 : 1,
+                //                 delRight = right.Where(x => x.RoleId == 1 && x.OperationId == 2).FirstOrDefault() == null ? -1 : 2,
+                //                 updtRight = right.Where(x => x.RoleId == 1 && x.OperationId == 3).FirstOrDefault() == null ? -1 : 3,
+                //                 queryRight = right.Where(x => x.RoleId == 1 && x.OperationId == 4).FirstOrDefault() == null ? -1 : 4,
+                //                 //delRight = gb.FirstOrDefault().right == null ? -1 : gb.FirstOrDefault().right.Where(r => r.OperationId == 2).FirstOrDefault() == null ? -1 : 2,
+                //                 //updtRight = gb.FirstOrDefault().right == null ? -1 : gb.FirstOrDefault().right.Where(r => r.OperationId == 3).FirstOrDefault() == null ? -1 : 3,
+                //                 //queryRight = gb.FirstOrDefault().right == null ? -1 : gb.FirstOrDefault().right.Where(r => r.OperationId == 4).FirstOrDefault() == null ? -1 : 4,
+                //                 //OperationId = gb.Key.OperationId, //增删改查方式
+                //                 //PrivelegeLevel = gb.Key.PrivelegeLevel
+                //             };
+                //var sourceList = source.ToList();
+                #endregion
+
+                RoleOfEntityControl1.RightSource = sourceList;
+            }
+        }
+
+        protected void BtnSave_Click(object sender, EventArgs e)
+        {
+            var dataList = RoleOfEntityControl1.GetReptBindItem();
+            try
+            {
+                //先清除该角色权限,然后添加当前设定的权限
+                using (BizContext Context = new BizContext(GlobalObject.ConnString))
+                {
+                    var delList = Context.SysDataPrivilege.Where(x => x.RoleId == this.RoleId).ToList();
+                    foreach (var del in delList)
+                    {
+                        Context.SysDataPrivilege.Remove(del);
+                    }
+                    foreach (var add in dataList)
+                    {
+                        Context.SysDataPrivilege.Add(new SysDataPrivilege()
+                        {
+                            EntityId = add.EntityId,
+                            OperationId = (int)EntityOperationEnum.Add,
+                            RoleId = this.RoleId,
+                            PrivelegeLevel = add.addRight
+                        });
+                        Context.SysDataPrivilege.Add(new SysDataPrivilege()
+                        {
+                            EntityId = add.EntityId,
+                            OperationId = (int)EntityOperationEnum.Delete,
+                            RoleId = this.RoleId,
+                            PrivelegeLevel = add.delRight
+                        });
+                        Context.SysDataPrivilege.Add(new SysDataPrivilege()
+                        {
+                            EntityId = add.EntityId,
+                            OperationId = (int)EntityOperationEnum.Update,
+                            RoleId = this.RoleId,
+                            PrivelegeLevel = add.updtRight
+                        });
+                        Context.SysDataPrivilege.Add(new SysDataPrivilege()
+                        {
+                            EntityId = add.EntityId,
+                            OperationId = (int)EntityOperationEnum.Query,
+                            RoleId = this.RoleId,
+                            PrivelegeLevel = add.queryRight
+                        });
+                    }
+
+                    Context.SaveChanges();
+                }
+                
+            }
+            catch { }
+        }
+
+    }
+}

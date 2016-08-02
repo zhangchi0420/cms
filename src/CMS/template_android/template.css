@@ -1,0 +1,22 @@
+@charset "utf-8";
+/*页面背景*/
+body { background-color:#e5e5e5;}
+h2 {}
+
+/*系统背景*/
+.system_size { background-color:#ffcc99; }
+
+/*标题区域*/ 
+.top_title { height:65px; text-align:left; background:url(images/top_title_bg.png) repeat-x;}
+
+/*导航区样式*/
+.master_menu {}
+.master_menu ul .menu_title { height:30px;line-height:30px;color:#333;font-size:1.4em; font-weight: bold;text-align:center; text-shadow: 0px 1px 0px #f1f7fa; background:#ffe6cc;}
+.master_menu li { background: url(images/v_menu_bg.png) bottom no-repeat;}
+.master_menu li a { text-shadow: 0px 1px 0px #FFF; color:#333;}
+.master_menu li a:hover {text-shadow: 0px 1px 0px #666; color:#FFF; background:url(images/v_menu_over.png);}
+.master_menu ul .hot a {text-shadow: 0px 1px 0px #666; color:#FFF; background:url(images/v_menu_over.png); }
+.slave_menu {}
+
+/*主操作区*/
+.main {background: #FFF;}

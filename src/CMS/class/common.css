@@ -1,0 +1,188 @@
+/*DrisionWeb模板样式表:common*/
+/*更新时间:2012-01-29 11:30*/
+/*版本:1.7*/
+/*作者:段慕华*/
+@charset "utf-8";
+
+/*整体样式*/
+body {}
+H1{}
+H2 {font-size:2em;text-indent:10px; }
+H3 {font-size:1.4em;font-weight:bold; }
+H4{}
+.footer {font-size:1.2em;}
+.jui_fontsize {font-size:12px;}
+/*系统尺寸*/
+.system_size {font-size:1.2em;}
+/*标题区域*/ 
+.top_title,.yr_top_title { width:auto;height:40px;}
+.top_title .title,.yr_top_title .title{font-size:20px;font-family:"Microsoft YaHei"}
+.top_title .title span,.yr_top_title .title span{ font-size:20px;}
+/*提示信息*/
+.message { }
+.login_info {}
+.login_main .button_bar span{}
+.login_main .button_bar a{}
+
+/*登录页样式*/
+.login_main {}
+.login_form .item_box_col1 {}
+.login_form .item_box_full {}
+.login_form .item_box_col1>span,.login_form .item_box_full>span {font-weight:bold; }
+.login_form .item_box_col1 .item_input {}
+.login_form .item_box_full .item_input {}
+.login_form .item_box_full {}
+.login_form input[type="checkbox"] {}
+
+/*弹出页样式*/
+.popup_main { font-size:1.2em;}
+.popup_main .item_box_col1 {}
+.popup_main .item_box_full {}
+.popup_main .item_box_col1>span {}
+.popup_main .item_box_full>span {}
+.popup_main .allcol2 .item_box_col1 .item_input {}
+.popup_main .allcol2 .item_box_full .item_input {}
+.popup_main input[type="checkbox"] {}
+
+/*导航区样式*/
+.master_menu {}
+.master_menu ul .menu_title {font-size:1.2em; font-weight: bold;}
+
+.master_menu li {}
+.master_menu li a { text-decoration:none; font-weight:bold; }
+.master_menu li a:hover { }
+.master_menu ul .hot a {font-weight:bold;}
+
+/*内容提示样式*/
+
+.master_menu_icon {}
+.master_menu ul {overflow:hidden;}
+.master_menu ul .collapsed {}
+.master_menu ul .menu_title {}	
+.master_menu ul .collapsed .menu_title {}
+  
+.slave_menu {}
+
+/*主操作区*/
+/*主操作区>主容器*/
+.main {}
+
+/*主操作区>表单元素*/
+.item_input{}
+.item_display{}
+.item_input table{}
+.item_input input{}
+.item_input textarea{}
+
+.item_box_col1>label,.item_box_col2>label,.item_box_full>label {}/*输入框名称不加粗-12.23*/
+.item_box_col1>span,.item_box_col2>span,.item_box_full>span {}/*输入框名称不加粗-12.23*/
+
+.item_display{font-size:1.2em;}
+.item_display label,.item_display span{}
+
+/*teble样式========================*/
+.grid_title{ padding:0 1em;font-size:1.2em;}
+.grid_filter a {font-size: 12px;text-indent: 0;}
+.grid_button{font-size:12px;font-weight: normal;}
+.grid_button a{	font-size:12px;	text-indent:0; }	
+.grid_button a:hover{}
+.grid_button .hot_line{text-decoration:none;}	
+
+.grid_content { overflow-x:auto;overflow-y:hidden;}
+.grid_content table {font-weight: normal;}
+.grid_content th {	text-indent:0em}
+.grid_content td { padding:0 3px}
+.grid_content_foot {}s
+.grid_row {}
+.grid_content_hot {font-weight:bold;}
+
+/*----------------GridControl---------------*/
+.grid_tbody{}
+.grid_tbody th span{font-weight:bold;}
+.grid_tbody th{font-weight:bold;}
+.grid_tbody tr{}
+.grid_tbody th a{}
+.grid_tbody td{}
+.grid_tbody td span{}
+.GridControlOperation a{}
+
+.grid_foot{}
+.grid_foot table{ width:100%}
+.grid_foot .grid_button_bar{}
+.grid_foot .grid_Pager_bar {}
+.grid_foot .grid_Pager_bar input{}
+.grid_Pager_bar a{}
+.grid_foot .button_bar {}
+.grid_foot .button_bar input {}
+
+/* page_bar */
+.grid_page_bar {}
+.page_bar {}
+.page_bar li {}
+.page_bar li a {text-indent:0;text-decoration: none;}
+.page_bar li a.current {}
+
+/*表单操作按钮样式*/
+.button_bar {clear:both;}
+
+/*表单操作按钮样式——基本样式*/
+.button_bar input,.button_bar button,.button_bar a {
+    font: 12px/16px sans-serif;
+	text-indent:0;
+	TEXT-DECORATION: none; 
+	}
+.button_bar input:hover,.button_bar button:hover,.button_bar a:hover {}
+
+/*表单操作按钮样式—橘色*/
+ .button_orange input,.button_orange button:hover,.button_orange a {}
+ .button_orange input:hover,.button_orange a:hover {}
+.button_orange  {}
+/*表单操作按钮样式—红色*/
+ .button_red input,.button_red button,.button_red a {}
+ .button_red input:hover,.button_red button:hover,.button_red a:hover {}
+.button_red  {}
+/*表单操作按钮样式—蓝色*/
+ .button_blue input,.button_blue button,.button_blue a {}
+ .button_blue input:hover,.button_blue button:hover,.button_blue a:hover {}
+.button_blue  {}
+/*表单操作按钮样式—绿色*/
+ .button_green input,.button_green button,.button_green a {}
+ .button_green input:hover,.button_green button:hover,.button_green a:hover {}
+.button_green {}
+
+/*表单操作按钮样式——按钮内图标*/
+.button_bar button span,.button_bar a span{
+    display: inline-block;
+    float: left;
+    height: 16px;
+    margin-right: 5px;
+    position: relative;
+    width: 16px;}
+.button_bar span.bin,.button_bar a.bin {}
+.button_bar span.accept,.button_bar a.accept {}
+.button_bar span.add,.button_bar a.add {}
+.button_bar span.pencil,.button_bar a.pencil{}
+.button_bar span.calendar,.button_bar a.calendar {}
+.button_bar span.help,.button_bar a.help {}
+.button_bar span.view-list,.button_bar a.view-list {}
+.button_bar span.view-grid,.button_bar a.view-grid {}
+
+/*表单操作按钮样式——基本样式*/
+.title_button input,.title_button button,.title_button a {
+    font: 12px/16px sans-serif;
+	text-indent:0;
+	TEXT-DECORATION: none; 
+	}
+
+/*标题区域按钮图标*/
+.title_button button span,.title_button a span{
+    display: inline-block;
+    float: left;
+    height: 16px;
+    position: relative;
+    width: 16px;}
+
+/*===================切换配色与布局的快捷按钮样式=====================*/
+.shift_frame_v,.shift_frame_h {cursor:pointer; display:inline-block; width:20px; height:15px; margin-right:10px;}
+.shift_frame_v {background:url(../images1/shift_menu.png) right 0;}
+.shift_frame_h {background:url(../images1/shift_menu.png) left 0;}

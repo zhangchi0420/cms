@@ -1,0 +1,216 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Model;
+using Drision.Framework.Helper;
+using Drision.Framework.Core;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class Dept_User : BasePage
+    {
+        public string DefaultID
+        {
+            get { return (string)ViewState["DefaultID"]; }
+            set { ViewState["DefaultID"] = value; }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+
+                listbind();
+
+                ParentNode();
+            }
+        }
+
+        protected void listbind()
+        {
+            if (!string.IsNullOrEmpty(Request["DefaultID"]))
+            {
+                DefaultID = Request["DefaultID"].ToString();
+                UserByDeptShow();
+            }
+            else
+            {
+                MyShow();
+            }
+        }
+
+        private void UserByDeptShow()
+        {
+            UserBLL userBLL = new UserBLL();
+
+            FilterItem[] filterarray = new FilterItem[2];
+            filterarray[0] = new FilterItem("Department_ID", Convert.ToInt32(DefaultID));
+            filterarray[1] = new FilterItem("User_Status", 1);
+
+            List<Model.User> ulist = userBLL.GetList(filterarray);
+            List<Model.User> list = userBLL.QueryPage(AspNetPager1.PageSize, AspNetPager1.CurrentPageIndex - 1, filterarray);
+
+            //List<User> list = userBLL.GetUserByDeptId(Convert.ToInt32(DefaultID));
+            totalCount = 0;
+            if (ulist != null && ulist.Count != 0)
+            {
+                totalCount = ulist.Count;
+            }
+            Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+            this.gvShow.DataSource = list;
+            this.gvShow.DataBind();
+        }
+
+        #region 树操作
+        /// <summary>
+        /// 创建父节点
+        /// </summary>
+        public void ParentNode()
+        {
+            try
+            {
+                TreeView1.Nodes.Clear();
+                DepartmentBLL departmentBLL = new DepartmentBLL();
+                List<Department> list = departmentBLL.GetAllParentDept();
+
+                if (list.Count != 0)
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        TreeNode tn = new TreeNode();
+                        tn.Text = list[i].DepartmentName.ToString();
+                        tn.Value = list[i].DepartmentId.ToString();
+                        int parentno = list[i].DepartmentId;
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("Dept_User.aspx?DefaultID=");
+                        sb.Append(list[i].DepartmentId.ToString());
+                        tn.NavigateUrl = sb.ToString();
+
+                        tn.SelectAction = TreeNodeSelectAction.Select;
+                        if (tn.Value == this.DefaultID)
+                        {
+                            tn.Selected = true;
+                        }
+
+                        TreeView1.Nodes.Add(tn);
+
+                        ChildNode(tn, parentno);
+
+                    }
+                }
+
+                TreeView1.ExpandAll();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 递归取出父节点下的子节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="fdeptid"></param>
+        public void ChildNode(TreeNode node, int fdeptid)
+        {
+            try
+            {
+                DepartmentBLL departmentBLL = new DepartmentBLL();
+                List<Department> list = departmentBLL.GetAllChildDept(fdeptid);
+
+                if (list.Count != 0)
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        TreeNode tn = new TreeNode();
+                        tn.Text = list[i].DepartmentName.ToString();
+                        tn.Value = list[i].DepartmentId.ToString();
+                        int DEPTNO = list[i].DepartmentId;
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("Dept_User.aspx?DefaultID=");
+                        sb.Append(list[i].DepartmentId.ToString());
+                        tn.NavigateUrl = sb.ToString();
+
+                        tn.SelectAction = TreeNodeSelectAction.Select;
+                        if (tn.Value == this.DefaultID)
+                        {
+                            tn.Selected = true;
+                        }
+
+                        node.ChildNodes.Add(tn);
+
+                        ChildNode(tn, DEPTNO);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        private void MyShow()
+        {
+            UserBLL userBLL = new UserBLL();
+            FilterItem[] filterarray = new FilterItem[1];
+            filterarray[0] = new FilterItem("User_Status", 1);
+
+            List<Model.User> ulist = userBLL.GetList(filterarray);
+            List<Model.User> list = userBLL.QueryPage(AspNetPager1.PageSize, AspNetPager1.CurrentPageIndex - 1, filterarray);
+
+            //List<User> list = userBLL.GetUserByDeptId(Convert.ToInt32(DefaultID));
+            totalCount = 0;
+            if (ulist != null && ulist.Count != 0)
+            {
+                totalCount = ulist.Count;
+            }
+            Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+
+            //List<User> list = userBLL.GetUserByState();
+            this.gvShow.DataSource = list;
+            this.gvShow.DataBind();
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(DefaultID))
+            {
+                this.AjaxAlert("没有选中部门！");
+                return;
+            }
+            else
+            {
+                Response.Redirect("Dept_UserAdd.aspx?DefaultID=" + DefaultID);
+            }
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            DefaultID = string.Empty;
+            ParentNode();
+            MyShow();
+        }
+
+        protected void AspNetPager1_PageChanged(object sender, EventArgs e)
+        {
+            listbind();
+        }
+    }
+}

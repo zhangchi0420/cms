@@ -1,0 +1,139 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true" CodeBehind="EmailList.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.EmailList" Title="邮件列表" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"></asp:Content>
+
+<%@ Register Assembly="AspNetPager" Namespace="Wuqi.Webdiyer" TagPrefix="webdiyer" %>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:Panel ID="Panel1" runat="server">
+        <div class="com_box">
+            <div class="title">
+                <h3>邮件列表</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <div style="width: 550px; margin-left: auto; margin-right:auto; padding: 10px 0;">
+                        <div style="height: 29px; line-height: 29px; display: block; float: left; overflow: hidden;">
+                            <asp:Label ID="Label1" runat="server" Text="关键字："></asp:Label>
+                            <asp:TextBox ID="txtKeyWord" runat="server" Width="80px" Height="20px"></asp:TextBox>
+                        
+                            <asp:Label ID="Label3" runat="server" Text="排序方法："></asp:Label>
+                            <asp:DropDownList ID="ddlSortOrder" runat="server" AutoPostBack="True" 
+                                onselectedindexchanged="ddlSortOrder_SelectedIndexChanged">
+                                <asp:ListItem Value="ORDER BY EmailID DESC">—默认排序—</asp:ListItem>
+                                <asp:ListItem Value="ORDER BY Receive_Time DESC">邮件时间</asp:ListItem>
+                                <asp:ListItem Value="ORDER BY Receiver ASC, Receive_Time DESC">收件人</asp:ListItem>
+                                <asp:ListItem Value="ORDER BY Sender ASC, Receive_Time DESC">发件人</asp:ListItem>
+                              </asp:DropDownList>
+                        </div>
+                        <div style="height: 29px; line-height: 29px; margin-top: -8px; margin-left: 10px; display: block; float: left;">
+                            <asp:Button ID="btnSearch" runat="server" CausesValidation="False" 
+                                CssClass="chaxun t5" onclick="btnSearch_Click" />
+                        </div>
+                    </div>
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                        <tr><td></td></tr>
+                        <tr>
+                            <td>
+                                <asp:GridView ID="dlEmailReceiveList" runat="server" 
+                                    AutoGenerateColumns="False" Width="100%" 
+                                    onrowcommand="dlEmailReceiveList_RowCommand">
+                                    <AlternatingRowStyle BackColor="#E5EAEF" />
+                                    <Columns>
+                                        <asp:BoundField HeaderText="收件人" DataField="Receiver" ItemStyle-HorizontalAlign="Left">
+                                            <HeaderStyle CssClass="title1"  Width="12%"/>
+                                            <ItemStyle HorizontalAlign="Left"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField HeaderText="发件人" DataField="Sender" ItemStyle-HorizontalAlign="Left">
+                                            <HeaderStyle CssClass="title1"  Width="12%"/>
+                                            <ItemStyle HorizontalAlign="Left"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField HeaderText="标题" DataField="Title" ItemStyle-HorizontalAlign="Left">
+                                            <HeaderStyle CssClass="title1" Wrap="false" Font-Overline="true" Width="40%"/>
+                                            <ItemStyle HorizontalAlign="Left"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField HeaderText="时间" DataField="Receive_Time" ItemStyle-HorizontalAlign="Center"
+                                            DataFormatString="{0:yyyy-MM-dd}">
+                                            <HeaderStyle CssClass="title1"  Width="8%"/>
+                                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:TemplateField HeaderText="操作">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lbtView" runat="server" Font-Underline="true" CssClass="links" CommandArgument='<%#Eval("EmailID") %>'
+                                                    CausesValidation="False" CommandName="view">查看</asp:LinkButton>
+                                                <asp:LinkButton ID="lbtnDel" runat="server" Font-Underline="true" CssClass="links" CommandArgument='<%#Eval("EmailID") %>'
+                                                    CausesValidation="False" CommandName="del" OnClientClick="if (!confirm('是否删除？')) {return false;}">删除</asp:LinkButton>
+                                            </ItemTemplate>
+                                            <HeaderStyle CssClass="title1" Wrap="False" Width="6%" />
+                                            <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                        </asp:TemplateField>
+                                    </Columns>
+                                    <HeaderStyle CssClass="title1" Wrap="False" ForeColor="#154D28" />
+                                </asp:GridView>
+                                <!--Style="white-space:nowrap; overflow:hidden;"-->
+                                <webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="100%" PrevPageText="上一页"
+                                    FirstPageText="首页" NextPageText="下一页" LastPageText="末页" ShowPageIndexBox="Always"
+                                    PageIndexBoxType="TextBox" HorizontalAlign="right" PageSize="12"
+                                    EnableTheming="true" ShowCustomInfoSection="Left" 
+                                    CustomInfoSectionWidth="32%" onpagechanged="AspNetPager1_PageChanged">
+                                </webdiyer:AspNetPager>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <asp:Panel ID="Panel_Email" runat="server" Visible="false">
+        <div class="com_box">
+            <div class="title">
+                <h3>邮件详细信息</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 96%; text-align: center;">
+                        <tr>
+                            <td align="left" colspan="2"><asp:Label ID="labEmailTitle" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="80px" style="text-align:center;">发件人:</td>
+                            <td align="left" id="labEmailSender" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="80px" style="text-align:center;">时&nbsp;&nbsp;间:</td>
+                            <td align="left" id="labReceiveTime" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="80px" style="text-align:center;">收件人:</td>
+                            <td align="left" id="labEmailReceive" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;">
+                                <iframe id="txtEmailHtml" name="txtEmailHtml" runat="server" scrolling="no" frameborder="0" width="100%"></iframe>
+                                <script type="text/javascript">
+                                function reinitIframe(){
+                                    var iframe = document.getElementsByName("txtEmailHtml")[0];
+                                    try{
+                                        var bHeight = iframe.contentWindow.document.body.scrollHeight;
+                                        var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+                                        var height = Math.max(bHeight, dHeight);
+                                        iframe.height =  height;
+                                    }
+                                    catch (ex){}
+                                }
+
+                                window.setInterval("reinitIframe()", 200);
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; height:36px;" colspan="2">
+                                <asp:Button ID="btnCancle" runat="server" Text="Button" CssClass="fanhui" 
+                                    CausesValidation="False" onclick="btnCancle_Click" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+</asp:Content>

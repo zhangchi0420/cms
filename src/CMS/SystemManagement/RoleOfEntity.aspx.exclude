@@ -1,0 +1,29 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RoleOfEntity.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.RoleOfEntity" %>
+<%@ Register src="RoleOfEntity.ascx" tagname="RoleOfEntity" tagprefix="uc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style type="text/css">
+        .body{ font-size:small; }
+    </style>
+</head>
+<body class="body">
+    <form id="form1" runat="server">
+    <div style="width:80%; margin-left:auto; margin-right:auto;">
+        <h3>权限管理</h3>
+        <div>
+            角色：<asp:DropDownList ID="ddlRoleList" runat="server"><asp:ListItem Value="1">ss</asp:ListItem></asp:DropDownList>
+        </div>
+        <div>
+            <uc1:RoleOfEntity ID="RoleOfEntityControl1" runat="server" />
+        </div>
+        <div>
+            <input type="button" value="重置" onclick="javascript:Reset();alert('重置成功!');" /><asp:Button ID="BtnSave" runat="server" Text="保存" onclick="BtnSave_Click" />
+        </div>
+    </div>
+    </form>
+</body>
+</html>

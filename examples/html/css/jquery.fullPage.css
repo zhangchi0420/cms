@@ -1,0 +1,313 @@
+/*
+ * fullPage 1.4.5
+ * https://github.com/alvarotrigo/fullPage.js
+ * MIT licensed
+ *
+ * Copyright (C) 2013 alvarotrigo.com - A project by Alvaro Trigo
+ */
+ 
+* { margin: 0; padding: 0;}
+body { font: 16px/1.8 "Microsoft Yahei",verdana;}
+
+#superContainer {
+    height: 100%;
+    position: relative;
+}
+.section {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.slide {
+    float: left;
+}
+.slide, .slidesContainer {
+    height: 100%;
+    display: block;
+}
+.slides {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+.section.table, .slide.table {
+    display: table;
+    width: 100%;
+}
+.tableCell {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+.slidesContainer {
+    float: left;
+    position: relative;
+}
+.controlArrow {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-top: -38px;
+}
+.controlArrow.prev {
+    left: 15px;
+    width: 0;
+    border-width: 38.5px 34px 38.5px 0;
+    border-color: transparent #fff transparent transparent;
+}
+.controlArrow.next {
+    right: 15px;
+    border-width: 38.5px 0 38.5px 34px;
+    border-color: transparent transparent transparent #fff;
+}
+.scrollable {
+    overflow: scroll;
+}
+.easing {
+    -webkit-transition: all 0.7s ease-out;
+    -moz-transition: all 0.7s ease-out;
+    -o-transition: all 0.7s ease-out;
+    transition: all 0.7s ease-out;
+}
+
+#fullPage-nav {
+    position: fixed;
+    z-index: 100;
+    top: 60% ;
+	left:0 ; 
+    opacity: 1 ;
+}
+#fullPage-nav.right {
+    right: 17px;
+}
+#fullPage-nav.left {
+    left: 17px;
+}
+.fullPage-slidesNav {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    opacity: 1;
+}
+.fullPage-slidesNav.bottom {
+    bottom: 17px;
+}
+.fullPage-slidesNav.top {
+    top: 17px;
+}
+#fullPage-nav ul,
+.fullPage-slidesNav ul {
+  margin: 0;
+  padding: 0;
+}
+#fullPage-nav li,
+.fullPage-slidesNav li {
+    display: block;
+    width: 14px;
+    height: 13px;
+    margin: 7px;
+    position:relative;
+}
+.fullPage-slidesNav li {
+    display: inline-block;
+}
+#fullPage-nav li a,
+.fullPage-slidesNav li a {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+#fullPage-nav li .active span,
+.fullPage-slidesNav .active span {
+    background: #333;
+}
+#fullPage-nav span,
+.fullPage-slidesNav span {
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #000;
+    background: rgba(0, 0, 0, 0);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+}
+.fullPage-tooltip {
+    position: absolute;
+    color: #fff;
+    font-size: 14px;
+    font-family: arial, helvetica, sans-serif;
+    top: -2px;
+}
+.fullPage-tooltip.right {
+    right: 20px;
+}
+.fullPage-tooltip.left {
+    left: 20px;
+}
+
+
+/* 圆点导航 */
+#fullPage-nav {
+	_display: none;
+	font-size: 12px;
+	width: 123px;
+	height: 200px;
+	background: url(../images/fullpage/slider_btn_bg.png) 23px 140px no-repeat
+}
+
+#fullPage-nav li {
+	width: 40px;
+	height: 21px;
+	margin: 10px 0 0;
+	vertical-align: middle;
+}
+
+#fullPage-nav li a {
+	float: right;
+	width: 21px;
+	height: 21px;
+	color: #8F9DA4;
+	text-decoration: none;
+	text-align: right;
+	background: url(../images/fullpage/dot.png) 5px 5px no-repeat;
+}
+
+#fullPage-nav li .active {
+	background-position: 0 bottom;
+}
+
+#fullPage-nav span {
+	display: none;
+}
+
+.fullPage-tooltip {
+	float: left;
+	top: 0;
+	margin-right: 5px;
+	font: 12px "Microsoft Yahei";
+	color: #8F9DA4;
+	line-height: 21px;
+}
+/* 圆点导航 */
+
+
+.section { position: relative; overflow: hidden;}
+.section .bg { position: absolute; left: 0; top: 0; width: 100%; height: 100%;}
+.section .bg img { display: block; width: 100%; height: 100%;}
+
+
+.bg01 { position: absolute; bottom: -280px; left:50% ; width: 100px; margin: 0 0 0 -50px; height: 10px; 
+		background: url(../images/fullpage/one-01.png) no-repeat; opacity: 0; transition: all 1.7s; bottom: 90px\0;}
+.bg02 { position: absolute; bottom: -50%; width: 100%; height:230px; 
+		background: url(../images/fullpage/one-03.png) 53% 0 no-repeat; transition: all 1s;}
+.bg03 { position: absolute; left: 50%; top:0; width: 100px; height:99px ; margin-left: -70px; 
+		background: url(../images/fullpage/logo.png) no-repeat; transition: all 1s;}
+.bg04 { position: absolute; width: 475px; height: 475px; left: 50%; top:50%; margin: -235px 0 0 -235px; text-indent: -9999px;
+		background-image: url(../images/fullpage/one-00.png); opacity: 0; 
+		-webkit-transform:scale(0.5, 0.5); transform:scale(0.5, 0.5); transition: all 1s; }
+.bg05 { position: absolute; left: 50%; top: 50%; width: 100px; height:122px ; margin: 0 0 0 -56px; font-size: 14px; color: #fff; 
+		background-image: url(../images/fullpage/one-02.png) ; opacity: 0; transition: all 0.5s;}
+
+
+.bg06 { position: absolute; z-index:2; left: 50%; top:50%; width: 343px; height: 376px; margin-top:-188px; 
+		background: url(../images/fullpage/two-01.png) 0 0 no-repeat; transition: all 1s;  opacity: 0; margin-left: -508px;}
+.bg07 { position: absolute;z-index:2;  left: 50%; top:50%; width: 343px; height: 376px ; margin-top:-188px; 
+		background: url(../images/fullpage/two-02.png) right 0 no-repeat; transition: all 1s; opacity: 0; margin-left:0px;}
+.bg08 { position: absolute;z-index:2;  left: 50%; bottom:0%; width: 343px; height: 376px; margin-left:-170px; 
+		background: url(../images/fullpage/two-03.png) top center no-repeat; transition: all 1s ; }
+
+
+.bg09 { position: absolute;z-index:2;  right:0 ; top:0; width: 574px; height: 632px ;  
+		background: url(../images/fullpage/three-00.png) right 0 no-repeat; transition: all 1s; opacity: 0; margin-left:0px;}
+.bg10 { position: absolute; left: 50%; top:0; width:578px; height:44px ; margin-left: -289px; 
+		background: url(../images/fullpage/three-01.png) no-repeat; transition: all 1s;}
+.bg11 { position: absolute; bottom: -280px; left:50% ; width:340px; margin: 0 0 0 -170px; height: 25px; 
+		background: url(../images/fullpage/three-02.png) no-repeat; opacity: 0; transition: all 1.7s; bottom: 90px\0;}
+.bg12 { position: absolute; bottom: -100px; left:50% ; width:167px; margin: 0 0 0 -83px; height:44px; 
+		background: url(../images/fullpage/three-03.png) no-repeat; opacity: 0; transition: all 1.7s; bottom: 90px\0;}
+
+
+.bg13 { position: absolute; bottom: 0px; left:50% ; width: 494px; margin: 0 0 0 -245px; height:407px; 
+		background: url(../images/fullpage/four-00.png) no-repeat; opacity: 0; transition: all 1.7s; bottom: 90px\0;}
+.bg14 { position: absolute; bottom: -30%; width:100% ; height:45px ; 
+		background: url(../images/fullpage/four-01.png) center no-repeat; transition: all 1s;}
+.bg15 { position: absolute; bottom: -260px ; left:50% ; width:310px; margin: 0 0 0 -155px; height: 44px; 
+		background: url(../images/fullpage/four-02.png) no-repeat; opacity: 0; transition: all 1.7s; bottom: 90px\0;}
+
+.bg16 { position: absolute; left: 50%; top: 50%; width: 167px; height:44px ; margin: 15px 0 0 -83px; font-size: 14px; color: #fff; 
+		background-image: url(../images/fullpage/three-03.png) ; opacity: 0; transition: all 0.5s;}
+
+
+
+.section h3 { position: absolute; left: 50%; top:0%; z-index: 0; width:100%; height:100%; margin-left:-50%; margin-top:0px;
+			  text-indent: -9999px; background-repeat: no-repeat; 
+			  opacity: 0; -webkit-transform:scale(0.5, 0.5); transform:scale(0.5, 0.5); transition: all 1s ; 
+}
+
+
+.section4 h3 { background: url(../images/fullpage/two-00.png) center no-repeat ;}
+
+/* CSS3过度及动画 */
+.active strong, .active h3 { opacity: 1; -webkit-transform:scale(1, 1); transform:scale(1, 1); transition-delay: 0.7s;}
+
+.active .bg01 { bottom:50% ; margin-bottom:15px ; opacity: 1; transition-delay: 0.7s; }
+.active .bg02 { bottom:50% ; margin-bottom:-155px ; opacity: 1; transition-delay: 0.7s;}
+.active .bg04 { opacity: 1; -webkit-transform:scale(1, 1); transform:scale(1, 1); transition-delay: 0.7s;}
+.active .bg03 { top:50% ; margin-top:-139px ; transition-delay: 0.7s;}
+.active .bg05 { opacity: 1; transition-duration: 1s; transition-delay: 2s;}
+
+.active .bg06 { opacity: 1; margin-left: -168px; transition-delay: 0.7s;}
+.active .bg07 { margin-left: -171px; opacity: 1; transition-delay: 0.7s;}
+.active .bg08 { bottom:50% ; margin-bottom:-188px ; transition-delay: 0.7s;}
+
+.active .bg09 { margin-right: 1; opacity: 1; transition-delay: 0.7s;}
+.active .bg10 { top:50% ; margin-top:-100px ; transition-delay: 0.7s;}
+.active .bg11 { bottom:50% ; margin-bottom:15px ; opacity: 1; transition-delay: 0.3s; }
+.active .bg12 { bottom:50% ; margin-bottom:-80px ; opacity: 1; transition-delay: 0.5s; }
+
+
+.active .bg13 { bottom:50% ; margin-bottom:-203px ; opacity: 1; transition-delay: 0.7s; }
+.active .bg14 { bottom:50% ; margin-bottom:100px ; opacity: 1; transition-delay: 0.7s;}
+.active .bg15 { bottom:50% ; margin-bottom:25px ; opacity: 1; transition-delay: 0.3s; }
+.active .bg16 { opacity: 1; transition-duration: 1s; transition-delay: 2s;}
+
+/* for lt ie 10*/
+.ltie10 strong, .ltie10 h3 { opacity: 1; transform:scale(1, 1); transition-delay: 0.7s;}
+
+.ltie10 .bg01 {   bottom:50% ; margin-bottom:15px ;  transition-delay: 0.7s; }
+.ltie10 .bg02 {   bottom:50% ; margin-bottom:-155px ; opacity: 1; transition-delay: 0.7s;}
+.ltie10 .bg04 {  opacity: 1; transform:scale(1, 1); transition-delay: 0.7s;}
+.ltie10 .bg03 {   top:50% ; margin-top:-139px ;  transition-delay: 0.7s;}
+.ltie10 .bg05 {    opacity: 1; transition-duration: 1s; transition-delay: 2s;}
+
+.ltie10 .bg06 {   opacity: 1; margin-left: -168px; transition-delay: 0.7s ; }
+.ltie10 .bg07 {   margin-left: -171px; opacity: 1; transition-delay: 0.7s;}
+.ltie10 .bg08 {   bottom:50% ; margin-bottom:-188px ; transition-delay: 0.7s;}
+
+.ltie10 .bg09 {   margin-right:1; opacity: 1; transition-delay: 0.7s;}
+.ltie10 .bg10 {   top:50% ; margin-top:-100px ;  transition-delay: 0.7s;}
+.ltie10 .bg11 {   bottom:50% ; margin-bottom:15px ;  transition-delay: 0.3s; }
+.ltie10 .bg12 {   bottom:50% ; margin-bottom:-80px ;  transition-delay: 0.5s; }
+
+.ltie10 .bg13 {   bottom:50% ; margin-bottom:-203px ;  transition-delay: 0.7s; }
+.ltie10 .bg14 {   bottom:50% ; margin-bottom:100px ; opacity: 1; transition-delay: 0.7s;}
+.ltie10 .bg15 {   bottom:50% ; margin-bottom:25px ;  transition-delay: 0.3s; }
+.ltie10 .bg16 {    opacity: 1; transition-duration: 1s; transition-delay: 2s;}
+

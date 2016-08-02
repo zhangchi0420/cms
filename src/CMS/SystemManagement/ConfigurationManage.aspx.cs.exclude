@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Core;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class ConfigurationManage : BasePage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                GetConfigurationList();
+            }
+        }
+
+        protected void GetConfigurationList()
+        {
+            try
+            {
+                DataTable configGroup = ConfigurationGroupBLL.GetTable();
+                this.dlConfigGroup.DataSource = configGroup;
+                this.DataBind();
+            }
+            catch { }
+        }
+
+        protected void dlConfigGroup_ItemDataBound(object sender, DataListItemEventArgs e)
+        {
+            try
+            {
+                string groupId = DataBinder.Eval(e.Item.DataItem, "Configuration_Group_Id").ToString();
+
+                DataList dlChildren = e.Item.FindControl("dlChildren") as DataList;
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                DataTable data = configBLL.GetTable(
+                    new FilterItem[]
+                    {
+                        new FilterItem("Configuration_Group_Id", groupId)
+                    });
+                dlChildren.DataSource = data;
+                dlChildren.DataBind();
+            }
+            catch { }   
+        }
+
+        protected void dlChildren_ItemCommand(object source, DataListCommandEventArgs e)
+        {
+            try
+            {
+                Label labConfigKey = e.Item.FindControl("labConfigKey") as Label;
+                TextBox txtConfigValue = e.Item.FindControl("txtConfigValue") as TextBox;
+
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                configBLL.Update(labConfigKey.Text.Trim(), txtConfigValue.Text.Trim());
+
+                //Log4Net 日志配置文件处理办法 把数据库配置写入根目录
+                if (labConfigKey.Text.Trim() == "LOG4NET_XMLSETTING")
+                {
+                    System.IO.File.WriteAllText(Server.MapPath("~/log4net.xml"), txtConfigValue.Text.Trim(), System.Text.Encoding.Default);
+                }
+
+                this.AjaxAlert("保存成功！");
+            }
+            catch { this.AjaxAlert("保存失败！"); }
+        }
+
+    }
+}

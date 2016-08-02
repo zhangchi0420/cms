@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="JAdd.aspx.cs" Inherits="Drision.Framework.Web.Service.JAdd" %>

@@ -1,0 +1,76 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true" CodeBehind="NoticeInfo.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.NoticeInfo" Title="公告信息" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="com_box">
+        <div class="title">
+            <h3>公告</h3>
+        </div>
+        <div class="Content">
+            <div class="tab">
+                <asp:GridView ID="noticeList" runat="server" AutoGenerateColumns="False" Width="100%"
+                    OnRowDataBound="noticeList_RowDataBound" OnRowCommand="noticeList_RowCommand">
+                    <AlternatingRowStyle BackColor="#E5EAEF" />
+                    <Columns>
+                        <asp:BoundField DataField="Is_Read" ItemStyle-HorizontalAlign="Center">
+                            <HeaderStyle CssClass="title1"  Width="5%"/>
+                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                        </asp:BoundField>
+                        <asp:TemplateField HeaderText="公告标题"  HeaderStyle-HorizontalAlign="left" HeaderStyle-CssClass="title1">
+                            <ItemTemplate>
+                                <asp:HyperLink ID="hykName" runat="server" DataTextField="Notice_Title"
+                                    Text='<%# Eval("Notice_Title") %>' ControlStyle-CssClass="links" CssClass="links" />
+                            </ItemTemplate>
+                            <HeaderStyle HorizontalAlign="Left" CssClass="title1"></HeaderStyle>
+                            <ItemStyle Wrap="true" HorizontalAlign="left"  Width="60%"/>
+                        </asp:TemplateField>          
+                        <asp:BoundField HeaderText="发布日期" DataField="EntryDate" ItemStyle-HorizontalAlign="Center"
+                            DataFormatString="{0:yyyy-MM-dd}">
+                            <HeaderStyle CssClass="title1"  Width="12%"/>
+                            <ItemStyle HorizontalAlign="Center"></ItemStyle>
+                        </asp:BoundField>
+                        <asp:TemplateField HeaderText="操作">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbtnView" runat="server" Font-Underline="true" CssClass="links"
+                                    CausesValidation="False" CommandName="view">查看</asp:LinkButton>
+                                <asp:LinkButton ID="lbtnDel" runat="server" Font-Underline="true" CssClass="links"
+                                    CausesValidation="False" CommandName="del" OnClientClick="if (!confirm('是否删除？')) {return false;}">删除</asp:LinkButton>
+                            </ItemTemplate>
+                            <HeaderStyle CssClass="title1" Wrap="False" Width="10%" ForeColor="#154D28" />
+                            <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                        </asp:TemplateField>
+                    </Columns>
+                    <HeaderStyle CssClass="title1" Wrap="False" ForeColor="#154D28" />
+                </asp:GridView>
+            </div>
+        </div>
+    </div>
+    <asp:Panel ID="Panel_Notice" runat="server" Visible="false">
+        <div class="com_box">
+            <div class="title">
+                <h3>公告详细信息</h3>
+            </div>
+            <div class="Content" style="text-align: center">
+                <div class="tab">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 98%; text-align: center;">
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: justify;">
+                                <asp:Label ID="lblComment" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">
+                                <asp:Button ID="btnCancle" runat="server" Text="Button" CssClass="fanhui" OnClick="btnCancle_Click" CausesValidation="False" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </asp:Panel>
+    <div style="height: 300px;">
+    </div>
+</asp:Content>

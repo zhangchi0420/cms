@@ -1,0 +1,155 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true"
+    CodeBehind="Dept_UserAdd.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.Dept_UserAdd"
+    Title="部门用户管理" %>
+
+<%@ Register Assembly="AspNetPager" Namespace="Wuqi.Webdiyer" TagPrefix="webdiyer" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server">
+    </asp:ScriptManagerProxy>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+            <div class="com_box">
+                <div class="title">
+                    <h3>
+                        用户信息</h3>
+                </div>
+                <div class="Content" style="text-align: center">
+                    <div class="tab">
+                        <div style="float: left; height: 30px; padding: 10px 0px 10px 130px;">
+                            <div style="float: left; height: 25px; margin-top: 5px; width: 400px;">
+                                <asp:Label ID="Label2" runat="server" Text="用户姓名："></asp:Label>
+                                <asp:TextBox ID="txtSearchName" runat="server" MaxLength="50" Width="120px"></asp:TextBox>
+                                <asp:Label ID="Label1" runat="server" Text="入职日期："></asp:Label>
+                                <asp:TextBox ID="txtEntryDate" runat="server" onclick="SelectDate(this,'yyyy-MM-dd')"
+                                    Width="120px"></asp:TextBox>
+                            </div>
+                            <div style="float: left; height: 30px; padding-left: 10px;">
+                                <asp:Button ID="btnSearch" runat="server" CssClass="chaxun" OnClick="btnSearch_Click"
+                                    CausesValidation="False" /><div style="margin-top: 6px; float: right; padding-left: 10px;">
+                                        <asp:CheckBox ID="cbCheckedAll" runat="server" OnCheckedChanged="cbCheckedAll_CheckedChanged"
+                                            Text="显示全部用户" AutoPostBack="True" /></div>
+                            </div>
+                        </div>
+                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                            <tr>
+                                <td>
+                                    <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" Width="100%"
+                                        GridLines="Vertical" DataKeyNames="UserID" EmptyDataText="没有符合条件的信息！">
+                                        <AlternatingRowStyle BackColor="#E5EAEF" />
+                                        <HeaderStyle Wrap="false" />
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="选择" HeaderStyle-BackColor="#94B0CE">
+                                                <ItemTemplate>
+                                                    <asp:CheckBox ID="cbChecked" runat="server" OnCheckedChanged="cbChecked_CheckedChanged" />
+                                                </ItemTemplate>
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:TemplateField>
+                                            <asp:BoundField HeaderText="用户ID" HeaderStyle-BackColor="#94B0CE" DataField="UserID"
+                                                Visible="False">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="所属部门" HeaderStyle-BackColor="#94B0CE" DataField="DepartmentID"
+                                                Visible="False">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="用户工号" HeaderStyle-BackColor="#94B0CE" DataField="UserCode">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="用户姓名" HeaderStyle-BackColor="#94B0CE" DataField="UserName">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="入职日期" HeaderStyle-BackColor="#94B0CE" DataField="EntryDate"
+                                                DataFormatString="{0:yyyy-MM-dd}">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="身份证号" HeaderStyle-BackColor="#94B0CE" DataField="CardNo">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="手机号码" HeaderStyle-BackColor="#94B0CE" DataField="UserMobile">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="电子邮件" HeaderStyle-BackColor="#94B0CE" DataField="UserEMail"
+                                                Visible="False">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:TemplateField HeaderText="是否停用" Visible="False">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblState" runat="server" Text='<%# Bind("UserStatus") %>'></asp:Label>
+                                                </ItemTemplate>
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:TemplateField>
+                                            <asp:BoundField HeaderText="备注" HeaderStyle-BackColor="#94B0CE" DataField="UserComment"
+                                                Visible="False">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="密码" HeaderStyle-BackColor="#94B0CE" DataField="UserPassword"
+                                                Visible="False">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="是否为ME" HeaderStyle-BackColor="#94B0CE" DataField="IsME"
+                                                Visible="False">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:TemplateField HeaderText="操作" HeaderStyle-BackColor="#94B0CE" Visible="False">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lbtnReset" runat="server" Font-Underline="true" CssClass="links"
+                                                        CausesValidation="False" CommandName="re" OnClientClick="if (!confirm('是否重置密码？')) {return false;}">重置密码</asp:LinkButton>
+                                                    <asp:LinkButton ID="lbtnState" runat="server" Font-Underline="true" CssClass="links"
+                                                        CausesValidation="False" CommandName="state" OnClientClick="if (!confirm('是否启用用户？')) {return false;}">启用</asp:LinkButton>
+                                                    <asp:LinkButton ID="lbtnEdit" runat="server" Font-Underline="true" CssClass="links"
+                                                        CausesValidation="False" CommandName="up">编辑</asp:LinkButton>
+                                                    <asp:LinkButton ID="lbtnDel" runat="server" Font-Underline="true" CssClass="links"
+                                                        CausesValidation="False" CommandName="del" OnClientClick="if (!confirm('是否删除用户？')) {return false;}">删除</asp:LinkButton>
+                                                    <asp:LinkButton ID="lbtnSet" runat="server" Font-Underline="true" CssClass="links"
+                                                        CausesValidation="False" CommandName="set">设置角色</asp:LinkButton>
+                                                </ItemTemplate>
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+                                    <webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="99%" PrevPageText="上一页"
+                                        FirstPageText="首页" NextPageText="下一页" LastPageText="末页" ShowPageIndexBox="Always"
+                                        PageIndexBoxType="TextBox" HorizontalAlign="right" PageSize="12" OnPageChanged="AspNetPager1_PageChanged"
+                                        EnableTheming="true" ShowCustomInfoSection="Left" CustomInfoSectionWidth="32%">
+                                    </webdiyer:AspNetPager>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: right; vertical-align: middle;">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="h10">
+                </div>
+                <div style="float: right;">
+                    <asp:Button ID="btnAdd" runat="server" CssClass="baocun" OnClick="btnAdd_Click" />
+                    <asp:Button ID="btnCancel" runat="server" CssClass="quxiao" OnClick="btnCancel_Click" />
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

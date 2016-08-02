@@ -1,0 +1,299 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Core;
+using Drision.Framework.Model;
+using Drision.Framework.Helper;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class BasicInfo : BasePage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                BasicSearchShow();
+                BasicInfoShow();
+                BasicShow();
+            }
+        }
+
+        private void BasicInfoShow()
+        {
+            BasicBLL basicBLL = new BasicBLL();
+            List<Basic> blist=basicBLL.GetList(new FilterItem("Basic_Type",Convert.ToInt32(ddlBasicType.SelectedValue)));
+            List<Basic> list=basicBLL.QueryPage(AspNetPager1.PageSize,AspNetPager1.CurrentPageIndex-1,new FilterItem("Basic_Type",Convert.ToInt32(ddlBasicType.SelectedValue)));
+            //this.gvShow.DataSource = basicBLL.GetAllList(Convert.ToInt32(ddlBasicType.SelectedValue));
+
+            totalCount = 0;
+            if (blist != null && blist.Count != 0)
+            {
+                totalCount = blist.Count;
+            }
+            Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+            gvShow.DataSource = list;
+            this.gvShow.DataBind();
+        }
+
+        private void BasicSearchShow()
+        {
+            this.ddlBasicType.Items.Clear();
+            List<EnumItem> list = EnumHelper.GetEnumItems(typeof(BasicTypeEnum));
+            this.ddlBasicType.DataSource = list;
+            this.ddlBasicType.DataTextField = "Description";
+            this.ddlBasicType.DataValueField = "Value";
+            this.ddlBasicType.DataBind();
+        }
+
+        private void BasicShow()
+        {
+            this.ddlBasic.Items.Clear();
+            List<EnumItem> list = EnumHelper.GetEnumItems(typeof(BasicTypeEnum));
+            this.ddlBasic.DataSource = list;
+            this.ddlBasic.DataTextField = "Description";
+            this.ddlBasic.DataValueField = "Value";
+            this.ddlBasic.DataBind();
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            AspNetPager1.CurrentPageIndex = 1;
+            BasicInfoShow();
+        }
+
+        protected void gvShow_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lblBasicType = e.Row.FindControl("lblBasicType") as Label;
+                int BasicType = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "BasicType"));
+                switch (BasicType)
+                {
+                    case (int)BasicTypeEnum.CustomerLevel:
+                        lblBasicType.Text = EnumHelper.GetDescription(typeof(BasicTypeEnum), (int)BasicTypeEnum.CustomerLevel);
+                        break;
+                    case (int)BasicTypeEnum.City:
+                        lblBasicType.Text = EnumHelper.GetDescription(typeof(BasicTypeEnum), (int)BasicTypeEnum.City);
+                        break;
+                    case (int)BasicTypeEnum.BigArea:
+                        lblBasicType.Text = EnumHelper.GetDescription(typeof(BasicTypeEnum), (int)BasicTypeEnum.BigArea);
+                        break;
+                    case (int)BasicTypeEnum.RentWay:
+                        lblBasicType.Text = EnumHelper.GetDescription(typeof(BasicTypeEnum), (int)BasicTypeEnum.RentWay);
+                        break;
+                    case (int)BasicTypeEnum.RentInterest:
+                        lblBasicType.Text = EnumHelper.GetDescription(typeof(BasicTypeEnum), (int)BasicTypeEnum.RentInterest);
+                        break;
+                    case (int)BasicTypeEnum.Industry:
+                        lblBasicType.Text = EnumHelper.GetDescription(typeof(BasicTypeEnum), (int)BasicTypeEnum.Industry);
+                        break;
+                    case (int)BasicTypeEnum.TrainForm:
+                        lblBasicType.Text = EnumHelper.GetDescription(typeof(BasicTypeEnum), (int)BasicTypeEnum.TrainForm);
+                        break;
+                    case (int)BasicTypeEnum.PaymentType:
+                        lblBasicType.Text = EnumHelper.GetDescription(typeof(BasicTypeEnum), (int)BasicTypeEnum.PaymentType);
+                        break;
+                    default:
+                        lblBasicType.Text = "";
+                        break;
+                }
+
+                string strBasic = DataBinder.Eval(e.Row.DataItem, "BasicType").ToString() + "," + DataBinder.Eval(e.Row.DataItem, "BasicCode").ToString();
+
+                LinkButton lbtnEdit = e.Row.FindControl("lbtnEdit") as LinkButton;
+                lbtnEdit.CommandArgument = strBasic;
+
+                LinkButton lbtnDel = e.Row.FindControl("lbtnDel") as LinkButton;
+                lbtnDel.CommandArgument = strBasic;
+            }
+        }
+
+        protected void gvShow_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "up")
+            {
+                UpdateBasic(e);
+            }
+            else if (e.CommandName == "del")
+            {
+                DeleteBasic(e);
+            }
+        }
+
+        private void UpdateBasic(GridViewCommandEventArgs e)
+        {
+            string id = e.CommandArgument.ToString();
+            string[] ids = id.Split(new char[] { ',' });
+            int type = Convert.ToInt32(ids[0]);
+            int code = Convert.ToInt32(ids[1]);
+            GetBasic(type, code);
+            lblEdit.Text = id;
+            btnAdd.Visible = false;
+            btnEdit.Visible = true;
+            Panel1.Visible = true;
+        }
+
+        private void GetBasic(int type, int code)
+        {
+            BasicBLL basicBLL = new BasicBLL();
+            Basic basic = basicBLL.GetModel(code, type);
+
+            ddlBasic.SelectedValue = basic.BasicType.ToString();
+            txtName.Text = basic.BasicName;
+            txtRemark.Text = basic.BasicComment;
+        }
+
+        private void DeleteBasic(GridViewCommandEventArgs e)
+        {
+            string id = e.CommandArgument.ToString();
+            string[] ids = id.Split(new char[] { ',' });
+            int type = Convert.ToInt32(ids[0]);
+            int code = Convert.ToInt32(ids[1]);
+
+            BasicBLL basicBLL = new BasicBLL();
+            Basic basic = basicBLL.GetModel(code, type);
+            basicBLL.Delete(basic);
+            BasicInfoShow();
+            if (lblEdit.Text.Trim() == id)
+            {
+                ClearControl();
+            }
+            this.AjaxAlert("删除系统参数成功！");
+        }
+
+        private void ClearControl()
+        {
+            ddlBasic.SelectedIndex = -1;
+            txtName.Text = "";
+            txtRemark.Text = "";
+            lblEdit.Text = "";
+            btnAdd.Visible = true;
+            btnEdit.Visible = false;
+            Panel1.Visible = false;
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(lblEdit.Text.Trim()))
+            {
+                AddBasic();
+            }
+            else
+            {
+                EditBasic();
+            }
+        }
+
+        private void AddBasic()
+        {
+            BasicBLL basicBLL = new BasicBLL();
+            Basic basic = new Basic();
+
+            if (ddlBasic.Items.Count == 0)
+            {
+                this.AjaxAlert("信息类型不存在，请先添加信息类型！");
+                return;
+            }
+            else
+            {
+                basic.BasicType = Convert.ToInt32(ddlBasic.SelectedValue);
+            }
+
+            basic.BasicCode = basicBLL.GetMaxId();
+
+            if (basicBLL.Exists(txtName.Text.Trim()))
+            {
+                this.AjaxAlert("信息名称不能重复！");
+                return;
+            }
+            else
+            {
+                basic.BasicName = txtName.Text.Trim();
+            }
+
+            basic.BasicComment = txtRemark.Text.Trim();
+
+            basicBLL.Insert(basic);
+            ddlBasicType.SelectedValue = ddlBasic.SelectedValue;
+            AspNetPager1.CurrentPageIndex = 1;
+            BasicInfoShow();
+            ClearControl();
+            this.AjaxAlert("添加系统参数成功！");
+        }
+
+        private void EditBasic()
+        {
+            string[] ids = lblEdit.Text.Trim().Split(new char[] { ',' });
+            int type = Convert.ToInt32(ids[0]);
+            int code = Convert.ToInt32(ids[1]);
+
+            BasicBLL basicBLL = new BasicBLL();
+            Basic basic = basicBLL.GetModel(code, type);
+
+            if (ddlBasic.Items.Count == 0)
+            {
+                this.AjaxAlert("信息类型不存在，请先添加信息类型！");
+                return;
+            }
+            else
+            {
+                basic.BasicType = Convert.ToInt32(ddlBasic.SelectedValue);
+            }
+
+            if (basicBLL.ExistsEdit(txtName.Text.Trim(), code))
+            {
+                this.AjaxAlert("信息名称不能重复！");
+                return;
+            }
+            else
+            {
+                basic.BasicName = txtName.Text.Trim();
+            }
+
+            basic.BasicComment = txtRemark.Text.Trim();
+
+            basicBLL.Update(basic, code);
+            ddlBasicType.SelectedValue = ddlBasic.SelectedValue;
+            AspNetPager1.CurrentPageIndex = 1;
+            BasicInfoShow();
+            ClearControl();
+            this.AjaxAlert("编辑系统参数成功！");
+        }
+
+        protected void btnCancle_Click(object sender, EventArgs e)
+        {
+            ClearControl();
+        }
+
+        protected void btnAddPanel_Click(object sender, EventArgs e)
+        {
+            ClearControl();
+            Panel1.Visible = true;
+            ddlBasic.SelectedValue = ddlBasicType.SelectedValue;
+        }
+
+        protected void AspNetPager1_PageChanged(object sender, EventArgs e)
+        {
+            BasicInfoShow();
+        }
+
+        protected void ddlBasicType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AspNetPager1.CurrentPageIndex = 1;
+            BasicInfoShow();
+            ddlBasic.SelectedValue = ddlBasicType.SelectedValue;
+        }
+    }
+}

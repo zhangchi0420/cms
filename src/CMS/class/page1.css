@@ -1,0 +1,94 @@
+@charset "utf-8";
+
+/*整体样式*/
+body {}
+H1{}
+H2 {POSITION: relative; display:block; margin:0 -30px; width:auto; line-height:50px; text-align:left;}
+H3 {display: block; margin-bottom:10px; width:auto; height:40px; line-height:40px; text-align:left;}
+H4{}
+.footer {display:block;HEIGHT: 50px; line-height:50px;}
+
+/*系统尺寸*/
+.system_size{ min-height:800px;  padding-bottom:10px; }
+.system_size,.footer { width:960px;}
+
+/*登录页样式*/
+.login_main { width:400px}
+.login_form .item_box_col1>span,.login_form .item_box_full>span {font-weight:bold; float:left; height:35px; line-height:35px; width:100px; margin-right:10px; text-align:right; }
+.login_form .item_box_col1 .item_input {display:table-cell; width:50px; height:35px;line-height:35px;text-align:left}
+.login_form .item_box_full .item_input { display:table-cell; width:200px; height:35px; line-height:35px;text-align:left}
+.login_form .item_box_full {}
+.login_form input[type="checkbox"] { width:auto;height:35px}
+/*标题区域*/ 
+.top_title {}
+.topbar { }
+
+/*导航区样式*/
+
+.master_menu { display:none}
+.h40 { display:none}
+.slave_menu {}
+
+/*横向导航主导航菜单*/
+.master_menu_h{	position:relative;	top:-5px;	height:80px;	font-family:"宋体";}
+.menu_father{margin:0 10px;	padding:0 20px; height:40px;
+	text-align:left;list-style:none;background: #f1f1f1;
+    background: -webkit-gradient(linear, left top, left bottom, from(#e9e9e9), to(#d1d1d1));
+	background: -moz-linear-gradient(top,  #e9e9e9,  #d1d1d1);
+	-pie-background: linear-gradient(top,  #e9e9e9,  #d1d1d1); 
+	text-shadow: 0 1px 0 #fff;
+	border-radius: 0 0 10px 10px; box-shadow:0 1px 1px rgba(0,0,0,0.2)
+}
+.menu_father li{text-align:center;display:inline-block;	height:40px;}
+.menu_father li a{display:block;width:100px;height:40px;line-height:40px;color: #333;font-size:1.4em;font-weight:bold;
+	text-decoration:none;}
+.menu_father li .nav_on{   /*鼠标经过时变换背景，方便JS获取样式*/
+	position:relative;
+	height:45px;
+	color:#FFF;
+	font-weight:bold;
+	text-shadow: 0 1px 0 #000;
+	background:url(../images/h_menu_over.png);
+}
+.menu_line{
+	background:url(../images/menu_line.gif) no-repeat center top;
+	width:2px;
+}
+/*横向导航子栏目*/
+.menu_son{padding-left:30px;font-size:1.2em;text-align:left;}
+.menu_son li{display:inline-block;height:20px;line-height:20px;	margin-top:10px;}
+.menu_son li a{display:block;padding:0 10px;background:  #CFF;text-shadow: 0 1px 0 #fff;
+	border:#fff solid 1px;border-radius:4px; box-shadow:inset 0 1px 1px rgba(0,0,0,0.2) }
+	
+.menu_son li a:hover{color:#FFF;text-shadow: 0 1px 0 #000;text-decoration:none;
+	background: #369;background: -webkit-gradient(linear, left top, left bottom, from(#428ba1), to(#3a6675));
+	background: -moz-linear-gradient(top,  #428ba1,  #3a6675);
+	-pie-background: linear-gradient(top,  #428ba1,  #3a6675); 
+	box-shadow:0 1px 1px rgba(0,0,0,0.2) }
+
+/*主操作区*/
+.main {width:auto;}
+.item_box_col1,.item_box_col2,.item_box_full {float:left;}
+
+.item_box_col1 label,.item_box_col2 label,.item_box_full label { font-weight:bold; float:left;height:35px; line-height:35px; width:120px; margin-right:10px; text-align:right; }
+.item_box_col1>span,.item_box_col2>span,.item_box_full>span {font-weight:bold; float:left; height:35px; line-height:35px; width:120px; margin-right:10px; text-align:right; }
+
+.item_input{float:left;text-align:left; }
+.item_input span{ width:16px; height:16px;  margin:0; }
+.item_input input{border: #999 solid 0px; -background:url(../images/textbox_bg.png); }
+
+.allcol3 .item_box_col1 .item_input { width:160px;}
+.allcol3 .item_box_col2 .item_input { width:450px;}
+.allcol3 .item_box_full .item_input { width:740px;}
+.allcol2 .item_box_col1 .item_input { width:200px;}
+.allcol2 .item_box_col2 .item_input { width:640px;}
+.allcol2 .item_box_full .item_input { width:640px;}
+
+.item_display{float:left;text-align:left;border-bottom:#CCC solid 1px; }
+.item_display label,.item_display span{ width:auto;font-weight:normal;text-align:left; height:auto; line-height:35px; }
+.allcol3 .item_box_col1 .item_display { width:160px;}
+.allcol3 .item_box_col2 .item_display { width:450px;}
+.allcol3 .item_box_full .item_display { width:740px;}
+.allcol2 .item_box_col1 .item_display { width:200px;}
+.allcol2 .item_box_col2 .item_display { width:640px;}
+.allcol2 .item_box_full .item_display { width:640px;}

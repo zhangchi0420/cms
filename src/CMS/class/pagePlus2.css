@@ -1,0 +1,76 @@
+﻿/*DrisionWeb模板样式表:简约风格*/
+/*更新时间:2012-02-01 16:00*/
+/*版本:1.9.5*/
+/*最后修改:段慕华*/
+@charset "utf-8";
+
+/*模板样式调整*/
+/*更新时间:2012-02-01 15:40*/
+/*作者:段慕华*/
+/*==================================================*/
+.item_box_col1, .item_box_col2, .item_box_full {margin-bottom:2px}
+.ui-corner-all textarea{ height:26px;}/*textarea的height的调整*/
+.popup_main{ width:98%\0\9}
+/*======================================================================*/
+/*呼叫中心样式*/
+/*更新时间:2012-01-30 17:10*/
+/*作者:王继涛*/
+
+/*--------------答题的样式---------------*/
+.group{ border-bottom: #999 1px solid; margin:10px; *padding-bottom:10px}
+.item_Name{ font-size:14px}
+.question_box{ border: #999 1px solid; margin:10px 30px; border-collapse:collapse;}
+.item_Remark{ width:150px; padding:10px}
+.item_Option{border: #999 1px solid; width:490px}
+.item_Option td{ line-height:30px; vertical-align:middle}
+.item_Option input[type="checkbox"]{ position:relative; top:3px;}
+.item_Option label{ display:inline-block; margin:0 3px}
+.item_Option div{ display: inline-block}
+
+/*======================================================================*/
+/*协同办公样式*/
+/*更新时间:2012-02-01 17:10*/
+/*作者:段慕华*/
+
+.main_box{position:relative}
+
+
+
+/* 知识库页面 */
+/*更新时间:2012-05-25 17:00*/
+/*作者:段慕华*/
+/* 知识库页面 */
+.news_box{ padding:15px; text-align:left;font-family: "微软雅黑","黑体","Verdana";}
+.news_title{ font-size:30px; line-height:40px;margin-bottom:10px;}
+.news_date{ font-size:14px; line-height:30px; margin-bottom:10px; border-bottom:2px solid #ccc}
+.news_date span{ padding:0 5px}
+.news_Operating{ float:right}
+.Favorites{ float:right; margin-right:30px; background:url()}
+.news_content{ line-height:26px; font-family:Arial, "宋体"; font-size:14px; margin-bottom:20px}
+.news_content p{ text-indent:28px}
+.news_add{ text-align:left;position:relative; font-size:12px; line-height:25px; padding:10px; margin-bottom:20px; border:1px solid #ccc; background:#FFF }
+.news_add h3 { display:block; font-size:14px;border-bottom:1px solid #CCC}
+.add_file div { display: inline-block; margin-right:20px}
+.news_add span a{ display:inline-block; color:#069}
+.news_add table { border:0}
+.news_add tr{border:0}
+.news_add .grid_tbody td {border:0}
+.news_add th{ display:none}
+.news_add .grid_content{border:0; overflow:hidden}
+.news_Reply{ text-align:left;position:relative; font-size:14px; line-height:25px; padding:10px; margin-bottom:20px; border:1px solid #ccc; background:#FFF }
+.news_Reply h3 { display:block; border-bottom:1px solid #CCC; margin-bottom:10px}
+.news_Reply h3 span{ font-size:12px; font-weight:normal; color:#999; padding:0 10px}
+.news_Reply li {padding-bottom: 7px;margin: 0 0 11px;border-bottom: dotted #E2E2E2 1px;overflow: hidden;zoom: 1;}
+.news_Reply_div {width: 100%;margin: 0;float: left;display: inline;width: 660px;margin-left:13px;}
+.news_Reply_title {font-size:12px;font-weight:bold;color:gray;line-height:24px;word-wrap:break-word;background:#eee}
+.news_Reply_txt {font-size: 14px;color: #000;line-height: 24px;word-wrap: break-word;}
+.news_Reply_bar {height: 20px;color: #999;line-height: 20px;}
+.news_Reply_bar p {float: left;}
+.news_Reply_bar div {font-size: 12px;float: right;display: inline;}
+.my_Reply{text-align:left;position:relative;font-size:14px;line-height:25px;padding:10px;margin-bottom:20px;border:1px solid #ccc;background:#FFF}
+.my_Reply h3 { display:block; border-bottom:1px solid #CCC; margin-bottom:10px}
+
+.star_rating {margin: 3px 0 0 -15px;}
+.main .grid_content{width:700px\0}
+
+

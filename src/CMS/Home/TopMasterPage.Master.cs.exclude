@@ -1,0 +1,194 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Drision.Framework.WebContext.Model;
+using Drision.Framework.WebContext;
+
+namespace Drision.Framework.Web.Home
+{
+    public partial class TopMasterPage : MasterPage
+    {
+        public int ModuleId
+        {
+            get { return (int)Session["ModuleId"]; }
+            set { Session["ModuleId"] = value; }
+        }
+
+        public int FunctionId
+        {
+            get { return (int)Session["FunctionId"]; }
+            set { Session["FunctionId"] = value; }
+        }
+
+        public T_User LoginUser
+        {
+            get { return new BasePage().LoginUser; }
+            set { new BasePage().LoginUser = value; }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                try
+                {
+                    string SessionModuleId = Session["ModuleId"].ToString();
+                    string SessionFunctionId = Session["FunctionId"].ToString();
+                    if (LoginUser == null ||
+                        string.IsNullOrEmpty(SessionModuleId) ||
+                        string.IsNullOrEmpty(SessionFunctionId))
+                    {
+                        Response.Redirect("~/Home/Login.aspx");
+                    }
+                }
+                catch (Exception)
+                {
+                    Response.Redirect("~/Home/Login.aspx");
+                }
+
+                InitLoad();
+                ShowModuleList();
+            }
+        }
+
+        private void InitLoad()
+        {
+            if (Request["mid"] != null)
+            {
+                this.ModuleId = Convert.ToInt32(Request["mid"]);
+                if (Request["fid"] != null)
+                {
+                    this.FunctionId = Convert.ToInt32(Request["fid"]);
+                }
+            }
+
+            lblUser.Text = GetUserName();
+            lblTime.Text = DateTime.Now.ToString("yyyy年MM月dd日");
+        }
+
+        /// <summary>
+        /// 目录菜单缓存
+        /// </summary>
+        public List<T_Function> FunctionItemList
+        {
+            get
+            {
+                if (Session["T_Function"] == null || (DateTime.Now - (DateTime)Session["Refunsh"]).Minutes > 5)
+                {
+                    int userid = (Session["LoginUser"] as T_User).User_ID;
+                    using (BLLContext context = new BLLContext(GlobalObject.ConnString))
+                    {
+                        var model = from role in context.T_User_Role
+                                    where role.User_ID == userid
+                                    join rolefun in context.T_Role_Function on role.Role_ID equals rolefun.Role_ID into rfun
+                                    from rf in rfun.DefaultIfEmpty()
+                                    join fun in context.T_Function on rf.Function_ID equals fun.Function_ID
+                                    select fun;
+                        var modelList = model.ToList();
+                        var menuList = context.T_Function.Where(x => x.Permission_Type == 0).ToList();
+                        menuList = menuList.Where(x => modelList.Select(m => m.Permission_Type).Distinct().ToList().Contains(x.Function_ID)).ToList();
+                        menuList.AddRange(modelList);
+                        menuList = menuList.Distinct().ToList();
+                        Session["T_Function"] = menuList;
+                    }
+                    Session["Refunsh"] = DateTime.Now;  //刷新目录时间间隔为5分钟
+                }
+                return Session["T_Function"] as List<T_Function>;
+
+            }
+            set
+            {
+                Session["T_Function"] = value;
+            }
+        }
+
+        private void ShowModuleList()
+        {
+            this.repModule.DataSource = FunctionItemList.Where(x => x.Permission_Type == 0 && x.Is_Menu == 1).ToList();
+            this.repModule.DataBind();
+        }
+
+        protected void repModule_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item ||
+                e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                T_Function mod = e.Item.DataItem as T_Function;
+
+                Panel PanelModule = e.Item.FindControl("PanelModule") as Panel;
+                Label lblModule = e.Item.FindControl("lblModule") as Label;
+
+                lblModule.Text = mod.Permission_Name;
+
+                string url = string.Format("{0}?mid={1}&fid={2}", mod.URL, mod.Function_ID,
+                    FunctionItemList.Where(x => x.Permission_Type == mod.Function_ID).FirstOrDefault() == null
+                    ? 0 : FunctionItemList.Where(x => x.Permission_Type == mod.Function_ID).FirstOrDefault().Function_ID);
+                PanelModule.Attributes.Add("onclick",
+                    string.Format("window.location.href='{0}';", url));
+
+                if (mod.Function_ID == this.ModuleId)
+                {
+                    PanelModule.CssClass = "curr";
+                    this.repFunction.DataSource = FunctionItemList.Where(x => x.Permission_Type == mod.Function_ID && x.Is_Menu == 1).ToList();
+                    this.repFunction.DataBind();
+                }
+            }
+        }
+
+        protected void repFunction_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item ||
+                e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                T_Function fun = e.Item.DataItem as T_Function;
+
+                Panel PanelFunction = e.Item.FindControl("PanelFunction") as Panel;
+                Label lblFunction = e.Item.FindControl("lblFunction") as Label;
+
+                lblFunction.Text = fun.Permission_Name;
+
+                string url = string.Format("{0}?mid={1}&fid={2}",
+                        fun.URL, fun.Permission_Type, fun.Function_ID);
+                PanelFunction.Attributes.Add("onclick",
+                    string.Format("window.location.href='{0}';", url));
+
+                if (fun.Function_ID == this.FunctionId)
+                {
+                    PanelFunction.CssClass = "myfocus";
+                }
+            }
+        }
+
+
+        public string GetUserName()
+        {
+            T_User user = Session["LoginUser"] as T_User;
+            if (user == null)
+            {
+                throw new SessionExpiredException();
+            }
+            return user.User_Name;
+        }
+
+        protected void lbtnExit_Click(object sender, EventArgs e)
+        {
+            LoginUser = null;
+            Session.Clear();
+            FunctionItemList = null;
+            Session["ModuleId"] = 1;
+            Session["FunctionId"] = 101;
+            Response.Redirect("~/Home/Login.aspx");
+        }
+    }
+
+}

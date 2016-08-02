@@ -1,0 +1,417 @@
+/*DrisionWeb模板样式表:现代风格page*/
+/*更新时间:2012-02-01 16:30*/
+/*版本:1.9.5*/
+/*最后修改:段慕华*/
+@charset "utf-8";
+/*整体样式*/
+html{ background:#FAFAFA}/*解决背景图片和颜色不能铺满整页的问题*/
+body {background: none}
+/*html{background-color:#ecf0f3; background-image:url(../images1/body_bg.jpg)}
+body { background-color:#ecf0f3; background-image:url(../images1/body_bg.jpg)}*/
+H1{ }
+h2 {font-size:22px; background: url(../images/title-underline.png) repeat-x bottom;}
+H3{  font-size:14px;}
+H4{}
+
+.footer { background:url(../images/top_bar_bg.png) repeat-x; color:#fff; }
+
+/*系统背景*/
+.system_size { background:transparent; }
+.warp{background:url(../images/menu_bar_bg.png) repeat-x top left}
+
+/*顶部工具条*/
+.top_box{background:url(../images/top_bar_bg.png) repeat-x;}
+.top_bar{background:url(../images/top_bar_bg.png) repeat-x; }
+
+.top_bar span{font-size:14px;color:#fff;}
+.top_bar span em{background:#c00; font-style:normal;border-radius:3px; font-weight:bold;}
+.top_bar .button a{font-size:12px;cursor: pointer;border-radius: 3px;border: 1px solid black;-webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.2) inset;-moz-box-shadow: 0 1px 0 0 rgba(255,255,255,0.2) inset;box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.2) inset;background: url(../images/topbuttonbg.png) repeat-x}
+/*.top_bar .button .home{background:url(images/topbar_button.png) 0 -81px no-repeat;padding-left:30px;}
+.top_bar .button .pass{background:url(images/topbar_button.png) 0 -27px no-repeat;padding-left:30px;}
+.top_bar .button .quit{background:url(images/topbar_button.png) 0 -54px no-repeat;padding-left:26px;}
+*/
+.top_bar a:link,.top_bar a{color:#fff;}
+.top_bar a:hover{ text-decoration:none; background:url(../images/topbuttonbg_hover.png) repeat-x}
+/*标题区域*/ 
+.top_title,.yr_top_title{font-family:Arial;font-family: "Microsoft YaHei";text-shadow: 0 1px 1px #666;}
+.top_title .logo{ background: url(../images/logo.png) no-repeat; width:50px; margin-right:10px}
+.top_title .title{color:#fff;}
+/*标题区域云睿*/ 
+.yr_top_title .logo{ background:url(../images1/yr_logo.png) no-repeat 10px 0; width:180px; margin-right:10px}
+.yr_top_title .title{color:#2f89be;text-shadow: 0 1px 1px #666;}
+.top_title,.yr_top_title .button{color:#2f89be;text-shadow: none;}
+
+/*提示信息*/
+.message { -moz-border-radius: 5px; -webkit-border-radius: 5px; -khtml-border-radius: 5px; border-radius: 5px; -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.5); -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.5)}
+.login_info {BORDER-BOTTOM: #cadcea 1px solid; BORDER-LEFT: #cadcea 1px solid; BACKGROUND: #e1f2fc;COLOR: #225b86;BORDER-TOP: #cadcea 1px solid; BORDER-RIGHT: #cadcea 1px solid; -pie-background: linear-gradient(top,#e1f2fc,#cae9fd); text-shadow: 0 1px 0 #fff}
+.warning_info {BORDER-BOTTOM: #e5dbaa 1px solid;BORDER-LEFT: #e5dbaa 1px solid;BACKGROUND: #ffffc0;COLOR: #6d7829;BORDER-TOP: #e5dbaa 1px solid;BORDER-RIGHT: #e5dbaa 1px solid;-pie-background: linear-gradient(top,#ffffc0,#f9ee9c);text-shadow: 0 1px 0 white;}
+.success_info {BORDER-BOTTOM: #b8c97b 1px solid; BORDER-LEFT: #b8c97b 1px solid; BACKGROUND: #e5edc4; COLOR: #3f7227; BORDER-TOP: #b8c97b 1px solid; BORDER-RIGHT: #b8c97b 1px solid; -pie-background: linear-gradient(top,#e5edc4,#d9e4ac); text-shadow: 0 1px 0 #fff}
+.error_info {BORDER-BOTTOM: #eeb7ba 1px solid; BORDER-LEFT: #eeb7ba 1px solid; BACKGROUND: #fae2e2; COLOR: #be4741; BORDER-TOP: #eeb7ba 1px solid; BORDER-RIGHT: #eeb7ba 1px solid; -pie-background: linear-gradient(top,#fae2e2,#f2cacb); text-shadow: 0 1px 0 #fff
+}
+
+
+/*登录页样式*/
+.login_main {background: #FFF; border-radius:6px; box-shadow: 0 0 3px rgba(0,0,0,5); border:#999 solid 1px\0;*border:#999 solid 1px }
+.login_form .item_box_col1 {}
+.login_form .item_box_full {}
+.login_form .item_box_col1>span,.login_form .item_box_full>span {}
+.login_form .item_box_col1 .item_input {}
+.login_form .item_box_full .item_input {}
+.login_form input[type="checkbox"] { background:none;}
+
+/*弹出页样式*/
+.popup_main{background:#fff;}
+.popup_main .main_box h3{background:#fff;}
+.popup_main input[type="checkbox"] {background:none;}
+/*弹出新样式*/
+.popup_main .main_box{  border:1px solid #C8C8C8;}
+.popup_main .main_box H3{background: #fff; ;font-size: 14px;font-family: "宋体";font-weight: bold; text-shadow:none; color:#222;  border:none}
+/*弹出框头部*/
+.ui-dialog .ui-dialog-titlebar { border:none; border-bottom:1px solid #2B5177;  background: url(../images/ui-dialog-titlebar_bg.png) repeat-x}
+.ui-dialog .ui-dialog-titlebar span {text-shadow: 0px 1px 0px #000; color:#fff}
+.ui-widget-content { border:1px solid #CCC}
+/* 弹出框整体*/
+.ui-dialog{-webkit-box-shadow: 0px 0px 10px 10px rgba(18, 16, 11, 0.1)!important;
+-moz-box-shadow:  0px 0px 10px 10px  rgba(18,16,11,0.1)!important;
+box-shadow: 0px 0px 10px 10px  rgba(18, 16, 11, 0.1)!important;}
+/* 弹出框底部按钮区*/
+.ui-dialog .ui-dialog-buttonpane{background: #F7F7F7 url(../images/ui-dialog-buttonpane_bg.png) 50% 50% repeat-x;}
+/*tab页样式*/
+.tab_bar .main_box h3{background:#fff;}
+.tab_bar input[type="checkbox"] {background:none;}
+
+/*纵向导航区样式*/
+.master_menu { }
+.master_menu ul { background:#dfe6ee;border:1px solid #999;border-radius:6px;}
+.master_menu ul .menu_title {background: url(images/menu_title_bg.png); border:1px solid 6082ad;color:#fff;text-align:center;font:bold 14px;cursor:pointer;border-radius:6px;text-align:left;text-indent:1em;}
+.master_menu ul .collapsed .menu_title {}
+.master_menu li {background:url(../images1/v_menu_bg.png)}
+.master_menu li a span {cursor: pointer; }
+.master_menu li a { text-shadow: 0px 1px 0px #FFF; color:#2c5276;font-weight:normal;}
+.master_menu li a:hover {background:url(../images1/v_menu_over.png);font-weight:bold; color:#FFF;text-shadow: 0px 1px 0px #343d4d; }
+.master_menu ul .hot a {background:url(../images1/v_menu_over.png);font-weight:bold; color:#FFF;text-shadow: 0px 1px 0px #343d4d; }
+.master_menu li:last-child {background:url(../images1/v_menu_bg_end.png);border-bottom-left-radius:6px;border-bottom-right-radius:6px;}   /*使最后一条圆角收尾*/
+.master_menu li:last-child a:hover {background:url(../images1/v_menu_over_end.png);border-bottom-left-radius:6px;border-bottom-right-radius:6px;}
+
+/*横向导航 样式*/
+.master_menu_h{ background:url(../images/menu_rightimg.png) no-repeat right top;  }
+.master_menu_h .menu_father li{ background:url(../images/menu_title_bg.png); }
+.master_menu_h .menu_father li  a{ font-size:12px;color:#333333;text-shadow: 0 1px 0 #fff; text-decoration:none;}
+.master_menu_h .menu_father li .nav_on {background: url(../images/menu_titlehot_bg.png);color:#1f548c;font-weight:bold;text-shadow: 0 1px 0 #fff;}
+.menu_son li{ background:url(../images/seperator.png) no-repeat right center}
+.menu_son li:last-child{background: 0;}
+.menu_son li a{ color:#333333;text-shadow: 0 1px 0 #fff;text-decoration:none;}
+.menu_son li a:hover{color:#1f548c;font-weight:bold;text-shadow: 0 1px 0 #fff;}
+.menu_son .nav_son_on a{color:#1f548c;font-weight:bold;text-shadow: 0 1px 0 #fff;}
+.slave_menu {}
+
+
+/*主操作区*/
+/*主操作区>主容器*/
+/*.main {background:#e8e8e8;border:1px solid #999;border-radius:6px;}*/
+.main_box{border:1px solid #C8C8C8; border-top:2px solid #3d77b0; background:#fff;border-radius: 3px 3px 3px 3px;}
+.main_box h3{font-size: 18px;color: white;text-shadow: 0 1px 0 black;border-radius: 3px 3px 0px 0px;background: url(../images/h3_bg.png) no-repeat top left;/*border: 1px solid #2B5177;*/}
+/*表单区域*/
+.header_form, .header_table{border: 1px solid #C8C8C8; border-top:2px solid #3d77b0; background: white;border-radius: 3px 3px 3px 3px;}
+.header_form p,.header_table p{color: white;text-shadow: 0 1px 0 black;border-radius: 3px 3px 0px 0px;background: url(../images/h3_bg.png) no-repeat top left;font-size: 18px;/*border: 1px solid #2B5177;*/}
+.header_form .main_box,.header_table .main_box{ border:none; border-bottom:1px solid #C8C8C8;}
+.header_form .main_box H3,.header_table .main_box H3{background: #fff; font-size: 14px;font-weight: bold; text-shadow:none; color:#222;  border:none}
+/* 信息提示区*/
+.form_info{ border: 1px solid #C8C8C8;background: white;border-radius: 0px 0px 3px 3px;}
+.form_info p{text-shadow:none; color:#222; font-weight:bold;background:#fff;border:0;/*border-top:2px solid #000;*/ border-bottom:1px solid #c8c8c8; border-radius:0;font-size:16px; }
+/*区域icon*/
+.form_box span{ background:url(../images/blue_span/h2span.png) no-repeat center left}
+.table_box span{ background:url(../images/blue_span/grid_apan.png) no-repeat center left}
+.detail_box  span{ background:url(../images/blue_span/list.png) no-repeat center left}
+.wizard_box span{ background:url(../images/blue_span/wizard_span.png) no-repeat center left}
+/*上传控件样式*/
+.Upload_box{border:1px solid #C8C8C8; border-top:2px solid #3d77b0;  background:#fff;border-radius: 3px 3px 3px 3px;}
+.Upload_box h3{font-size: 18px;color: white;text-shadow: 0 1px 0 black;border-radius: 3px 3px 0px 0px;background: url(../images/h3_bg.png) no-repeat top left;/*border: 1px solid #2B5177;*/}
+.header_form .Upload_box,.header_table .Upload_box{ border:none; border-bottom:1px solid #C8C8C8;}
+.header_form .Upload_box H3,.header_table .Upload_box H3{background: #fff; font-size: 14px;font-weight: bold; text-shadow:none; color:#222;  border:none}
+/*主操作区>表单元素*/
+.item_input{}
+.item_input > a{ color:#003366; font-weight:bold}
+.main_box a{color:#06C}/*元素内超链接字体颜色*/
+.main_box a:visited{color:#1F548C}
+.item_display label,.item_display span{border-bottom:#CCC solid 1px; }
+
+.item_input table {}
+.item_input td span { cursor:pointer}
+.item_input input{border:0px; -background:url(../images1/textbox_bg.png);}
+.item_input textarea{ height:100px;-background:#FFF url(../images1/textbox_bg.png) repeat-x;}
+.item_input label {color:#333;}
+.item_input select{ border:1px solid #666;border-radius: 2px}
+
+.item_box_col1,.item_box_col2,.item_box_full {float:left;}
+.item_box_col1>label,.item_box_col2>label,.item_box_full>label { }
+.item_box_col1>span,.item_box_col2>span,.item_box_full>span { }
+
+/*上传控件样式========================*/
+.UploadControl .item_input{border-bottom:#666 1px solid}
+/*.UploadControl .button_bar{background:#e8e8e8}*/
+.UploadControl .Uploadfile a{ color: #F33}
+.UploadControl .button_bar a{ 
+	/*border-radius:12px;
+	-moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -khtml-border-radius: 12px;*/
+    -moz-box-shadow:0px 1px 2px rgba(255,255,255,0.5);
+    -webkit-box-shadow:0px 1px 2px rgba(255,255,255,0.5);
+	box-shadow:0px 1px 2px rgba(255,255,255,0.5);}
+
+/*审核信息样式===================*/
+
+
+.check_info li{ border-radius: 5px;BORDER: #cadcea 1px solid;  BACKGROUND: #c8e6f8; COLOR: #225b86;  -pie-background: linear-gradient(top,#e5edc4,#d9e4ac); text-shadow: 0 1px 0 #fff}
+.check_info_son li{BACKGROUND: #e1f2fc}
+.check_info li label{font-weight:bold}
+
+/*teble样式========================*/
+.grid_title{border: 1px solid #919191;	border-bottom: 0;text-shadow: 0px 1px 0px #fff;background:url(../images/grid_title_bg.png) repeat-x center center #ddd;}
+.grid_filter span { font-size:12px; font-weight:normal}
+.grid_filter a {color: #333;border: #CCC solid 1px;border-radius: 4px; background:#fff; font-weight:normal;*hide-focus: expression(this.hideFocus=true)}
+.grid_filter a:hover {background: #B6CBE6;text-decoration: none;text-shadow: 0 1px 0 white;border: white solid 1px;box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);}
+.grid_filter .hot_line {background: #356daa;color: white;text-shadow: 0 1px 0 black;border: white solid 1px;border-radius: 4px;box-shadow: 0 1px 1px rgba(0,0,0,0.2);}
+.grid_filter .hot_line:hover {background: #356daa;color: white;text-shadow: 0 1px 0 black;border: white solid 1px;border-radius: 4px;box-shadow: 0 1px 1px rgba(0,0,0,0.2);}
+.grid_filter .arrow-down {BACKGROUND: url(../images1/arrows.png) no-repeat 0px -103px;}
+.grid_title ul li a:hover{ background:#CCC;}
+
+.grid_button{text-align:right;}
+.grid_button a,.grid_button input{color:#333; background:none;border-radius:4px;border:transparent solid 1px;text-shadow: 0 1px 0 #fff;outline:none;*hide-focus: expression(this.hideFocus=true)}
+.grid_button a:hover,.grid_button input:hover{ text-shadow: 0 1px 0 #fff;border:#999 solid 1px;border-radius:4px; }
+.grid_button a:active,.grid_button input:active{ text-shadow: 0 1px 0 #fff;border:#999 solid 1px;border-radius:4px; box-shadow:inset 0 1px 1px rgba(0,0,0,0.2)	}
+
+.grid_content { border-style:solid; border-width:1px; border-color: #919191;}
+.grid_content table {border-collapse:collapse;background-color:#F2F2F2;	}
+.grid_content th {color:#333; white-space: nowrap;border-style:solid; border-width: 0 1px 1px; border-color:#C3C3C3;background:url(../images/grid_th_bg.png) repeat-x;}
+.grid_content td {border-left: 1px dotted #BEBEBE;background:#fff;}
+.grid_content_foot {background-color: #666;}
+.grid_row {	background-color: #e6e6e6;}
+.grid_content_hot {background-color: #c6e0ec;}
+.grid_content_row td{background:#F0F0F0;}
+.grid_content .ui-state-default{background:none; border: none}
+.grid_content th .ui-button-text{ color:#333;text-shadow: 0 1px 0 white;}
+.grid_content th .ui-button-text:hover{ color:#023A73}
+.grid_content th{color:#333;text-shadow: 0 1px 0 white;}
+.grid_foot {border: 1px solid #919191;border-top-style: hidden;background: #F7F7F7 url(../images/grid_foot_bg.png) 50% 50% repeat-x;}
+.grid_Pager_bar a{color:#06C}
+.grid_Pager_bar a:disabled{ color:#999}
+.grid_Pager_bar a[disabled]{color:#999}
+
+/*----------------GridControl---------------*/
+.grid_tbody{}
+
+/* page_bar */
+.grid_page_bar {}
+.page_bar li a {
+	-moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    border-radius: 3px;
+    
+    -moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+    -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+    
+    cursor: pointer;
+    outline: none !important;
+}
+.page_bar li a.current {color: #666;background: #fff;-pie-background: #fff;}
+
+/*----------------父子表或多表框架----------------*/
+.multigrid_box,.right_box{border: 1px solid #919191;background: #fff}
+.right_box .grid_title{ border:0; border-bottom:#919191 solid 1px}
+
+/*父级全信息表头框架*/
+.grid_title_allinfo{}/*父级表信息common*/
+.grid_title_allinfo{
+border: 1px solid #919191;
+text-shadow: 0px 1px 0px #fff;
+background: #d6e0e2;
+background: -webkit-gradient(linear, left top, left bottom, from(#eff4f8), to(#d6e0e2));
+background: -moz-linear-gradient(top,  #eff4f8,  #d6e0e2);
+-pie-background: linear-gradient(top,  #eff4f8,  #d6e0e2);
+border-bottom: 0px; }/*父级表信息template*/
+
+/*----------------手风琴样式-------------------*/
+.ui-accordion .ui-state-default,.ui-accordion .ui-state-active{border-radius:5px;/*background: #DFE6EE;*/}
+.ui-accordion .ui-state-active{border-bottom-left-radius:0px;border-bottom-right-radius:0px}
+/*---------------- 手风琴按钮样式 ----------------*/
+.ui-accordion .grid_button a {color: #333;border: #CCC solid 1px;border-radius: 4px; font-weight:normal;*hide-focus: expression(this.hideFocus=true)}
+.ui-accordion .grid_button a:hover {background: #B6CBE6;text-decoration: none;text-shadow: 0 1px 0 white;border: white solid 1px;box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);}
+
+
+/*--------------答题的样式---------------*/
+.group{ border-bottom: #999 1px solid;}
+.item_Name{ font-size:14px}
+.question_box{ border: #999 1px solid;  border-collapse:collapse;}
+.item_Option{border: #999 1px solid; }
+
+/*表单操作按钮样式*/
+.button_bar {}
+
+/*表单操作按钮样式——基本样式*/
+.button_bar input,.button_bar button,.button_bar a {
+	font-size:14px; font-family:"微软雅黑";
+	COLOR: #fff;
+	text-shadow: 0 1px 0 black;
+	/*border-radius: 5px;*/
+	background:url(images/button_bg2.png) 0 -30px repeat-x;
+	BORDER: #2462a0 1px solid; 
+    /*-moz-border-radius: 5px;*/
+    /*-webkit-border-radius: 5px;*/
+    /*-khtml-border-radius: 5px;*/
+	cursor: pointer;
+    outline: none !important;
+   
+	}
+.button_bar input{*height:28px;}
+.button_bar input:hover,.button_bar button:hover,.button_bar a:hover {background:url(images/button_bg_hover2.png) 0 -30px repeat-x; }
+
+.UploadControl .button_bar a { color:#222; text-shadow:none; background:url(../images/upload_botton_bg.png) repeat-x center center; border:1px solid #A3A3A3;}
+.UploadControl .button_bar a:hover{background:url(images/button_bg.png) 0 -30px repeat-x;BORDER: #2462a0 1px solid; color:#fff ;text-shadow: 0 1px 0 black}
+/*翻页样式配色*/
+ .page_bar li a {
+    background: #0095cd;
+    background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+    background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+    -pie-background: linear-gradient(top,  #00adee,  #0078a5);
+    border: 1px solid #034462;
+    color: #fff;
+    text-shadow: 0 1px 0px #036;
+}
+/*表单操作按钮样式—红色*/
+ .button_red input,.button_red button,.button_red a {
+    background:url(images/button_bg2.png) 0 -60px repeat-x;
+    border: 1px solid #d31a1c;
+   }
+ .button_red input:hover,.button_red button:hover,.button_red a:hover {border-color:#d31a1c;background:url(images/button_bg_hover2.png) 0 -60px repeat-x;}
+/*表单操作按钮样式—蓝色*/
+ .button_blue input,.button_blue button,.button_blue a {background:url(images/button_bg2.png) 0 0 repeat-x; border: 1px solid #2462a0;}
+ .button_blue input:hover,.button_blue button:hover,.button_blue a:hover {border-color:#036;}
+.button_red  {}
+/*表单操作按钮样式—蓝色*/
+.button_blue input,.button_blue button,.button_blue a {
+    background:background:url(images/button_bg2.png) 0 0 repeat-x;
+    border: 1px solid #2462a0 ;
+}
+ .button_blue input:hover,.button_blue button:hover,.button_blue a:hover {background:background:url(images/button_bg_hover2.png) 0 0 repeat-x;}
+
+/*标题区域按钮样式*/
+
+.title_button{ display:none}
+.title_button a {
+	COLOR: #000;
+	border-radius: 12px;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -khtml-border-radius: 12px;
+	background:url(images/button_bg.png) 0 -22px repeat-x;
+	BORDER: #666 1px solid; 
+	cursor: pointer;
+    outline: none !important;
+    -moz-box-sizing: border-box !important;
+	-moz-box-shadow:0px 1px 2px rgba(255,255,255,0.5);
+    -webkit-box-shadow:0px 1px 2px rgba(255,255,255,0.5);
+	box-shadow:0px 1px 2px rgba(255,255,255,0.5);
+
+	}
+.title_button a:hover {
+    -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.3);
+    -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.3);
+	box-shadow:0px 1px 3px rgba(0,0,0,0.3);
+    }
+.grid_title_button_bar .button_bar a{
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -khtml-border-radius: 12px;
+    -moz-box-shadow:0px 1px 2px rgba(255,255,255,0.5);
+    -webkit-box-shadow:0px 1px 2px rgba(255,255,255,0.5);
+	box-shadow:0px 1px 2px rgba(255,255,255,0.5);
+	}
+/*表单操作按钮样式——按钮内图标*/
+.button_bar button span,.button_bar a span{}
+.button_bar span.bin,.button_bar a.bin {
+    background: transparent url(../images/icon/bin.png) no-repeat center center;}
+.button_bar span.accept,.button_bar a.accept {
+    background: transparent url(../images/icon/accept.png) no-repeat center center;}
+.button_bar span.add,.button_bar a.add {
+    background: transparent url(../images/icon/add.png) no-repeat center center;}
+.button_bar span.pencil,.button_bar a.pencil {
+    background: transparent url(../images/icon/pencil.png) no-repeat center center;}
+.button_bar span.calendar,.button_bar a.calendar {
+    background: transparent url(../images/icon/calendar.png) no-repeat center center;}
+.button_bar span.help,.button_bar a.help,.title_button span.help {
+    background: transparent url(../images/icon/help.png) no-repeat center center;}
+.button_bar span.view-list,.button_bar a.view-list {
+    background: transparent url(../images/icon/application_view_list.png) no-repeat center center;}
+.button_bar span.view-grid,.button_bar a.view-grid {
+    background: transparent url(../images/icon/application_view_tile.png) no-repeat center center;}
+
+/*表格新增按钮*/
+.grid_button .add {background: transparent url(../images/icon/add.png) no-repeat left;}
+.grid_button .accept{ background: transparent url(../images/icon/accept.png) no-repeat left}
+.grid_button .search{ background: transparent url(../images/icon/zoom.png) no-repeat left}
+.grid_button .cancel{ background: transparent url(../images/icon/cancel.png) no-repeat left}
+.grid_button .import{ background: transparent url(../images/icon/import.png) no-repeat left}
+.grid_button .export{ background: transparent url(../images/icon/export.png) no-repeat left}
+.grid_button .return{ background: transparent url(../images/icon/return.png) no-repeat left}
+.grid_button .table{ background: transparent url(../images/icon/table.png) no-repeat left}
+.grid_button .edit{ background: transparent url(../images/icon/pencil.png) no-repeat left}
+.grid_button .help{ background: transparent url(../images/icon/help.png) no-repeat left}
+.grid_button .delete{ background: transparent url(../images/icon/bin.png) no-repeat left}
+.grid_button .setting{ background: transparent url(../images/icon/setting.png) no-repeat left}
+
+/* 禁用按钮*/
+.button_bar input[disabled]{ color:Gray; border: #999 1px solid;box-shadow:0px 1px 3px rgba(0,0,0,0.3); cursor:default}
+/* 树形配置区*/
+.treeform .main_box{ border:none; border:1px solid #C8C8C8;}
+.treeform .main_box H3{background: #fff; font-size: 14px;font-weight: bold; text-shadow:none; color:#222;  border:none}
+.treebox,.onlytreebox,.alltreebox{background:#ffe;border: 1px solid #919191;}/*树形框架背景色tamplate*/
+
+/*============*表单样式修改 下拉框弹出框 按钮==============================背景色*/
+/* Interaction states----------------------------------*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #a5a5a5;font-weight: normal; color: #555555; }
+.grid_content .ui-state-default { background: none repeat scroll 0 0 transparent;border: medium none;}
+.ui-widget-header{background: #F7F7F7 url(../images/grid_foot_bg.png) 50% 50% repeat-x;}
+
+/*========表单===圆角*/
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius:4px; -khtml-border-top-left-radius: 4px; border-top-left-radius: 4px; }
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr { -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; -khtml-border-top-right-radius: 4px; border-top-right-radius: 4px; }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl { -moz-border-radius-bottomleft:4px; -webkit-border-bottom-left-radius: 4px; -khtml-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px; }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br { -moz-border-radius-bottomright:4px; -webkit-border-bottom-right-radius:4px; -khtml-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px; }
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555; text-decoration: none; }
+.item_input input,.item_input textarea{-webkit-box-shadow: inset 0 2px 3px 0 rgba(18, 16, 11, 0.13);-moz-box-shadow: inset 0 2px 3px 0 rgba(18,16,11,0.13);box-shadow: inset 0 2px 3px 0 rgba(18, 16, 11, 0.13);}
+
+/*tab页-==============================================*/
+.ui-tabs-nav{ background:url(../images/h2_bg.png) repeat-x; }
+
+.ui-tabs  .main_box{ border:none; border-bottom:1px solid #C8C8C8;}
+.ui-tabs  .main_box H3{background: #fff; font-size: 14px;font-weight: bold; text-shadow:none; color:#222;  border:none}
+.ui-tabs .ui-tabs-nav li a {text-shadow: 0px 1px 0px #fff; color:#333; font-weight:bold}
+
+/*菜单icon =========================根据项目更换（因为首页调用不到pageplus，所以写在本文件最下方*/
+.master_menu_h .menu_father .nav_father_1 a span{ background:url(../images/navicon/menu_icon_1h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_2 a span{ background:url(../images/navicon/menu_icon_2h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_3 a span{ background:url(../images/navicon/menu_icon_3h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_4 a span{ background:url(../images/navicon/menu_icon_4h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_5 a span{ background:url(../images/navicon/menu_icon_5h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_6 a span{ background:url(../images/navicon/menu_icon_6h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_7 a span{ background:url(../images/navicon/menu_icon_7h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_8 a span{ background:url(../images/navicon/menu_icon_8h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_9 a span{ background:url(../images/navicon/menu_icon_9h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_10 a span{ background:url(../images/navicon/menu_icon_10h.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_11 a span{ background:url(../images/navicon/menu_icon_11h.png) no-repeat center center}
+/*激活样式*/
+.master_menu_h .menu_father .nav_father_1 .nav_on span{ background:url(../images/navicon/menu_icon_1a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_2 .nav_on span{ background:url(../images/navicon/menu_icon_2a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_3 .nav_on span{ background:url(../images/navicon/menu_icon_3a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_4 .nav_on span{ background:url(../images/navicon/menu_icon_4a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_5 .nav_on span{ background:url(../images/navicon/menu_icon_5a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_6 .nav_on span{ background:url(../images/navicon/menu_icon_6a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_7 .nav_on span{ background:url(../images/navicon/menu_icon_7a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_8 .nav_on span{ background:url(../images/navicon/menu_icon_8a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_9 .nav_on span{ background:url(../images/navicon/menu_icon_9a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_10 .nav_on span{ background:url(../images/navicon/menu_icon_10a.png) no-repeat center center}
+.master_menu_h .menu_father .nav_father_11 .nav_on span{ background:url(../images/navicon/menu_icon_11a.png) no-repeat center center}

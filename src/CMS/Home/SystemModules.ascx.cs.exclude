@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Drision.Framework.Core;
+using Drision.Framework.BLL;
+using Drision.Framework.Model;
+//using Drision.Framework.Model;
+
+namespace Drision.Framework.Web.Home
+{
+    public partial class SystemModules : System.Web.UI.UserControl
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Drision.Framework.Model.User loginUser = Session[BasePage.SessionUser] as Drision.Framework.Model.User;
+            if (loginUser != null)
+            {
+                this.lblUser.Text = "欢迎您：" + loginUser.UserName;
+            }
+        }
+
+        protected void HyperLink_Module_Command(object sender, CommandEventArgs e)
+        {
+            Session[BasePage.SessionModuleID] = e.CommandName;
+            Response.Redirect(e.CommandArgument.ToString(), true);
+        }
+
+        protected void lbtnExit_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Response.Redirect("~/Home/Login.aspx?action=Exit");
+        }
+
+        protected void lbtnChangePsw_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/SystemManagement/ChangePassword.aspx");
+        }
+    }
+}

@@ -1,0 +1,93 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Drision.Framework.BLL;
+using System.Web.UI.HtmlControls;
+using System.Data;
+using Drision.Framework.Model;
+
+
+namespace Drision.Framework.Web.Home
+{
+    public partial class LeftMenus : System.Web.UI.UserControl
+    {
+        public int userId { get; set; }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Page.IsPostBack)
+            {
+                //User userModel = Session[BasePage.SessionUser] as User;
+                //if (userModel != null)
+                //{
+                //    userId = userModel.User_Id;
+                //    //根据用户信息获取符合用户的所有权限列表
+                //    //BindFunction(userId);
+
+                //}
+                //else
+                //{
+                //    Response.Redirect("~/Home/Login.aspx");
+                //}
+            }
+
+        }
+
+
+        //protected void repFunction_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        //{
+        //    if (e.Item.DataItem != null)
+        //    {
+        //        Repeater repModule = e.Item.FindControl("repModule") as Repeater;
+        //        //权限编号
+        //        int FuncId = Int32.Parse(DataBinder.Eval(e.Item.DataItem, "Permission_Id").ToString());
+        //        //string strFuncType = DataBinder.Eval(e.Item.DataItem, "Permission_Type").ToString();
+        //        DataTable dt = Function_permissionBLL.GetModule(FuncId,userId).Tables[0];
+        //        //DataTable dt = Function_permissionBLL.GetModule(strFuncType).Tables[0];
+        //        repModule.DataSource = dt.DefaultView;
+        //        repModule.DataBind();
+        //        Label labMenu = e.Item.FindControl("labFunc") as Label;
+        //        Label labMenuBack = e.Item.FindControl("labFunction") as Label;
+        //        labMenu.Text = DataBinder.Eval(e.Item.DataItem, "Permission_Name".ToString()).ToString();
+        //        labMenuBack.Text = labMenu.Text;
+               
+        //    }
+
+        //}
+
+
+        //protected void repModule_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        //{
+        //    if (e.Item.DataItem != null)
+        //    {
+
+        //        HyperLink hylnk = e.Item.FindControl("hylink") as HyperLink;
+        //        string strUrl = DataBinder.Eval(e.Item.DataItem, "URL").ToString();
+        //        hylnk.Text = DataBinder.Eval(e.Item.DataItem, "Permission_Name".ToString()).ToString();
+        //        hylnk.NavigateUrl = string.Format("{0}?Flag={1}", strUrl,"Menu");
+
+        //    }
+
+        //}
+
+
+
+        ///// <summary>
+        ///// 绑定功能
+        ///// </summary>
+        ///// <param name="userId"></param>
+        //private void BindFunction(int userId)
+        //{
+        //    DataTable dt = Function_permissionBLL.GetFunction(userId).Tables[0];
+        //    repFunction.DataSource = dt.DefaultView;
+        //    repFunction.DataBind();
+        //}
+
+
+
+
+    }
+}

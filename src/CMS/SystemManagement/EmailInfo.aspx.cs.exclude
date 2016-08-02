@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class EmailInfo : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Request.QueryString["Emailid"]))
+            {
+                try
+                {
+                    UserEmailreceiveBLL receiveBLL = new UserEmailreceiveBLL();
+
+                    var query = receiveBLL.GetModel(Convert.ToInt32(Request.QueryString["Emailid"]));
+                    // 输出页面内容到页面上 方便EmailList.aspx中的Iframe加载
+                    Response.Write(query.Content.Trim());
+                }
+                catch { }
+            }
+        }
+    }
+}

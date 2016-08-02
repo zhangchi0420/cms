@@ -1,0 +1,111 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Core;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class EmailList : BasePage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                GetEmailReceiveList();
+            }
+        }
+
+        UserEmailreceiveBLL receiveBLL = new UserEmailreceiveBLL();
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            GetEmailReceiveList();
+        }
+
+        /// <summary>
+        /// 搜索接收邮件列表
+        /// </summary>
+        private void GetEmailReceiveList()
+        {
+            try
+            {
+                DataTable data = receiveBLL.GetEmailReceiveList(AspNetPager1.PageSize, AspNetPager1.CurrentPageIndex - 1, this.txtKeyWord.Text.Trim(), this.ddlSortOrder.SelectedValue);
+
+                totalCount = receiveBLL.GetEmailReceiveSum(this.txtKeyWord.Text.Trim());
+                Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+
+                this.dlEmailReceiveList.DataSource = data;
+                this.dlEmailReceiveList.DataBind();
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 翻页
+        /// </summary>
+        protected void AspNetPager1_PageChanged(object sender, EventArgs e)
+        {
+            GetEmailReceiveList();
+        }
+
+        protected void ddlSortOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetEmailReceiveList();
+        }
+
+        protected void dlEmailReceiveList_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "view" && e.CommandArgument != null)
+            {
+                var query = receiveBLL.GetModel(Convert.ToInt32(e.CommandArgument));
+
+                if (query != null)
+                {
+                    this.Panel_Email.Visible = true;
+                    this.labEmailReceive.InnerHtml = query.Receiver;
+                    this.labEmailSender.InnerHtml = query.Sender;
+                    this.labEmailTitle.Text = query.Title;
+                    this.labReceiveTime.InnerHtml = query.ReceiveTime.ToString();
+                    this.txtEmailHtml.Attributes.Add("src", "EmailInfo.aspx?Emailid=" + query.Emailid);
+                    //this.txtEmailHtml.InnerText = query.Content;
+                }
+            }
+            else if (e.CommandName == "del" && e.CommandArgument != null)
+            {
+                try
+                {
+                    int qID = Convert.ToInt32(e.CommandArgument);
+                    receiveBLL.Delete(new Drision.Framework.Model.UserEmailreceive() { Emailid = qID });
+
+                    // 刷新数据
+                    GetEmailReceiveList();
+
+                    this.AjaxAlert("删除成功!");
+                }
+                catch { }
+            }
+        }
+
+        protected void btnCancle_Click(object sender, EventArgs e)
+        {
+            this.Panel_Email.Visible = false;
+            this.labEmailReceive.InnerHtml = "";
+            this.labEmailSender.InnerHtml = "";
+            this.labEmailTitle.Text = "";
+            this.labReceiveTime.InnerHtml = "";
+            this.txtEmailHtml.InnerHtml = "";
+        }
+
+
+    }
+}

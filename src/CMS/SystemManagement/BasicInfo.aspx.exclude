@@ -1,0 +1,187 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Home/TopMasterPage.Master" AutoEventWireup="true"
+    CodeBehind="BasicInfo.aspx.cs" Inherits="Drision.Framework.Web.SystemManagement.BasicInfo"
+    Title="系统参数管理" %>
+
+<%@ Register Assembly="AspNetPager" Namespace="Wuqi.Webdiyer" TagPrefix="webdiyer" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManagerProxy ID="ScriptManagerProxy1" runat="server">
+    </asp:ScriptManagerProxy>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+            <div class="com_box">
+                <div class="title">
+                    <h3>
+                        系统参数列表</h3>
+                </div>
+                <div class="Content" style="text-align: center">
+                    <div class="tab">
+                        <div style="width: 350px; margin-left: 230px; padding: 10px 0; float: left;">
+                            <span style="height: 29px; line-height: 29px; display: block; float: left; overflow: hidden;">
+                                <asp:Label ID="Label5" runat="server" Text="信息类型："></asp:Label>
+                                <asp:DropDownList ID="ddlBasicType" runat="server" Width="130px" AutoPostBack="True"
+                                    OnSelectedIndexChanged="ddlBasicType_SelectedIndexChanged">
+                                </asp:DropDownList>
+                            </span><span style="height: 29px; line-height: 29px; margin-top: -8px; margin-left: 10px;
+                                display: block; float: left;">
+                                <asp:Button ID="btnSearch" runat="server" CausesValidation="False" CssClass="chaxun t5"
+                                    OnClick="btnSearch_Click" Visible="False" />
+                                <asp:Button ID="btnAddPanel" runat="server" CausesValidation="False" CssClass="tianjia t5"
+                                    OnClick="btnAddPanel_Click" />
+                            </span>
+                        </div>
+                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                            <tr>
+                                <td>
+                                    <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" Width="100%"
+                                        GridLines="Vertical" OnRowDataBound="gvShow_RowDataBound" OnRowCommand="gvShow_RowCommand"
+                                        EmptyDataText="没有符合条件的信息！">
+                                        <AlternatingRowStyle BackColor="#E5EAEF" />
+                                        <HeaderStyle Wrap="false" />
+                                        <Columns>
+                                            <asp:BoundField HeaderText="信息编码" HeaderStyle-BackColor="#94B0CE" DataField="BasicCode"
+                                                Visible="false">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:TemplateField HeaderText="信息类型">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblBasicType" runat="server" Text='<%# Bind("BasicType") %>'></asp:Label>
+                                                </ItemTemplate>
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:TemplateField>
+                                            <asp:BoundField HeaderText="信息名称" HeaderStyle-BackColor="#94B0CE" DataField="BasicName">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="备注" HeaderStyle-BackColor="#94B0CE" DataField="BasicComment"
+                                                Visible="False">
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:BoundField>
+                                            <asp:TemplateField HeaderText="操作" HeaderStyle-BackColor="#94B0CE">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lbtnEdit" runat="server" CssClass="links" CausesValidation="False"
+                                                        CommandName="up">编辑</asp:LinkButton>
+                                                    <asp:LinkButton ID="lbtnDel" runat="server" CssClass="links" CausesValidation="False"
+                                                        CommandName="del" OnClientClick="if (!confirm('是否删除信息？')) {return false;}">删除</asp:LinkButton>
+                                                </ItemTemplate>
+                                                <HeaderStyle CssClass="title1" Wrap="False" />
+                                                <ItemStyle HorizontalAlign="Center" Wrap="false" />
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+                                    <webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="99%" PrevPageText="上一页"
+                                        FirstPageText="首页" NextPageText="下一页" LastPageText="末页" ShowPageIndexBox="Always"
+                                        PageIndexBoxType="TextBox" HorizontalAlign="right" PageSize="12" OnPageChanged="AspNetPager1_PageChanged"
+                                        EnableTheming="true" ShowCustomInfoSection="Left" CustomInfoSectionWidth="32%">
+                                    </webdiyer:AspNetPager>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <asp:Panel ID="Panel1" runat="server" Visible="false">
+                <div class="com_box">
+                    <div class="title">
+                        <h3>
+                            系统参数信息</h3>
+                    </div>
+                    <div class="Content" style="text-align: center">
+                        <div class="tab">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; text-align: center">
+                                <tr>
+                                    <td style="text-align: right;">
+                                        信息名称：
+                                    </td>
+                                    <td style="text-align: left;">
+                                        <asp:TextBox ID="txtName" runat="server" MaxLength="50"></asp:TextBox>
+                                        <span style="color: Red">*</span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtName"
+                                            ErrorMessage="信息名称不能为空！" Display="None">*</asp:RequiredFieldValidator>
+                                    </td>
+                                    <td rowspan="2" style="text-align: right;">
+                                        备注：
+                                    </td>
+                                    <td rowspan="2" style="text-align: left;">
+                                        <asp:TextBox ID="txtRemark" runat="server" Rows="3" TextMode="MultiLine" Width="300px"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="REV" runat="server" ControlToValidate="txtRemark"
+                                            Display="None" ErrorMessage="备注不能超过100个字！" ValidationExpression="^(\s|\S){0,100}$">*</asp:RegularExpressionValidator>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;">
+                                        信息类型：
+                                    </td>
+                                    <td style="text-align: left;">
+                                        <asp:DropDownList ID="ddlBasic" runat="server" Width="153px">
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;">
+                                    </td>
+                                    <td style="text-align: left;">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;">
+                                        &nbsp;
+                                    </td>
+                                    <td style="text-align: left;">
+                                        &nbsp;
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Label ID="lblEdit" runat="server" Visible="False"></asp:Label>
+                                    </td>
+                                    <td style="text-align: left;">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td style="width: 165px;">
+                                                </td>
+                                                <td>
+                                                    <asp:Button ID="btnAdd" runat="server" CssClass="baocun" OnClick="btnAdd_Click" Text="Button" />
+                                                    <asp:Button ID="btnEdit" runat="server" CssClass="baocun" OnClick="btnAdd_Click"
+                                                        Text="Button" Visible="false" />
+                                                    <asp:Button ID="btnCancle" runat="server" CausesValidation="False" CssClass="quxiao"
+                                                        OnClick="btnCancle_Click" Text="Button" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True"
+                                            ShowSummary="False" />
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </asp:Panel>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

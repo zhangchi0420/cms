@@ -1,0 +1,37 @@
+﻿@model Reception.Models.Case
+@{    
+    ViewBag.Title = "案例展示";
+    Layout = "~/Views/Shared/_LayoutWithMenu.cshtml";
+}
+<!--主内容区域-->
+<div class="case_box">
+    <!--左侧内容-->
+    <div class="c_b_left fl wow bounceInLeft" data-wow-delay="0.3s">
+        <a href="@Url.Action("CaseList", "Case")" class="wow swing  " data-wow-delay="0.6s" target="_blank">
+            <!--精选案例-->
+        </a>
+    </div>
+    <!--右侧内容-->
+    <div class="c_b_right fl wow bounceInRight" data-wow-delay="0.3s">
+        <div class="r_content_english mt25">
+            <h2>
+            @Html.DisplayFor(m=>m.Title)
+            </h2>
+        </div>
+        <div class="r_content_china mt25">
+            @Html.DisplayFor(m => m.Content)
+        </div>
+    </div>
+    <!--点击询价-->
+    <div class="c_b_xunjia fr mt50 mr20 wow bounceInRight" data-wow-delay="0.6s">
+        <a href="">
+            <!--点击询价-->
+        </a>
+    </div>
+</div>
+<!--更多按钮-->
+<div class="dwon_arrow wow fadeInUpBig" data-wow-delay="0.6s">
+    <a href="@Url.Action("CaseList", "Case")" target="_blank" title="更多案例">
+        <!--More Cases-->
+        更多案例 </a>
+</div>

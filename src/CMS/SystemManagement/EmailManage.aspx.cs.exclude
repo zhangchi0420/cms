@@ -1,0 +1,350 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Core;
+using Drision.Framework.Model;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class EmailManage : BasePage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!IsPostBack)
+                {
+                    BingData();
+                    GetEmailTemplateList();
+                }
+            }
+            catch { }
+        }
+
+        #region 邮件服务器
+
+        /// <summary>
+        /// 数据绑定
+        /// </summary>
+        public void BingData()
+        {
+            FilterItem filter = new FilterItem("Configuration_Key", CompareTypes.LK, ConfigType.EMAIL_.ToString());
+            ConfigurationBLL configBLL = new ConfigurationBLL();
+            var data = configBLL.GetTable(filter);
+            foreach (DataRow dr in data.Rows)
+            {
+                if (dr["Configuration_Key"].ToString() == "EMAIL_HOST")
+                {
+                    this.txtEmailHost.Text = dr["Configuration_Value"].ToString();
+
+                }
+                else if (dr["Configuration_Key"].ToString() == "EMAIL_USERNAME")
+                {
+                    this.txtEmailUserName.Text = dr["Configuration_Value"].ToString();
+                }
+                else if (dr["Configuration_Key"].ToString() == "EMAIL_PASSWORD")
+                {
+                    this.txtEmailPasswod.Text = dr["Configuration_Value"].ToString();
+                }
+                else if (dr["Configuration_Key"].ToString() == "EMAIL_PORT")
+                {
+                    this.txtEmailPort.Text = dr["Configuration_Value"].ToString();
+                }
+                else if (dr["Configuration_Key"].ToString() == "EMAIL_NEEDSSL")
+                {
+                    this.cbNeedSsl.Checked = Convert.ToBoolean(dr["Configuration_Value"]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新邮件服务器信息
+        /// </summary>
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                configBLL.UpdateEmailSetting(this.txtEmailHost.Text.Trim(),
+                    this.txtEmailPort.Text.Trim(),
+                    this.txtEmailUserName.Text.Trim(),
+                    this.txtEmailPasswod.Text.Trim(),
+                    this.cbNeedSsl.Checked.ToString());
+
+                this.AjaxAlert("更新成功！");
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 测试发送邮件
+        /// </summary>
+        protected void btnEmailTest_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                EmailSender email = new EmailSender()
+                {
+                    Host = this.txtEmailHost.Text.Trim(),
+                    Port = Convert.ToInt32(this.txtEmailPort.Text.Trim()),
+                    UserName = this.txtEmailUserName.Text.Trim(),
+                    Password = this.txtEmailPasswod.Text.Trim(),
+                    NeedSSL = this.cbNeedSsl.Checked
+                };
+                email.Send(this.txtEmailUserName.Text.Trim(), "", "", "test", "email test");
+
+                this.AjaxAlert("测试发送邮件成功！");
+            }
+            catch { this.AjaxAlert("测试发送邮件失败，请检查账户设置！"); }
+        }
+
+        #endregion
+
+        #region 邮件模板
+
+        /// <summary>
+        /// 绑定模板列表数据
+        /// </summary>
+        public void GetEmailTemplateList()
+        {
+            try
+            {
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                var config = configBLL.GetModel("EMAIL_TEMPLATE");
+                if (config == null)
+                {
+                    config = new Drision.Framework.Model.Configuration()
+                    {
+                        Configuration_Title = "邮件发送的模板",
+                        Configuration_Key = "EMAIL_TEMPLATE",
+                        Configuration_Value = "",
+                        Configuration_Description = "",
+                        Configuration_Group_Id = 1,
+                        Sort_Order = 0,
+                        Last_Modified = DateTime.Now,
+                        Date_Added = DateTime.Now
+                    };
+
+                    configBLL.Insert(config);
+                }
+                this.templateList.DataSource = configBLL.GetTable(new FilterItem()
+                {
+                    ColumnName = "Configuration_Key",
+                    CompareType = CompareTypes.LK,
+                    Value = ConfigType.EMAILTEMPLATE_.ToString()
+                });
+                this.templateList.DataBind();
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 绑定行数据时触发
+        /// </summary>
+        protected void templateList_RowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        {
+            try
+            {
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    LinkButton lbtnEnable = e.Row.FindControl("lbtnEnable") as LinkButton;
+                    ConfigurationBLL configBLL = new ConfigurationBLL();
+                    //索引默认模板行（EMAIL_TEMPLATE） Configuration_Value：所选模板索引， Configuration_Description： 模板内容
+                    var config = configBLL.GetModel("EMAIL_TEMPLATE");
+                    //判读该模板是否是默认模板
+                    if (DataBinder.Eval(e.Row.DataItem, "Configuration_Key").ToString() == config.Configuration_Value)
+                    {
+                        lbtnEnable.Text = "默认模板";
+                        lbtnEnable.Enabled = false;
+                    }
+                    else
+                    {
+                        lbtnEnable.CommandArgument = DataBinder.Eval(e.Row.DataItem, "Configuration_Key").ToString();
+                    }
+                    
+                    LinkButton lbtnUpdate = e.Row.FindControl("lbtnUpdate") as LinkButton;
+                    lbtnUpdate.CommandArgument = DataBinder.Eval(e.Row.DataItem, "Configuration_Key").ToString();
+
+                    LinkButton lbtnDel = e.Row.FindControl("lbtnDel") as LinkButton;
+                    lbtnDel.CommandArgument = DataBinder.Eval(e.Row.DataItem, "Configuration_Key").ToString();
+
+                }
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 操作（启用模板，编辑，删除等）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void templateList_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+                ConfigurationBLL configBLL = new ConfigurationBLL();
+                //启用模板
+                if (e.CommandName == "enable")
+                {
+                    if (e.CommandArgument != null && e.CommandArgument.ToString() != "")
+                    {
+                        //获取默认模板信息
+                        var config = configBLL.GetModel("EMAIL_TEMPLATE");
+                        //获取启用模板信息
+                        var selectTemplate = configBLL.GetModel(e.CommandArgument.ToString());
+                        config.Configuration_Value = selectTemplate.Configuration_Key;
+                        config.Configuration_Description = selectTemplate.Configuration_Value;
+                        configBLL.Update(config);
+
+                        //刷新控件数据
+                        GetEmailTemplateList();
+                    }
+                }
+                //编辑模板
+                else if (e.CommandName == "updt")
+                {
+                    if (e.CommandArgument != null && e.CommandArgument.ToString() != "")
+                    {
+                        //获取编辑模板信息
+                        var editTemplate = configBLL.GetModel(e.CommandArgument.ToString());
+                        if (editTemplate != null)
+                        {
+                            this.txtUpdtTemplateID.Value = editTemplate.Configuration_Key;
+                            this.txtUpdtTemplateName.Text = editTemplate.Configuration_Title;
+                            this.txtUpdtTemplateHtml.Text = editTemplate.Configuration_Value;
+                            this.txtUpdtTemplateDesc.Text = editTemplate.Configuration_Description;
+
+                            this.Panel4.Visible = true;
+                        }
+                    }
+                }
+                //删除模板
+                else if (e.CommandName == "del")
+                {
+                    configBLL.Delete(e.CommandArgument.ToString());
+
+                    this.AjaxAlert("删除成功！");
+                    //刷新控件数据
+                    GetEmailTemplateList();
+                }
+            }
+            catch { }
+        }
+
+        #region 模板添加
+        /// <summary>
+        /// 添加模板框显示
+        /// </summary>
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            this.Panel3.Visible = this.Panel3.Visible ? false : true;
+        }
+        
+        protected void btnUpdt_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.InsertEmailTemplate();
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 添加邮件模板
+        /// </summary>
+        private void InsertEmailTemplate()
+        {
+            ConfigurationBLL configBLL = new ConfigurationBLL();
+            //检查该主键名是否存在？
+            var config = configBLL.GetModel(ConfigType.EMAILTEMPLATE_.ToString() + this.txtTemplateName.Text.Trim().GetHashCode().ToString());
+            if (config == null)
+            {
+
+                Drision.Framework.Model.Configuration configModel = new Drision.Framework.Model.Configuration()
+                {
+                    Configuration_Title = this.txtTemplateName.Text.Trim(),
+                    Configuration_Key = ConfigType.EMAILTEMPLATE_.ToString() + this.txtTemplateName.Text.Trim().GetHashCode().ToString(),
+                    Configuration_Value = this.txtTemplateHtml.Text.Trim(),
+                    Configuration_Description = this.txtTemplateDesc.Text.Trim(),
+                    Configuration_Group_Id = 1,
+                    Sort_Order = 0,
+                    Last_Modified = DateTime.Now,
+                    Date_Added = DateTime.Now
+                };
+                configBLL.Insert(configModel);
+
+                //刷新控件数据
+                GetEmailTemplateList();
+                this.Panel3.Visible = false;
+            }
+            else
+            {
+                this.AjaxAlert("该模板名称已经存在！");
+            }
+        }
+
+        protected void btnCancle_Click(object sender, EventArgs e)
+        {
+            this.Panel3.Visible = false;
+        }
+
+        #endregion
+
+        #region 模板修改
+
+        protected void btnUpdtTemplate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.UpdateEmailTemplate();
+            }
+            catch { }
+        }
+
+        protected void btnUpdtTemplateCancle_Click(object sender, EventArgs e)
+        {
+            this.Panel4.Visible = false;
+        }
+
+        /// <summary>
+        /// 更新邮件模板
+        /// </summary>
+        private void UpdateEmailTemplate()
+        {
+            ConfigurationBLL configBLL = new ConfigurationBLL();
+            //检查该主键名是否存在？
+            var config = configBLL.GetModel(this.txtUpdtTemplateID.Value.Trim());
+            if (config == null)
+            {
+                this.AjaxAlert("该模板名称已经存在！");
+            }
+            else
+            {
+                config.Configuration_Title = this.txtUpdtTemplateName.Text.Trim();
+                config.Configuration_Value = this.txtUpdtTemplateHtml.Text.Trim();
+                config.Configuration_Description = this.txtUpdtTemplateDesc.Text.Trim();
+
+                configBLL.Update(config);
+
+                //刷新控件数据
+                GetEmailTemplateList();
+                this.Panel4.Visible = false;
+            }
+        }
+
+        #endregion
+        #endregion
+
+
+    }
+}

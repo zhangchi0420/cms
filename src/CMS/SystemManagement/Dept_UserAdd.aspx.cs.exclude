@@ -1,0 +1,242 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Model;
+using Drision.Framework.Core;
+using System.Collections.Generic;
+using Drision.Framework.Helper;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class Dept_UserAdd : BasePage
+    {
+        public string DefaultID
+        {
+            get { return (string)ViewState["DefaultID"]; }
+            set { ViewState["DefaultID"] = value; }
+        }
+
+        /// <summary>
+        /// 选中项的集合
+        /// </summary>
+        public Dictionary<string, string> DelIDs
+        {
+            get { return (Dictionary<string, string>)ViewState["DelIDs"]; }
+            set { ViewState["DelIDs"] = value; }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Request["DefaultID"] != null)
+                {
+                    DefaultID = Request["DefaultID"].ToString();
+                }
+
+                DelIDs = new Dictionary<string, string>();
+                UserByOutDeptShow();
+            }
+        }
+
+
+        private int Flag
+        {
+            get { return (int)ViewState["flag"]; }
+            set { ViewState["flag"] = value; }
+        }
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            UserByTimeShow();
+            DelIDs.Clear();
+        }
+
+        protected void cbCheckedAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbCheckedAll.Checked)
+            {
+                UserShow();
+                DelIDs.Clear();
+            }
+            else
+            {
+                UserByTimeShow();
+                DelIDs.Clear();
+            }
+        }
+
+        private void UserByOutDeptShow()
+        {
+            this.Flag = 0;
+            UserBLL userBLL = new UserBLL();
+            List<User> ulist = userBLL.GetUserByDeptId(0);
+            FilterItem[] filterarray = new FilterItem[2];
+            filterarray[0] = new FilterItem("Department_ID", 0);
+            filterarray[1] = new FilterItem("User_Status", 1);
+            List<User> list = userBLL.QueryPage(AspNetPager1.PageSize, AspNetPager1.CurrentPageIndex - 1, filterarray);
+
+            totalCount = 0;
+            if (ulist != null && ulist.Count != 0)
+            {
+                totalCount = ulist.Count;
+            }
+            Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+            this.gvShow.DataSource = list;
+            this.gvShow.DataBind();
+        }
+
+        private void UserByTimeShow()
+        {
+            this.Flag = 1;
+            UserBLL userBLL = new UserBLL();
+            string time = txtEntryDate.Text.Trim();
+            string name = txtSearchName.Text.Trim();
+            List<User> ulist = userBLL.GetUserByState(time, name);
+            int i = 1;
+            if (!string.IsNullOrEmpty(name))
+            {
+                i = i + 1;
+            }
+            else
+            {
+                name = null;
+            }
+            if (CommomUTL.GetDateTime(time) != null)
+            {
+                i = i + 1;
+            }
+            else
+            {
+                time = null;
+            }
+            FilterItem[] filterarray = new FilterItem[i];
+
+            filterarray[0] = new FilterItem("User_Status", 1);
+            if (i == 2 && time == null)
+            {
+                filterarray[1] = new FilterItem("User_Name", CompareTypes.LK, name);
+            }
+            else if (i == 2 && name == null)
+            {
+                filterarray[1] = new FilterItem("EntryDate", time);
+            }
+            else if (i == 3)
+            {
+                filterarray[1] = new FilterItem("EntryDate", time);
+                filterarray[2] = new FilterItem("User_Name", CompareTypes.LK, name);
+            }
+            List<User> list = userBLL.QueryPage(AspNetPager1.PageSize, AspNetPager1.CurrentPageIndex - 1, filterarray);
+
+            totalCount = 0;
+            if (ulist != null && ulist.Count != 0)
+            {
+                totalCount = ulist.Count;
+            }
+            Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+            this.gvShow.DataSource = list;
+            this.gvShow.DataBind();
+        }
+
+        private void UserShow()
+        {
+            this.Flag = 2;
+            UserBLL userBLL = new UserBLL();
+            List<User> ulist = userBLL.GetUserByState();
+            FilterItem[] filterarray = new FilterItem[1];
+            filterarray[0] = new FilterItem("User_Status", 1);
+            List<User> list = userBLL.QueryPage(AspNetPager1.PageSize, AspNetPager1.CurrentPageIndex - 1, filterarray);
+
+            totalCount = 0;
+            if (ulist != null && ulist.Count != 0)
+            {
+                totalCount = ulist.Count;
+            }
+            Pager.Data_AspNetPager(AspNetPager1, totalCount, AspNetPager1.PageSize);
+            this.gvShow.DataSource = list;
+            this.gvShow.DataBind();
+        }
+
+        /// <summary>
+        /// 复选框是否选中事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void cbChecked_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cbChecked = sender as CheckBox;
+            GridViewRow row = cbChecked.Parent.Parent as GridViewRow;
+            int index = row.RowIndex;
+            string newsId = this.gvShow.DataKeys[index].Value.ToString();
+            if (cbChecked.Checked)
+            {
+                DelIDs.Add(newsId, newsId);
+
+            }
+            else
+            {
+                DelIDs.Remove(newsId);
+            }
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (DelIDs.Values.Count == 0)
+            {
+                this.AjaxAlert("没有选中用户！");
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < this.gvShow.Rows.Count; i++)
+                {
+                    if ((this.gvShow.Rows[i].FindControl("cbChecked") as CheckBox).Checked)
+                    {
+                        string id = this.gvShow.DataKeys[i]["UserID"].ToString();
+                        UserBLL userBLL = new UserBLL();
+                        User user = userBLL.GetModel(Convert.ToInt32(id));
+                        user.DepartmentId = Convert.ToInt32(DefaultID);
+                        userBLL.Update(user);
+                    }
+                }
+
+                DelIDs.Clear();
+
+                this.AjaxAlert("设置用户部门成功！");
+                Response.Redirect("Dept_User.aspx?DefaultID=" + DefaultID);
+            }
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Dept_User.aspx?DefaultID=" + DefaultID);
+        }
+
+        protected void AspNetPager1_PageChanged(object sender, EventArgs e)
+        {
+            if (Flag == 0)
+            {
+                UserByOutDeptShow();
+            }
+            else if (Flag == 1)
+            {
+                UserByTimeShow();
+            }
+            else if (Flag == 2)
+            {
+                UserShow();
+            }
+            else
+            { }
+        }
+    }
+}

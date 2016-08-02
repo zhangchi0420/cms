@@ -1,0 +1,12 @@
+@charset "utf-8";
+body{background:#8ec2da;}
+.login_input_top1{
+	background: url(../images/amdin/login1_bg1.png) no-repeat;
+	}
+.login_input_top3{
+	background: url(../images/amdin/login1_bg3.png) repeat-x; 
+	color:#225b86; 
+	}
+.login_input_top2{
+	background: url(../images/amdin/login1_bg2.png) no-repeat; 
+	}

@@ -1,0 +1,110 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Drision.Framework.BLL;
+using Drision.Framework.Model;
+
+namespace Drision.Framework.Web.SystemManagement
+{
+    public partial class RightInfo : BasePage
+    {
+        public int RoleId
+        {
+            get { return (int)ViewState["RoleId"]; }
+            set { ViewState["RoleId"] = value; }
+        }
+
+        public string PermissionsID
+        {
+            get { return (string)ViewState["PermissionsID"]; }
+            set { ViewState["PermissionsID"] = value; }
+        }
+
+        RoleFunctionBLL roleFunctionBLL = new RoleFunctionBLL();
+        RoleFunction roleFunction = new RoleFunction();
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Request["id"] != null)
+                {
+                    RoleId = Convert.ToInt32(Request["id"]);
+                    GetRole(RoleId);
+
+                    if (Request["PermissionsID"] != null)
+                    {
+                        PermissionsID = Request["PermissionsID"].ToString();
+                        roleFunctionBLL.DeleteByRoleId(RoleId);
+                        string[] Permissions = PermissionsID.Split(',');
+                        for (int i = 0; i < Permissions.Length; i++)
+                        {
+                            //已有此权限则不加入
+                            if (roleFunctionBLL.RoleContainPermission(RoleId, int.Parse(Permissions[i])))
+                                continue;
+
+                            roleFunction.FunctionId = Convert.ToInt32(Permissions[i]);
+                            roleFunction.RoleId = Convert.ToInt32(RoleId);
+                            roleFunctionBLL.Insert(roleFunction);
+                        }
+                    }
+
+                    DataTable dtRoleFunctionList = roleFunctionBLL.GetRolePermList(RoleId);
+                    bool Empty = false;
+                    if (dtRoleFunctionList.Rows.Count == 0)
+                    {
+                        DataRow drNew = dtRoleFunctionList.NewRow();
+                        dtRoleFunctionList.Rows.Add(drNew);
+                        Empty = true;
+                    }
+                    this.gvFunction.DataSource = dtRoleFunctionList;
+                    this.gvFunction.DataBind();
+                    if (Empty)
+                    {
+                        this.gvFunction.Rows[0].Cells[2].FindControl("lbtnDelete").Visible = false;
+                    }
+                }
+            }
+        }
+
+        private void GetRole(int roleId)
+        {
+            RoleBLL roleBLL = new RoleBLL();
+            Role role = roleBLL.GetModel(roleId);
+            txtName.Text = role.RoleName;
+            rbtnState.SelectedValue = role.RoleStatus.ToString();
+            txtRemark.Text = role.RoleComment;
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            string strFuns = "";
+            for (int i = 0; i < this.gvFunction.Rows.Count; i++)
+            {
+                strFuns += this.gvFunction.DataKeys[i].Value.ToString() + ",";
+            }
+            if (strFuns != "")
+            {
+                strFuns = strFuns.Substring(0, strFuns.Length - 1);
+            }
+            Response.Redirect("RightOfMenu.aspx?id=" + RoleId + "&Funs=" + strFuns);
+        }
+
+        protected void lbtnDelete_Click(object sender, EventArgs e)
+        {
+            int Role_Permissions_Id = Convert.ToInt32((sender as LinkButton).CommandArgument);
+            roleFunctionBLL.DeleteRolePerm(Role_Permissions_Id, RoleId);
+            Response.Redirect("~/SystemManagement/RightInfo.aspx?Id=" + RoleId + "&type=2");
+        }
+    }
+}
